@@ -55,10 +55,18 @@ commandes = Table('commandes', metadata,
                     Column('montant', Integer)
                     )
 
+temoignage = Table('temoignage', metadata,
+            Column('idTemoignage', Integer, autoincrement=True, primary_key=True),
+            Column('nom', String),
+            Column('mail', String),
+            Column('telephone', String),
+            Column('message', String)
+            )
 
 
 metadata.create_all(engine)
 ch_ins = cheval.insert()
+te_ins=temoignage.insert()
 
 connection = engine.connect()
     
@@ -76,8 +84,26 @@ connection = engine.connect()
 
 @app.route('/')
 def accueil():
-    url_for("static", filename="css/main.css")
-    return render_template('accueil.html', title='Accueil')
+    connection = engine.connect()
+
+    data=[]
+    for i in connection.execute(select([temoignage.c.nom, temoignage.c.message])):
+        data.append(i)
+    print (data)
+    return render_template('accueil.html', title='Accueil', liste=data)
+
+@app.route("/ajoutertemoi", methods=['GET', 'POST'])
+def ajoutertemoi():
+    connection = engine.connect()
+
+    if request.method == 'POST':
+        name = request.form['name']
+        mail = request.form['email']
+        tel = request.form['phone']
+        msg = request.form['message']
+
+    connection.execute(te_ins.values(nom=name, mail=mail, telephone=tel,message=msg))
+    return redirect('/')
 
 
 @app.route('/actualites')
