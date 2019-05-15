@@ -9,19 +9,17 @@ metadata = MetaData()
 
 
 cheval = Table('cheval', metadata,
-               Column('idCheval', Integer, autoincrement=True, primary_key=True),
-               Column('nomCheval', String),
-               Column('age', Integer),
-               Column('couleur', String),
-               Column('race', String),
-               Column('temperament', String),
-               Column('sexe', String),
-               Column('description', String)
-               )
+            Column('nomCheval', String,primary_key=True),
+            Column('age',Integer),
+            Column('race', String),
+            Column('description', String),
+            Column('photo', String),
+            Column('typ', String)
+            )
 
 prestation = Table('prestation', metadata,
                    Column('idPrestation', Integer, autoincrement=True, primary_key=True),
-                   Column('idCheval', Integer),
+                   Column('nomCheval', String),
                    Column('activite', String),
                    Column('public', String),
                    Column('periode', String),
@@ -32,7 +30,7 @@ disponibilite = Table('disponibilite', metadata,
                       Column('numLocation', Integer, autoincrement=True, primary_key=True),
                       Column('idUtilisateur', Integer),
                       Column('idPrestation', Integer),
-                      Column('idCheval', Integer),
+                      Column('nomCheval', String),
                       Column('dateDebut', Date),
                       Column('dateFin', Date)
                       )
@@ -62,6 +60,19 @@ commandes = Table('commandes', metadata,
 metadata.create_all(engine)
 ch_ins = cheval.insert()
 
+connection = engine.connect()
+    
+#connection.execute(ch_ins.values(nomCheval= 'Nougat',age=15,race="Anglo arabe",description="Cheval d’école, facile et gentil. Convient parfaitement à un niveau débutant comme confirmé. Idéal pour se faire plaisir à cheval.",photo="static/img/pages/caramel.jpg",typ="Location"))
+#connection.execute(ch_ins.values(nomCheval="Alaska",age=4,race="Mustang espagnol",description="Caractère calme et sûre.Excellente jument idéale débutants et enfants.",photo="static/img/pages/alaska.jpg",typ="Location / Vente"))
+#connection.execute(ch_ins.values(nomCheval="Volcanic",age=12,race="Pur sang",description="C est un cheval calin et attachant.Cavalier confirmé.Il aime beaucoup les sauts d obstacle.",photo="static/img/pages/volcanic.jpg",typ="Location"))
+#connection.execute(ch_ins.values(nomCheval="Ukon",age=7,race="Camargue",description="Excellent au concours de dressage. Il a beaucoup d énergie. Cavalier confirmé.",photo="static/img/pages/ukon.jpg",typ="Vente"))
+#connection.execute(ch_ins.values(nomCheval="Lady",age=13,race="Trotteur français",description="Idéale pour la randonnée cette jument est énergique. Cavalier confirmé.",photo="static/img/pages/lady.jpg",typ="Location"))
+#connection.execute(ch_ins.values(nomCheval="Rebelle",age=15,race="Pure race espagnol",description="Agréable jument. Idéale pour les loisirs. Habituée aux enfants.",photo="static/img/pages/rebelle.jpg",typ="Location"))
+#connection.execute(ch_ins.values(nomCheval="Bambou",age=4,race="Welsh cob",description="Poney adapté au sport qui combine souplesse et sport. Idéal pour promenade en forêt.",photo="static/img/pages/bambou.jpg",typ="Location / Vente"))
+#connection.execute(ch_ins.values(nomCheval="Castor",age=12,race="New Forest",description="Poney très gentil, passe partout. Idéal enfants et débutants.",photo="static/img/pages/castor.jpg",typ="Location"))
+#connection.execute(ch_ins.values(nomCheval="Perle",age=2,race="Shetland",description="Très gentil, adapté aux familles.Bonnes conditions de vie exigées.",photo="static/img/pages/perle.jpg",typ="Vente"))
+
+
 
 @app.route('/')
 def accueil():
@@ -88,35 +99,68 @@ def Presentation():
 def Activites():
     return render_template('Activites.html', title='Activités')
 
-
 @app.route('/achat')
 def AvendreAlouer():
-    return render_template('achat.html', title='A vendre / A louer', message =session["name"])
+    connection = engine.connect()
+    data = []
+    for row in connection.execute(select([cheval.c.nomCheval, cheval.c.age,cheval.c.typ, cheval.c.race,cheval.c.description,cheval.c.photo])):
+        data.append(row)
+    return render_template('achat.html', title='A vendre / A louer',liste=data) #message =session["name"]
 
 
 # route pour formulaire
-@app.route("/ajouterCheval", methods=['GET', 'POST'])
+@app.route("/ajouterCheval")
 def ajouterCheval():
-    connection = engine.connect()
+    return render_template("ajouterCheval.html")
 
+@app.route("/supprimerCheval")
+def supprimerCheval():
+    return render_template("supprimerCheval.html")
+
+@app.route("/modifierCheval")
+def modifierCheval():
+    return render_template("modifierCheval.html")
+
+@app.route("/ajoute",methods=['GET', 'POST'])
+def ajoute():   
+    connection = engine.connect()
     if request.method == 'POST':
+        
         name = request.form['nom']
         nb = request.form['age']
-        coul = request.form['couleur']
         ra = request.form['race']
-        temp = request.form['temp']
-        sex = request.form['sexe']
+        ty = request.form['typ']
         des = request.form['des']
+        img = request.form['img']
+     
+#on ajoute les valeurs dans la table
+    connection.execute(ch_ins.values(nomCheval=name,typ=ty,age=nb,race=ra,description=des, photo=img))
+    return redirect('/achat')
 
-    # on ajoute les valeurs dans la table
-    connection.execute(
-        ch_ins.values(nomCheval=name, age=nb, couleur=coul, race=ra, temperament=temp, sexe=sex, description=des))
+@app.route("/supprime",methods=['GET', 'POST'])
+def supprime():   
+    connection = engine.connect()
+    if request.method == 'POST':
+        nomCheval = request.form['nom']
+     
+#on supprime au nom :
+    connection.execute("delete from cheval where nomCheval = nomCheval")
+    return redirect('/achat')
 
-    # on lit la table
-    for row in connection.execute("select * from cheval"):
-        print(row)
-        print('\n')
-    return render_template('AvendreAlouer.html', title='A vendre / A louer')
+@app.route("/modif",methods=['GET', 'POST'])
+def modif():   
+    connection = engine.connect()
+    if request.method == 'POST':
+        nomCheval = request.form['nom']
+        nb = request.form['age']
+        ra = request.form['race']
+        ty = request.form['typ']
+        des = request.form['des']
+        img = request.form['img']
+     
+#on supprime au nom :
+    connection.execute("update cheval set nomCheval = nomCheval")
+    return redirect('/achat')   
 
 
     #Logging
