@@ -84,25 +84,32 @@
                                 </ul>
                             </nav>
                         </div>
-                            <div id="informations">
-                                <div class="col-lg-6 single-blog">
-                                    <p > <span class="text-black"  > Nom et prénom </span> <span class="text-uppercase" >{{message[0]}} </span></p>
-                                    <p > <span class="text-black"> Adresse mail </span> {{message[1]}}</p>
-                                    <p > <span class="text-black"> Numéro de téléphone </span> {{message[2]}}</p>
-                                    <p > <span class="text-black"> Ville </span> {{message[3]}}</p>
-                                </div>
+                        <div id="informations">
+                            <div class="col-lg-6 single-blog">
+                                <p > <span class="text-black"  > Nom et prénom </span> <span class="text-uppercase" >{{message[0]}} </span></p>
+                                <p > <span class="text-black"> Adresse mail </span> {{message[1]}}</p>
+                                <p > <span class="text-black"> Numéro de téléphone </span> {{message[2]}}</p>
+                                <p > <span class="text-black"> Ville </span> {{message[3]}}</p>
                             </div>
-                            <div id="informations">
-
-                                <div class="col-lg-6 single-blog">
-                                        <p > <span class="text-black"  > Numéro de commande </span> <span class="text-uppercase" >{{message[4]}} </span></p>
-                                        <p > <span class="text-black"> Cheval acheté/loué </span> {{message[5]}}</p>
-                                        <p > <span class="text-black"> Date de la commande </span> {{message[6]}}</p>
-                                        <p > <span class="text-black"> Montant payé </span> {{message[7]}}</p>
-
-                                </div>
+                        </div>
+                        <div id="informations">
+                            {% if message[4] == ''%}
+                            <div class="col-lg-6 single-blog">
+                                <p> Pas de commandes pour l'instant :-( </p>
+                                <a href="achat" class="genric-btn">Accéder à la che-boutique</a>
 
                             </div>
+                            {%else%}                       
+                            <div class="col-lg-6 single-blog">
+                                <p > <span class="text-black"  > Numéro de commande </span> <span class="text-uppercase" >{{message[4]}} </span></p>
+                                <p > <span class="text-black"> Cheval acheté/loué </span> {{message[5]}}</p>
+                                <p > <span class="text-black"> Date de la commande </span> {{message[6]}}</p>
+                                <p > <span class="text-black"> Montant payé </span> {{message[7]}}</p>
+
+                            </div>
+
+                            {% endif%}
+                        </div>
                     </div>
                 </div>
 
