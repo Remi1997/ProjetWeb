@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zxx" class="no-js">
+    <head>
+        <!-- Mobile Specific Meta -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="static/img/fav.png"> 
+        <!-- Author Meta -->
+        <meta name="author" content="codepixer">
+        <!-- Meta Description -->
+        <meta name="description" content="">
+        <!-- Meta Keyword -->
+        <meta name="keywords" content="">
+        <!-- meta character set -->
+        <meta charset="UTF-8">
+        <!-- Site Title -->
+        <title>Espace client</title>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700')}}">
+        <!--
+     CSS
+     ============================================= -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/linearicons.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/magnific-popup.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/nice-select.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.min.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.css')}}">
+    </head>
+    <body>
+        <header id="header" id="home">
+            <div class="container">
+                <div class="row header-top align-items-center">
+                    <div class="col-lg-4 col-sm-4 menu-top-left">
+                        <a href="mailto:info@horseclub.com"><span class="lnr lnr-location"></span></a>
+                        <a class="tel" href="mailto:info@horseclub.com">info@cyclone.fr</a>
+                    </div>
+                    <div class="col-lg-4 menu-top-middle justify-content-center d-flex">
+                        <a href="accueil">
+                            <img class="img-fluid" src="static/img/logo.png" alt="">	
+                        </a>			    			
+                    </div>
+                    <div class="col-lg-4 col-sm-4 menu-top-right">
+                        <a class="tel" href="tel:+880 123 12 658 439"> 01 23 45 67 89</a>
+                        <a href="tel:+880 123 12 658 439"><span class="lnr lnr-phone-handset"></span></a>
+                    </div>
+                </div>
+            </div>	
+            <hr>
+            <div class="container">	
+                <div class="row align-items-center justify-content-center d-flex">
+                    <nav id="nav-menu-container">
+                        <ul class="nav-menu">
+                            <li class="menu-active"><a href="/">Accueil</a></li>
+                            <li><a href="/actualites">Actualités</a></li>				          
+                            <li><a href="presentation">Présentation</a></li>
+                            <li><a href="activites">Nos services</a></li>
+                            <li><a href="achat">Acheter/louer un cheval</a></li>
+                            <li><a href="contact">Contact</a></li>
+                            <li><a href="espaceclient">Espace client</a></li>
+                        </ul>
+                    </nav><!-- #nav-menu-container -->		    		
+                </div>
+            </div>
+        </header><!-- #header -->
+        {% if logged %}
+        <!-- ESPACE CLIENT SI CLIENT S'EST CONNECTE -->
+
+        <section>                
+            <div>
+                <p>  Bonjour {{message}}</p>
+                </div>
+        </section>
+            <section>
+                <div class="container">
+                    <div class="row fullscreen d-flex align-items-center justify-content-start">
+
+                        <!--<span class="bar"></span>       -->             
+
+                        <div class="container">	
+                            <div class="row align-items-center justify-content-center d-flex">
+                                <nav id="nav-menu-container">
+                                    <ul class="nav-menu">
+
+                                        <li><a href="espaceclient#informations">Mes informations</a></li>
+                                        <li><a href="espaceclient#mescommandes">Mes commandes</a></li>
+                                    </ul>
+                                </nav>
+                            </div> 
+                        </div>
+
+                        <p>
+                            <a href="logout" class="genric-btn">Se déconnecter</a>
+                        </p>
+
+
+                    </div>
+                </div>
+        </section>
+
+
+        {% else%}
+        <section class="home-about-area section-gap">
+            <div class="overlay overlay-bg"></div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-4 col-md-6 booking-right">
+                    <form action="login" method="POST">
+                        <div class="mb-70"></div>
+                        <p class="text-uppercase" style="text-align:center">
+                            Connexion
+                        </p>
+
+                        <div> </div>
+                        <input class="form-control" type="text" name="mail" placeholder="adresse mail" required>
+                        <input class="form-control" type="password" name="mdp" placeholder="mot de passe" required>
+                        <button  class="btn btn-default btn-lg btn-block text-center">OK</button>
+                        <a href="inscription" class="genric-btn">Vous n'êtes pas membre? Inscrivez-vous ! </a>
+                    </form>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+        <!-- Start gallery Area -->
+        <section class="gallery-area">
+            <div class="container-fluid">
+                <div class="row no-padding">
+                    <div class="active-gallery">
+                        <div class="item single-gallery">
+                            <div class="thumb">
+                                <<img src="static/img/g1.jpg" alt="">
+                                <div class="align-items-center justify-content-center d-flex">
+                                </div>
+                            </div>
+                        </div>	
+                        <div class="item single-gallery">
+                            <div class="thumb">
+                                <img src="static/img/g2.jpg" alt="">
+                                <div class="align-items-center justify-content-center d-flex">
+                                </div>
+                            </div>
+                        </div>	
+                        <div class="item single-gallery">
+                            <div class="thumb">
+                                <img src="static/img/g3.jpg" alt="">
+                                <div class="align-items-center justify-content-center d-flex">
+                                </div>
+                            </div>
+                        </div>	
+                        <div class="item single-gallery">
+                            <div class="thumb">
+                                <img src="static/img/g4.jpg" alt="">
+                                <div class="align-items-center justify-content-center d-flex">
+                                </div>
+                            </div>
+                        </div>	
+                        <div class="item single-gallery">
+                            <div class="thumb">
+                                <img src="static/img/g5.jpg" alt="">
+                                <div class="align-items-center justify-content-center d-flex">
+                                </div>
+                            </div>
+                        </div>	
+                        <div class="item single-gallery">
+                            <div class="thumb">
+                                <img src="static/img/g6.jpg" alt="">
+                                <div class="align-items-center justify-content-center d-flex">
+                                </div>
+                            </div>
+                        </div>								
+
+                    </div>
+                </div>
+            </div>	
+        </section>
+        <!-- End gallery Area -->
+
+        <!-- start footer Area -->		
+        <footer class="footer-area section-gap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3  col-md-6 col-sm-6">
+                        <div class="single-footer-widget">
+                            <h4>A propos</h4>
+                            <p>
+                                © 2019	Centre Equestre Tornado <br> Centre équestre – Poney club <br> Mentions légales
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4  col-md-6 col-sm-6">
+                        <div class="single-footer-widget">
+                            <h4>Contactez-nous</h4>
+                            <p>
+                                Notre équipe sera ravie de vous accueillir!  <br>
+                                Adresse: HAMEAU DE CHARNESSEUIL - 77750 SAINT CYR SUR MORIN <br>
+                                Mail: info@cyclone.fr
+                            </p>
+
+                            <p class="number">
+                                Tél: 01 23 45 67 89     <br>
+                            </p>
+                        </div>
+                    </div>						
+                    <div class="col-lg-5  col-md-6 col-sm-6">
+                        <div class="single-footer-widget">
+                            <h4>Newsletter</h4>
+                            <p>Suivez nos actualités en nous renseignant votre adresse mail.</p>
+                            <div class="d-flex flex-row" id="mc_embed_signup">
+
+
+                                <form class="navbar-form" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get">
+                                    <div class="input-group add-on align-items-center d-flex">
+                                        <input class="form-control" name="EMAIL" placeholder="Adresse mail" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adresse mail'" required="" type="email">
+                                        <div style="position: absolute; left: -5000px;">
+                                            <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
+                                        </div>
+                                        <div class="input-group-btn">
+                                            <button class="genric-btn"><span class="lnr lnr-arrow-right"></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="info mt-20"></div>									    
+                                </form>
+                            </div>
+                        </div>
+                    </div>						
+                </div>
+                <div class="footer-bottom row">
+                    <p class="footer-text m-0 col-lg-6 col-md-12">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </p>
+                    <div class="footer-social col-lg-6 col-md-12">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </footer>	
+        <!-- End footer Area -->
+
+        <script src="static/js/vendor/jquery-2.2.4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="static/js/vendor/bootstrap.min.js"></script>			
+        <script type="static/text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
+        <script src="static/js/easing.min.js"></script>			
+        <script src="static/js/hoverIntent.js"></script>
+        <script src="static/js/superfish.min.js"></script>	
+        <script src="static/js/jquery.ajaxchimp.min.js"></script>
+        <script src="static/js/jquery.magnific-popup.min.js"></script>	
+        <script src="static/js/owl.carousel.min.js"></script>			
+        <script src="static/js/jquery.sticky.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>				
+        <script src="static/js/jquery.nice-select.min.js"></script>			
+        <script src="static/js/parallax.min.js"></script>	
+        <script src="static/js/waypoints.min.js"></script>
+        <script src="static/js/jquery.counterup.min.js"></script>			
+        <script src="static/js/mail-script.js"></script>	
+        <script src="static/js/main.js"></script>
+    </body>
+</html>
