@@ -9,7 +9,8 @@ metadata = MetaData()
 
 
 cheval = Table('cheval', metadata,
-            Column('nomCheval', String,primary_key=True),
+            Column('idCheval', Integer, autoincrement=True, primary_key=True),
+            Column('nomCheval', String),
             Column('age',Integer),
             Column('race', String),
             Column('description', String),
@@ -42,8 +43,7 @@ utilisateur = Table('utilisateur', metadata,
                     Column('mail', String),
                     Column('telephone', Integer),
                     Column('numLocation', Integer),
-                    Column('mdp', Integer),
-                    Column('moyenpaiement', String)
+                    Column('mdp', Integer)
                     )
 
 
@@ -69,6 +69,28 @@ ch_ins = cheval.insert()
 te_ins=temoignage.insert()
 
 connection = engine.connect()
+
+
+#------------------------------------------------------------ REQUETES INSERT POUR LES TESTS ---------------------------
+#ENREGISTREMENT TEST POUR UTILISATEUR + PROFIL ADMIN
+ins = utilisateur.insert().values()
+str(ins)
+'INSERT INTO utilisateur(mdp,numLocation,telephone,mail,prenom,nom,idUtilisateur) VALUES ("TCyclone20",69100,1234,"admin@admin.com","","admin",2),("hind",69100,1234,"hind_amhache@hotmail.com","hind","amhache",1)'
+connection.execute(ins)
+
+#ENREGISTREMENT DE TEST POUR COMMANDES
+ins = commandes.insert().values()
+str(ins)
+'INSERT INTO commandes VALUES (1, "1", "13/12/2018", "1")'
+connection.execute(ins)
+
+#ENREGISTREENT DE TEST POUR CHEVAL
+#ins =ch_ins.values()
+#str(ins)
+#'INSERT INTO cheval VALUES ("chevaltest", 10, "orange", "test", "test", "homme")'
+#connection.execute(ins)
+
+#------------------------------------------------------------ FIN REQUETES TEST ----------------------------------------
     
 #connection.execute(ch_ins.values(nomCheval= 'Nougat',age=15,race="Anglo arabe",description="Cheval d’école, facile et gentil. Convient parfaitement à un niveau débutant comme confirmé. Idéal pour se faire plaisir à cheval.",photo="static/img/pages/caramel.jpg",typ="Location"))
 #connection.execute(ch_ins.values(nomCheval="Alaska",age=4,race="Mustang espagnol",description="Caractère calme et sûre.Excellente jument idéale débutants et enfants.",photo="static/img/pages/alaska.jpg",typ="Location / Vente"))
@@ -131,7 +153,7 @@ def AvendreAlouer():
     data = []
     for row in connection.execute(select([cheval.c.nomCheval, cheval.c.age,cheval.c.typ, cheval.c.race,cheval.c.description,cheval.c.photo])):
         data.append(row)
-    return render_template('achat.html', title='A vendre / A louer',liste=data) #message =session["name"]
+    return render_template('achat.html', title='A vendre / A louer',liste=data) #message =session["nom"]
 
 
 # route pour formulaire
@@ -186,12 +208,10 @@ def modif():
      
 #on supprime au nom :
     connection.execute("update cheval set nomCheval = nomCheval")
-    return redirect('/achat')   
+    return redirect('/achat')
 
-
-    #Logging
+# LOGGING DE l'UTILISATEUR-----------------------------------------------------------------------------------------
 app.secret_key = 'iswuygdedgv{&75619892__01;;>..zzqwQIHQIWS'
-
 @app.route('/espaceclient')
 def index():
     connection = engine.connect()
@@ -220,8 +240,6 @@ def index():
     else:
         return render_template('espaceclient.html')
 
-    #else:
-    #return render_template('accueil.html')
 @app.route('/login', methods=['POST'])
 def login():
     connection = engine.connect()
@@ -241,13 +259,50 @@ def login():
 
         return redirect("/espaceclient")
 
-# SESSION = ["name"=..., "logged"=...]
+# FIN LOGGING DE l'UTILISATEUR-----------------------------------------------------------------------------------------
+
+# INSCRIPTION DE l'UTILISATEUR-----------------------------------------------------------------------------------------
+
+@app.route('/inscription')
+def inscription():
+    return render_template("inscription.html")
+
+@app.route('/enregistrement', methods=['POST'])
+def entregistrement():
+    connection = engine.connect()
+    if request.method == 'POST':
+        nom = escape(request.form['nom'])
+        prenom= escape(request.form['prenom'])
+        loc = escape(request.form['ville'])
+        tel = escape(request.form['tel'])
+        session["mail"] = escape(request.form['mail'])
+        session["mdp"] = escape(request.form['mdp'])
+        session['logged'] = True
+        connection.execute(utilisateur.insert(), [
+            {'nom': nom, 'prenom': prenom, "mail": session["mail"], "telephone": tel, "numLocation": loc, "mdp": session["mdp"]}
+        ])
+        return redirect("/espaceclient")
 
 
+
+
+
+
+
+
+
+# FIN INSCRIPTION UTILISATEUR-----------------------------------------------------------------------------------------
+
+
+
+
+# LOGOUT DE l'UTILISATEUR-----------------------------------------------------------------------------------------
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect('/')
+
+# FIN LOGOUT DE l'UTILISATEUR-----------------------------------------------------------------------------------------
 
 if __name__ == '__main__':
     app.run(debug=True)
