@@ -68,20 +68,14 @@
         </header><!-- #header -->
 
 
-        
-        <section class="booking-area section-gap relative" >
+
+        <section class="home-about-area section-gap">
             <div class="overlay overlay-bg"></div>
-            <div class="container">
-                <div class="row justify-content-between align-items-center">
-                    <div class="col-lg-6 col-md-6 booking-left">
-            <!--<div class="overlay overlay-bg"></div>
-            <div class="row d-flex justify-content-center"> 
-                <div class="col-lg-4 col-md-6 booking-right">-->
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-4 col-md-6 booking-right">
                     <form action="enregistrement" method="POST">
-                        <!--<div> </div>-->
+                        <div> </div>
                         <div class="mb-70"></div>
-                        <!--<div> </div>
-                        <div> </div>-->
                         <p class="text-uppercase" style="text-align:center">
                             Inscription
                         </p>
@@ -91,18 +85,13 @@
                         <input class="form-control" type="text" name="prenom" placeholder="Prénom" required>
                         <input class="form-control" type="number" name="ville" placeholder="Code postal" required>
                         <input class="form-control" type="number" name="tel" placeholder="Portable" required>
-                        {% if message =="adresse mail déjà prise!"%}
-                        <input style= "background: #ffdddd" class="form-control" type="text" name="mail" placeholder='{{message}}' required> 
-                        {%else%}
                         <input class="form-control" type="text" name="mail" placeholder="Adresse mail" required>
-                        {%endif%}
                         <input class="form-control" type="password" name="mdp" placeholder="mot de passe" required>
                         <button  class="btn btn-default btn-lg btn-block text-center">M'inscrire</button>
                     </form>        
 
                 </div>
             </div>
-                </div>
         </section>
 
 
