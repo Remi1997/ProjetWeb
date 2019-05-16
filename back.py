@@ -1,6 +1,7 @@
 from flask import *
 from sqlalchemy import *
 from sqlalchemy.sql import *
+
 app = Flask(__name__)
 # CreationBDD
 engine = create_engine('sqlite:///mabase.db', echo=True)
@@ -165,28 +166,63 @@ def ajoute():
 
 @app.route("/supprime",methods=['GET', 'POST'])
 def supprime():   
-    connection = engine.connect()
+    conn = engine.connect()
     if request.method == 'POST':
-        nomCheval = request.form['nom']
+        nom = request.form['nom']
      
 #on supprime au nom :
-    connection.execute("delete from cheval where nomCheval = nomCheval")
+    conn.execute(cheval.delete().where(cheval.c.nomCheval == nom))
     return redirect('/achat')
 
 @app.route("/modif",methods=['GET', 'POST'])
-def modif():   
+def modif():
     connection = engine.connect()
+    
+    
     if request.method == 'POST':
-        nomCheval = request.form['nom']
+        nom = request.form['nom']
         nb = request.form['age']
         ra = request.form['race']
         ty = request.form['typ']
         des = request.form['des']
-        img = request.form['img']
+        img= request.form['img']
      
-#on supprime au nom :
-    connection.execute("update cheval set nomCheval = nomCheval")
-    return redirect('/achat')   
+#on modifie la table :
+        
+    if nb != "":
+        stmt = cheval.update().\
+                    where(cheval.c.nomCheval == nom).\
+                    values(age=nb)
+        connection.execute(stmt)
+        
+       
+    if ra != "":
+        
+        stmt = cheval.update().\
+                    where(cheval.c.nomCheval == nom).\
+                    values(race=ra)
+        connection.execute(stmt)
+        
+    if des != "":
+
+        stmt = cheval.update().\
+                    where(cheval.c.nomCheval == nom).\
+                    values(description=des)
+        connection.execute(stmt)
+        
+    if ty!= "":
+        stmt = cheval.update().\
+                    where(cheval.c.nomCheval == nom).\
+                    values(typ=ty)
+        connection.execute(stmt)
+        
+    if img != "":
+        sstmt = cheval.update().\
+                    where(cheval.c.nomCheval == nom).\
+                    values(photo=img)
+        connection.execute(stmt)
+    
+    return redirect('/achat')     
 
 
     #Logging
