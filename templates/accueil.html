@@ -303,8 +303,31 @@
                                     Service satisfaisant, personnel compétent. Les cours sont sympathiques. 
                                 </p>
 
-                            </div>																
+                            </div>	
+                        <!-- Ajout dynamique des témoignages -->
+
+                              <div class="single-carusel">
+                                {%for i in liste%}
+                                <img src="static/img/r1.png" alt="">
+                                <div class="title justify-content-start d-flex">
+                                    <h4>{{ i[0] }}</h4>
+                                    <div class="star">
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star"></span>
+                                    </div>
+                                </div>
+                                <p>
+                                    {{ i[1] }}
+                                </p>
+                                    <img src="static/img/r2.png" alt="">
+                                    {%endfor%}
+                            </div>
+
                         </div>
+
                     </div>
                     <div class="col-lg-4 col-md-6 booking-right">
                         <h4 class="mb-20">Laissez un témoignage</h4>
