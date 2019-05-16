@@ -1,7 +1,7 @@
 from flask import *
 from sqlalchemy import *
 from sqlalchemy.sql import *
-import datetime
+
 app = Flask(__name__)
 # CreationBDD
 engine = create_engine('sqlite:///mabase.db', echo=True)
@@ -42,8 +42,8 @@ utilisateur = Table('utilisateur', metadata,
                     Column('nom', String),
                     Column('prenom', String),
                     Column('mail', String),
-                    Column('telephone', Numeric),
-                    Column('numLocation', Numeric),
+                    Column('telephone', Integer),
+                    Column('numLocation', Integer),
                     Column('mdp', Integer)
                     )
 
@@ -64,26 +64,13 @@ temoignage = Table('temoignage', metadata,
             Column('message', String)
             )
 
+
 metadata.create_all(engine)
 ch_ins = cheval.insert()
 te_ins=temoignage.insert()
 
 connection = engine.connect()
 
-#------------------------------------------------------------ REQUETES INSERT POUR LES TESTS ---------------------------
-#ENREGISTREMENT TEST POUR UTILISATEUR + PROFIL ADMIN
-
-#connection.execute(utilisateur.insert(), [
-#    {"nom":"admin","prenom": "", "mail":"admin@admin.com", "telephone":722938743, "numLocation": 69100, "mdp":"TCINSA"},
-#    {"nom":"Amhache","prenom": "Hind", "mail":"hind_amhache@hotmail.com", "telephone":722235643, "numLocation": 69100, "mdp":"hind"}
-#])
-#ENREGISTREMENT DE TEST POUR COMMANDES
-#connection.execute(commandes.insert(), [{"idCheval":1,"datecommande":datetime.datetime(2018,12,13), "idUtilisateur":1, "montant":200}])
-#ENREGISTREMENT DE TEST POUR CHEVAL
-#connection.execute(cheval.insert(), [{"nomCheval":"chevaltest","age": 10, "race":"orange", "description":"test","photo": "test","typ": "male"}])
-#------------------------------------------------------------ FIN REQUETES TEST ----------------------------------------
-
-session = {'nom': '', 'mail': '', 'mdp': '', 'tel': '', 'loc': ''}
 
     
 #connection.execute(ch_ins.values(nomCheval= 'Nougat',age=15,race="Anglo arabe",description="Cheval d’école, facile et gentil. Convient parfaitement à un niveau débutant comme confirmé. Idéal pour se faire plaisir à cheval.",photo="static/img/pages/caramel.jpg",typ="Location"))
@@ -124,7 +111,7 @@ def ajoutertemoi():
 
 @app.route('/actualites')
 def Actualités():
-    return render_template('actualites.html', title='actualités',mail=session["mail"])
+    return render_template('actualites.html', title='actualités',message =session["nom"])
 
 
 @app.route('/contact')
@@ -147,7 +134,7 @@ def AvendreAlouer():
     data = []
     for row in connection.execute(select([cheval.c.nomCheval, cheval.c.age,cheval.c.typ, cheval.c.race,cheval.c.description,cheval.c.photo])):
         data.append(row)
-    return render_template('achat.html', title='A vendre / A louer',liste=data, mail=session["mail"])
+    return render_template('achat.html', title='A vendre / A louer',liste=data) #message =session["nom"]
 
 
 # route pour formulaire
@@ -249,12 +236,12 @@ def modif():
 app.secret_key = 'iswuygdedgv{&75619892__01;;>..zzqwQIHQIWS'
 @app.route('/espaceclient')
 def index():
-    cmd = {'idcmd': '', 'nomcheval': '', 'datecmd': '', 'montant': ''}
     connection = engine.connect()
     logged= "logged" in session
     #si utilisateur connecté:
     if logged:
         if session["logged"] == True:
+            cmd={'idcmd':'','nomcheval':'','datecmd':'','montant':''}
             # chercher ses informations et les remplir dans la page
             s = text(
                 'SELECT utilisateur.telephone, utilisateur.numLocation FROM utilisateur WHERE utilisateur.mail==:x and utilisateur.mdp==:y')
@@ -278,6 +265,7 @@ def index():
 @app.route('/login', methods=['POST'])
 def login():
     connection = engine.connect()
+    session={'nom':'','mail':'','mdp':'','tel':'','loc':''}
     if request.method == 'POST':
         session["mail"]= escape(request.form['mail'])
         session["mdp"] = escape(request.form['mdp'])
@@ -313,9 +301,9 @@ def entregistrement():
         session["mail"] = escape(request.form['mail'])
         session["mdp"] = escape(request.form['mdp'])
         # VERIFICATION SI MAIL DEJA PRIS
-        s = text('SELECT utilisateur.mail FROM utilisateur WHERE utilisateur.mail==:x')
+        s = text('SELECT * FROM utilisateur WHERE utilisateur.mail==:x')
         resultats = connection.execute(s, x=session["mail"])
-        if resultats == session["mail"]:
+        if resultats != None:
             msg = "adresse mail déjà prise!"
             return render_template("inscription.html", message = msg)
         else:
