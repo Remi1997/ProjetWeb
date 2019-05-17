@@ -1,6 +1,7 @@
 from flask import *
 from sqlalchemy import *
 from sqlalchemy.sql import *
+import datetime
 app = Flask(__name__)
 # CreationBDD
 engine = create_engine('sqlite:///mabase.db', echo=True)
@@ -9,7 +10,8 @@ metadata = MetaData()
 
 
 cheval = Table('cheval', metadata,
-            Column('nomCheval', String,primary_key=True),
+            Column('idCheval', Integer, autoincrement=True, primary_key=True),
+            Column('nomCheval', String),
             Column('age',Integer),
             Column('race', String),
             Column('description', String),
@@ -40,10 +42,9 @@ utilisateur = Table('utilisateur', metadata,
                     Column('nom', String),
                     Column('prenom', String),
                     Column('mail', String),
-                    Column('telephone', Integer),
-                    Column('numLocation', Integer),
-                    Column('mdp', Integer),
-                    Column('moyenpaiement', String)
+                    Column('telephone', Numeric),
+                    Column('numLocation', Numeric),
+                    Column('mdp', Integer)
                     )
 
 
@@ -63,12 +64,27 @@ temoignage = Table('temoignage', metadata,
             Column('message', String)
             )
 
-
 metadata.create_all(engine)
 ch_ins = cheval.insert()
 te_ins=temoignage.insert()
 
 connection = engine.connect()
+
+#------------------------------------------------------------ REQUETES INSERT POUR LES TESTS ---------------------------
+#ENREGISTREMENT TEST POUR UTILISATEUR + PROFIL ADMIN
+
+#connection.execute(utilisateur.insert(), [
+#    {"nom":"admin","prenom": "", "mail":"admin@admin.com", "telephone":722938743, "numLocation": 69100, "mdp":"TCINSA"},
+#    {"nom":"Amhache","prenom": "Hind", "mail":"hind_amhache@hotmail.com", "telephone":722235643, "numLocation": 69100, "mdp":"hind"}
+#])
+#ENREGISTREMENT DE TEST POUR COMMANDES
+#connection.execute(commandes.insert(), [{"idCheval":1,"datecommande":datetime.datetime(2018,12,13), "idUtilisateur":1, "montant":200}])
+#ENREGISTREMENT DE TEST POUR CHEVAL
+#connection.execute(cheval.insert(), [{"nomCheval":"chevaltest","age": 10, "race":"orange", "description":"test","photo": "test","typ": "male"}])
+#------------------------------------------------------------ FIN REQUETES TEST ----------------------------------------
+
+session = {'nom': '', 'mail': '', 'mdp': '', 'tel': '', 'loc': ''}
+
     
 #connection.execute(ch_ins.values(nomCheval= 'Nougat',age=15,race="Anglo arabe",description="Cheval d’école, facile et gentil. Convient parfaitement à un niveau débutant comme confirmé. Idéal pour se faire plaisir à cheval.",photo="static/img/pages/caramel.jpg",typ="Location"))
 #connection.execute(ch_ins.values(nomCheval="Alaska",age=4,race="Mustang espagnol",description="Caractère calme et sûre.Excellente jument idéale débutants et enfants.",photo="static/img/pages/alaska.jpg",typ="Location / Vente"))
@@ -108,7 +124,7 @@ def ajoutertemoi():
 
 @app.route('/actualites')
 def Actualités():
-    return render_template('actualites.html', title='actualités',message =session["name"])
+    return render_template('actualites.html', title='actualités',mail=session["mail"])
 
 
 @app.route('/contact')
@@ -123,7 +139,7 @@ def Presentation():
 
 @app.route('/activites')
 def Activites():
-    return render_template('Activites.html', title='Activités')
+    return render_template('activite.html', title='Activités')
 
 @app.route('/achat')
 def AvendreAlouer():
@@ -131,7 +147,7 @@ def AvendreAlouer():
     data = []
     for row in connection.execute(select([cheval.c.nomCheval, cheval.c.age,cheval.c.typ, cheval.c.race,cheval.c.description,cheval.c.photo])):
         data.append(row)
-    return render_template('achat.html', title='A vendre / A louer',liste=data) #message =session["name"]
+    return render_template('achat.html', title='A vendre / A louer',liste=data, mail=session["mail"])
 
 
 # route pour formulaire
@@ -165,41 +181,80 @@ def ajoute():
 
 @app.route("/supprime",methods=['GET', 'POST'])
 def supprime():   
-    connection = engine.connect()
+    conn = engine.connect()
     if request.method == 'POST':
-        nomCheval = request.form['nom']
+        nom = request.form['nom']
      
 #on supprime au nom :
-    connection.execute("delete from cheval where nomCheval = nomCheval")
+    conn.execute(cheval.delete().where(cheval.c.nomCheval == nom))
     return redirect('/achat')
 
 @app.route("/modif",methods=['GET', 'POST'])
-def modif():   
+def modif():
     connection = engine.connect()
+    
+    
     if request.method == 'POST':
-        nomCheval = request.form['nom']
+        nom = request.form['nom']
         nb = request.form['age']
         ra = request.form['race']
         ty = request.form['typ']
         des = request.form['des']
-        img = request.form['img']
+        img= request.form['img']
      
+
 #on supprime au nom :
     connection.execute("update cheval set nomCheval = nomCheval")
-    return redirect('/achat')   
+    return redirect('/achat')
+#on modifie la table :
+        
+    if nb != "":
+        stmt = cheval.update().\
+                    where(cheval.c.nomCheval == nom).\
+                    values(age=nb)
+        connection.execute(stmt)
+        
+       
+    if ra != "":
+        
+        stmt = cheval.update().\
+                    where(cheval.c.nomCheval == nom).\
+                    values(race=ra)
+        connection.execute(stmt)
+        
+    if des != "":
 
+        stmt = cheval.update().\
+                    where(cheval.c.nomCheval == nom).\
+                    values(description=des)
+        connection.execute(stmt)
+        
+    if ty!= "":
+        stmt = cheval.update().\
+                    where(cheval.c.nomCheval == nom).\
+                    values(typ=ty)
+        connection.execute(stmt)
+        
+    if img != "":
+        sstmt = cheval.update().\
+                    where(cheval.c.nomCheval == nom).\
+                    values(photo=img)
+        connection.execute(stmt)
+    
+    return redirect('/achat')     
 
-    #Logging
+#fd74a08fcc14617a4e5614b5effc49cdf8ee94f8
+
+# LOGGING DE l'UTILISATEUR-----------------------------------------------------------------------------------------
 app.secret_key = 'iswuygdedgv{&75619892__01;;>..zzqwQIHQIWS'
-
 @app.route('/espaceclient')
 def index():
+    cmd = {'idcmd': '', 'nomcheval': '', 'datecmd': '', 'montant': ''}
     connection = engine.connect()
     logged= "logged" in session
     #si utilisateur connecté:
     if logged:
         if session["logged"] == True:
-            cmd={'idcmd':'','nomcheval':'','datecmd':'','montant':''}
             # chercher ses informations et les remplir dans la page
             s = text(
                 'SELECT utilisateur.telephone, utilisateur.numLocation FROM utilisateur WHERE utilisateur.mail==:x and utilisateur.mdp==:y')
@@ -213,15 +268,13 @@ def index():
             if resultats2 != None:
                 for resultat in resultats2:
                     cmd= {'idcmd': resultat[0], 'nomcheval' : resultat[1], 'datecmd' : resultat[2], 'montant' : resultat[3]}
-            return render_template('espaceclient.html', message=[session["name"],session["mail"], session['tel'],session['loc'], cmd['idcmd'], cmd['nomcheval'], cmd['datecmd'],cmd['montant']], logged=logged)
+            return render_template('espaceclient.html', message=[session["nom"],session["mail"], session['tel'],session['loc'], cmd['idcmd'], cmd['nomcheval'], cmd['datecmd'],cmd['montant']], logged=logged)
         if session['logged'] == False:
             txt = "Mauvais identifiants. Veuillez réessayer"
-            return render_template('espaceclient.html', message=txt)
+            return render_template('espaceclient.html', mauvaisid=txt)
     else:
         return render_template('espaceclient.html')
 
-    #else:
-    #return render_template('accueil.html')
 @app.route('/login', methods=['POST'])
 def login():
     connection = engine.connect()
@@ -235,19 +288,63 @@ def login():
             for resultat in resultats:
                 result = str(resultat[0]+ " " + resultat[1]) #on n'a qu'un seul résultat #tableau de 2 valeurs
                 session["logged"] = True
-                session["name"] = result
+                session["nom"] = result
         else: # si mauvais id:
-            session['logged'] = False
+            session["logged"] = False
 
         return redirect("/espaceclient")
 
-# SESSION = ["name"=..., "logged"=...]
+# FIN LOGGING DE l'UTILISATEUR-----------------------------------------------------------------------------------------
+
+# INSCRIPTION DE l'UTILISATEUR-----------------------------------------------------------------------------------------
+
+@app.route('/inscription')
+def inscription():
+    return render_template("inscription.html")
+
+@app.route('/enregistrement', methods=['POST'])
+def entregistrement():
+    connection = engine.connect()
+    if request.method == 'POST':
+        session['nom'] = escape(request.form['nom'])
+        session['prenom']= escape(request.form['prenom'])
+        session['loc'] = escape(request.form['ville'])
+        session['tel'] = escape(request.form['tel'])
+        session["mail"] = escape(request.form['mail'])
+        session["mdp"] = escape(request.form['mdp'])
+        # VERIFICATION SI MAIL DEJA PRIS
+        s = text('SELECT utilisateur.mail FROM utilisateur WHERE utilisateur.mail==:x')
+        resultats = connection.execute(s, x=session["mail"])
+        if resultats == session["mail"]:
+            msg = "adresse mail déjà prise!"
+            return render_template("inscription.html", message = msg)
+        else:
+            session['logged'] = True
+            connection.execute(utilisateur.insert(), [
+                {'nom': session['nom'], 'prenom': session['prenom'], "mail": session["mail"], "telephone": session["tel"], "numLocation": session["loc"], "mdp": session["mdp"]}
+            ])
+            return redirect("/espaceclient")
 
 
+
+
+
+
+
+
+
+# FIN INSCRIPTION UTILISATEUR-----------------------------------------------------------------------------------------
+
+
+
+
+# LOGOUT DE l'UTILISATEUR-----------------------------------------------------------------------------------------
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect('/')
+
+# FIN LOGOUT DE l'UTILISATEUR-----------------------------------------------------------------------------------------
 
 if __name__ == '__main__':
     app.run(debug=True)

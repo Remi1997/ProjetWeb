@@ -69,52 +69,60 @@
         {% if logged %}
         <!-- ESPACE CLIENT SI CLIENT S'EST CONNECTE -->
 
-        <section>
+        <section class="home-about-area section-gap">
+            <div class="overlay overlay-bg"></div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-4 col-md-6 booking-right">
 
-            <p>  Bonjour {{message[0]}} !</p>
-            <div class="container">
-                <div class="row fullscreen d-flex align-items-center justify-content-start">
-                    <!--<span class="bar"></span>       -->             
-                    <div class="container">	
-                        <div class="row align-items-center justify-content-center d-flex">
-                            <nav id="nav-menu-container">
-                                <ul class="nav-menu">
-                                    <li><a href="espaceclient#informations">Mes informations</a></li>
-                                    <li><a href="espaceclient#mescommandes">Mes commandes</a></li>
-                                </ul>
-                            </nav>
-                        </div>
-                            <div id="informations">
-                                <div class="col-lg-6 single-blog">
-                                    <p > <span class="text-black"  > Nom et prénom </span> <span class="text-uppercase" >{{message[0]}} </span></p>
-                                    <p > <span class="text-black"> Adresse mail </span> {{message[1]}}</p>
-                                    <p > <span class="text-black"> Numéro de téléphone </span> {{message[2]}}</p>
-                                    <p > <span class="text-black"> Ville </span> {{message[3]}}</p>
+                    <p>  Bonjour {{message[0]}} !</p>
+                    <div class="container">
+                        <div class="row fullscreen d-flex align-items-center justify-content-start">
+                            <!--<span class="bar"></span>       -->             
+                            <div class="container">	
+                                <div class="row align-items-center justify-content-center d-flex">
+                                    <nav id="nav-menu-container">
+                                        <ul class="nav-menu">
+                                            <li><a href="espaceclient#informations">Mes informations</a></li>
+                                            <li><a href="espaceclient#mescommandes">Mes commandes</a></li>
+                                        </ul>
+                                    </nav>
                                 </div>
-                            </div>
-                            <div id="informations">
+                                <div id="informations">
+                                    <div class="col-lg-6 single-blog">
+                                        <p > <span class="text-black"  > Nom et prénom </span> <span class="text-uppercase" >{{message[0]}} </span></p>
+                                        <p > <span class="text-black"> Adresse mail </span> {{message[1]}}</p>
+                                        <p > <span class="text-black"> Numéro de téléphone </span> {{message[2]}}</p>
+                                        <p > <span class="text-black"> Ville </span> {{message[3]}}</p>
+                                    </div>
+                                </div>
+                                <div id="informations">
+                                    {% if message[4] == ''%}
+                                    <div class="col-lg-6 single-blog">
+                                        <p> Pas de commandes pour l'instant :-( </p>
+                                        <a href="achat" class="genric-btn">Accéder à la che-boutique</a>
 
-                                <div class="col-lg-6 single-blog">
+                                    </div>
+                                    {%else%}                       
+                                    <div class="col-lg-6 single-blog">
                                         <p > <span class="text-black"  > Numéro de commande </span> <span class="text-uppercase" >{{message[4]}} </span></p>
                                         <p > <span class="text-black"> Cheval acheté/loué </span> {{message[5]}}</p>
                                         <p > <span class="text-black"> Date de la commande </span> {{message[6]}}</p>
                                         <p > <span class="text-black"> Montant payé </span> {{message[7]}}</p>
 
-                                </div>
+                                    </div>
 
+                                    {%endif%}
+                                    
+                <a href="logout" class="genric-btn">Se déconnecter</a>
+                                </div>
                             </div>
+                        </div>
+
+
                     </div>
                 </div>
 
-
         </section>
-
-
-
-
-        <p>
-            <a href="logout" class="genric-btn">Se déconnecter</a>
-        </p>
 
 
 
@@ -130,7 +138,7 @@
                         <p class="text-uppercase" style="text-align:center">
                             Connexion
                         </p>
-
+                        <p> {{mauvaisid}} </p>
                         <div> </div>
                         <input class="form-control" type="text" name="mail" placeholder="adresse mail" required>
                         <input class="form-control" type="password" name="mdp" placeholder="mot de passe" required>
