@@ -64,9 +64,18 @@ temoignage = Table('temoignage', metadata,
             Column('message', String)
             )
 
+actualite = Table('actualite', metadata,
+            Column('idActualite', Integer, autoincrement=True, primary_key=True),
+            Column('date', String),
+            Column('titre', String),
+            Column('descr', String),
+            Column('image', String),
+            )
+
 metadata.create_all(engine)
 ch_ins = cheval.insert()
 te_ins=temoignage.insert()
+ac_ins=actualite.insert()
 
 connection = engine.connect()
 
@@ -96,6 +105,8 @@ session = {'nom': '', 'mail': '', 'mdp': '', 'tel': '', 'loc': ''}
 #connection.execute(ch_ins.values(nomCheval="Castor",age=12,race="New Forest",description="Poney très gentil, passe partout. Idéal enfants et débutants.",photo="static/img/pages/castor.jpg",typ="Location"))
 #connection.execute(ch_ins.values(nomCheval="Perle",age=2,race="Shetland",description="Très gentil, adapté aux familles.Bonnes conditions de vie exigées.",photo="static/img/pages/perle.jpg",typ="Vente"))
 
+connection.execute(ac_ins.values(date="Dimanche 09 septembre",titre="Stand Informations !",descr="Nous tenons à vous informer que le dimanche 09 septembre nous serons présents à la Foire de la Vigne de Charly Sur Marne. Pour l’occasion, nous tiendrons un stand d’informations pour ceux intéressés par notre centre équestre, nos cours et stages.",image="static/img/b1.jpg"))
+connection.execute(ac_ins.values(date="Samedi 08 Septembre",titre="Baptêmes Poney",descr="Nous tenons à vous informer que le samedi 08 septembre 2018 se tiendra les baptêmes des poneys. L’événement aura lieu de 14h00 à 18h00 au magasin Décathlon à Château Thierry. Nous espérons vous voir nombreux !",image="static/img/b2.jpg"))
 
 
 @app.route('/')
@@ -103,10 +114,14 @@ def accueil():
     connection = engine.connect()
 
     data=[]
+    dataAct=[]
+    for j in connection.execute(select([actualite.c.date, actualite.c.titre, actualite.c.descr, actualite.c.image])):
+        dataAct.append(j)
+    print (dataAct)
     for i in connection.execute(select([temoignage.c.nom, temoignage.c.message])):
         data.append(i)
     print (data)
-    return render_template('accueil.html', title='Accueil', liste=data)
+    return render_template('accueil.html', title='Accueil', liste=data, liste2=dataAct, mail=session["mail"])
 
 @app.route("/ajoutertemoi", methods=['GET', 'POST'])
 def ajoutertemoi():
@@ -121,6 +136,78 @@ def ajoutertemoi():
     connection.execute(te_ins.values(nom=name, mail=mail, telephone=tel,message=msg))
     return redirect('/')
 
+@app.route("/ajouterActualite")
+def ajouterActualite():
+    return render_template("ajouterActualite.html")
+
+
+@app.route("/ajouteAct", methods=['GET', 'POST'])
+def ajouteAct():
+    connection = engine.connect()
+    if request.method == 'POST':
+
+        date = request.form['date']
+        titre = request.form['titre']
+        descr = request.form['descr']
+        img = request.form['image']
+
+#on ajoute les valeurs dans la table
+    connection.execute(ac_ins.values(date=date, titre=titre, descr=descr, image=img))
+    return redirect('/')
+
+
+@app.route("/supprimerActualite")
+def supprimerActualite():
+    return render_template("supprimerActualite.html")
+
+@app.route("/supprimeAct",methods=['GET', 'POST'])
+def supprimeAct():
+    conn = engine.connect()
+    if request.method == 'POST':
+        titre = request.form['titre']
+
+#on supprime au nom :
+    conn.execute(actualite.delete().where(actualite.c.titre == titre))
+    return redirect('/')
+
+@app.route("/modifierActualite")
+def modifierActualite():
+    return render_template("modifierActualite.html")
+
+@app.route("/modifAct",methods=['GET', 'POST'])
+def modifAct():
+    connection = engine.connect()
+
+
+    if request.method == 'POST':
+        titre = request.form['titre']
+        date = request.form['date']
+        descr = request.form['descr']
+        image = request.form['img']
+
+#on modifie la table :
+
+    if date != "":
+
+        stmt = actualite.update().\
+                    where(actualite.c.titre == titre).\
+                    values(date=date)
+        connection.execute(stmt)
+
+    if descr != "":
+
+        stmt = actualite.update().\
+                    where(actualite.c.titre == titre).\
+                    values(descr=descr)
+        connection.execute(stmt)
+
+    if image!= "":
+        stmt = actualite.update().\
+                    where(actualite.c.titre == titre).\
+                    values(image=image)
+        connection.execute(stmt)
+
+    return redirect('/')
 
 @app.route('/contact')
 def Contact():
