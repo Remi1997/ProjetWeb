@@ -292,72 +292,81 @@
         </footer>	
         <!-- End footer Area -->
 
-<!--------------------------------------------------------------- CODE PHP POUR ENVOYER UN MAIL -------------------------------------------------------------->
-                                        <?php if(!empty($_POST[submit]) { 
-
-                                        $to = 'hind_amhache@hotmail.com';
-                                        $name = $_POST["name"];
-                                        $email= $_POST["email"];
-                                        $text= $_POST["message"];
-                                        $sub= $_POST["sub"];
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+            <input type="hidden" name="cmd" value="_s-xclick">
+            <input type="hidden" name="hosted_button_id" value="XZ6NPBYS4AJJW">
+            <input type="image" src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne">
+            <img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
+        </form>
 
 
 
-                                        $headers = 'MIME-Version: 1.0' . "\r\n";
-                                        $headers .= "From: " . $email . "\r\n"; // Sender's E-mail
-                                        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+        <!--------------------------------------------------------------- CODE PHP POUR ENVOYER UN MAIL -------------------------------------------------------------->
+        <?php if(!empty($_POST[submit]) { 
 
-                                        $message ='<table style="width:100%"> ?>
-                                            <tr>
-                                                <td><?php'.$name.'?></td>
-                                            </tr>
-                                            <tr><td><?php Email: '.$email.'?></td></tr>
-                                            <tr><td><?php phone: '.$sub.'?></td></tr>
-                                            <tr><td><?php Text: '.$text.'?></td></tr>
+        $to = 'hind_amhache@hotmail.com';
+        $name = $_POST["name"];
+        $email= $_POST["email"];
+        $text= $_POST["message"];
+        $sub= $_POST["sub"];
 
-                                        </table><?php';?>
 
-                                        <?php if (@mail($to, $email, $message, $headers))
-                                        {
-                                        echo 'The message has been sent.';
-                                        }else{
-                                        echo 'failed';
-                                        }
 
-                                        ?>
-                                        
+        $headers = 'MIME-Version: 1.0' . "\r\n";
+        $headers .= "From: " . $email . "\r\n"; // Sender's E-mail
+        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+
+        $message ='<table style="width:100%"> ?>
+    <tr>
+        <td><?php'.$name.'?></td>
+    </tr>
+    <tr><td><?php Email: '.$email.'?></td></tr>
+    <tr><td><?php phone: '.$sub.'?></td></tr>
+    <tr><td><?php Text: '.$text.'?></td></tr>
+
+</table><?php';?>
+
+<?php if (@mail($to, $email, $message, $headers))
+{
+echo 'The message has been sent.';
+}else{
+echo 'failed';
+}
+
+?>
+
 
 <!--------------------------------------------------------------- FIN CODE PHP POUR ENVOYER UN MAIL -------------------------------------------------------------->
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <script src="static/js/vendor/jquery-2.2.4.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="static/js/vendor/bootstrap.min.js"></script>			
-        <script type="static/text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
-        <script src="static/js/easing.min.js"></script>			
-        <script src="static/js/hoverIntent.js"></script>
-        <script src="static/js/superfish.min.js"></script>	
-        <script src="static/js/jquery.ajaxchimp.min.js"></script>
-        <script src="static/js/jquery.magnific-popup.min.js"></script>	
-        <script src="static/js/owl.carousel.min.js"></script>			
-        <script src="static/js/jquery.sticky.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>				
-        <script src="static/js/jquery.nice-select.min.js"></script>			
-        <script src="static/js/parallax.min.js"></script>	
-        <script src="static/js/waypoints.min.js"></script>
-        <script src="static/js/jquery.counterup.min.js"></script>			
-        <script src="static/js/mail-script.js"></script>	
-        <script src="static/js/main.js"></script>
-    </body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="static/js/vendor/jquery-2.2.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="static/js/vendor/bootstrap.min.js"></script>			
+<script type="static/text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
+<script src="static/js/easing.min.js"></script>			
+<script src="static/js/hoverIntent.js"></script>
+<script src="static/js/superfish.min.js"></script>	
+<script src="static/js/jquery.ajaxchimp.min.js"></script>
+<script src="static/js/jquery.magnific-popup.min.js"></script>	
+<script src="static/js/owl.carousel.min.js"></script>			
+<script src="static/js/jquery.sticky.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>				
+<script src="static/js/jquery.nice-select.min.js"></script>			
+<script src="static/js/parallax.min.js"></script>	
+<script src="static/js/waypoints.min.js"></script>
+<script src="static/js/jquery.counterup.min.js"></script>			
+<script src="static/js/mail-script.js"></script>	
+<script src="static/js/main.js"></script>
+</body>
 </html>

@@ -150,7 +150,6 @@ def AvendreAlouer():
         return render_template('achat.html', title='A vendre / A louer',liste=data)
 
 
-
 # route pour formulaire
 @app.route("/ajouterCheval")
 def ajouterCheval():
