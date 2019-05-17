@@ -147,8 +147,10 @@ def AvendreAlouer():
     data = []
     for row in connection.execute(select([cheval.c.nomCheval, cheval.c.age,cheval.c.typ, cheval.c.race,cheval.c.description,cheval.c.photo])):
         data.append(row)
-    return render_template('achat.html', title='A vendre / A louer',liste=data, mail=session["mail"])
-
+    if session['logged']== True:
+        return render_template('achat.html', title='A vendre / A louer',liste=data, mail=session["mail"])
+    else:
+        return render_template('achat.html', title='A vendre / A louer',liste=data)
 
 # route pour formulaire
 @app.route("/ajouterCheval")
