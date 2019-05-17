@@ -203,10 +203,6 @@ def modif():
         des = request.form['des']
         img= request.form['img']
      
-
-#on supprime au nom :
-    connection.execute("update cheval set nomCheval = nomCheval")
-    return redirect('/achat')
 #on modifie la table :
         
     if nb != "":
