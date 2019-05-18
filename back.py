@@ -242,7 +242,7 @@ def AvendreAlouer():
         return render_template('achat.html', title='A vendre / A louer',liste=data)
 
 #route calendrier
-
+#PAGE CALENDRIER + FORMULAIRE -------------------------------------------------------------------------------------------------
 @app.route("/calendrier/<nomChe>")
 def calendrier(nomChe):
     
@@ -258,6 +258,7 @@ def calendrier(nomChe):
     
     return render_template("demos/background-events.html", liste = info1, liste2=info2)
 
+#REQUETES POUR LES INFOS + ON REMPLIT TABLE DATES --------------------------------------------------------------------------
 @app.route("/resa",methods=['GET', 'POST'])
 def resa():   
     connection = engine.connect()
@@ -279,7 +280,7 @@ def resa():
         arg = row[0]*jours
         
   
-
+#ici, on remplit la table dates 
     print(nb)
     print(arg)
     connection.execute(da_ins.values(nomCheval=name,dateDebut=dated,dateFin=datef,prestation=pres, prix=arg, idUtilisateur=nb))
@@ -296,6 +297,7 @@ def resa2():
     return(redirect(url_for('calendrier', nomChe=name)))
 
 from datetime import *  
+#calcul de différence entre 2 jours
 def calcul_jour(date1,date2):
     DATETIME_FORMAT = "%Y-%m-%d"
     from_dt =datetime.strptime(date1, DATETIME_FORMAT)
@@ -304,6 +306,7 @@ def calcul_jour(date1,date2):
     diff_day = timedelta.days + float(timedelta.seconds) / 86400
     return(diff_day)
 
+#on ajoute un jour à la date fin pour erreur dans calendrier 
 def ajoute_jour(jour):
     DATETIME_FORMAT = "%Y-%m-%d"
     dt =datetime.strptime(jour, DATETIME_FORMAT)
