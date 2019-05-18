@@ -94,7 +94,9 @@ connection = engine.connect()
 
 session = {'nom': '', 'mail': '', 'mdp': '', 'tel': '', 'loc': ''}
 
-    
+cmd = []
+
+change = 0
 #connection.execute(ch_ins.values(nomCheval= 'Nougat',age=15,race="Anglo arabe",description="Cheval d’école, facile et gentil. Convient parfaitement à un niveau débutant comme confirmé. Idéal pour se faire plaisir à cheval.",photo="static/img/pages/caramel.jpg",typ="Location"))
 #connection.execute(ch_ins.values(nomCheval="Alaska",age=4,race="Mustang espagnol",description="Caractère calme et sûre.Excellente jument idéale débutants et enfants.",photo="static/img/pages/alaska.jpg",typ="Location / Vente"))
 #connection.execute(ch_ins.values(nomCheval="Volcanic",age=12,race="Pur sang",description="C est un cheval calin et attachant.Cavalier confirmé.Il aime beaucoup les sauts d obstacle.",photo="static/img/pages/volcanic.jpg",typ="Location"))
@@ -279,8 +281,6 @@ def supprime():
 @app.route("/modif",methods=['GET', 'POST'])
 def modif():
     connection = engine.connect()
-    
-    
     if request.method == 'POST':
         nom = request.form['nom']
         nb = request.form['age']
@@ -332,7 +332,7 @@ def modif():
 app.secret_key = 'iswuygdedgv{&75619892__01;;>..zzqwQIHQIWS'
 @app.route('/espaceclient')
 def index():
-    cmd = {'idcmd': '', 'nomcheval': '', 'datecmd': '', 'montant': ''}
+    #cmd = {'idcmd': '', 'nomcheval': '', 'datecmd': '', 'montant': ''}
     connection = engine.connect()
     logged= "logged" in session
     #si utilisateur connecté:
@@ -340,23 +340,29 @@ def index():
         if session["logged"] == True:
             # chercher ses informations et les remplir dans la page
             s = text(
-                'SELECT utilisateur.telephone, utilisateur.numLocation FROM utilisateur WHERE utilisateur.mail==:x and utilisateur.mdp==:y')
+                'SELECT utilisateur.nom, utilisateur.prenom, utilisateur.mail, utilisateur.telephone, utilisateur.numLocation FROM utilisateur WHERE utilisateur.mail==:x and utilisateur.mdp==:y')
             resultats = connection.execute(s, x=session["mail"], y=session["mdp"])
             if resultats != None:
                 for resultat in resultats:
-                    session['tel'] = resultat[0]
-                    session['loc'] = resultat[1]
+                    session['nom']= resultat[0]+ " " +resultat[1]
+                    session['mail']= resultat[2]
+                    session['tel'] = resultat[3]
+                    session['loc'] = resultat[4]
             s2= text ('SELECT commandes.idcommande, cheval.nomCheval, commandes.datecommande, commandes.montant FROM utilisateur inner join commandes on utilisateur.idUtilisateur = commandes.idUtilisateur inner join cheval on cheval.idCheval = commandes.idCheval WHERE utilisateur.mail==:x')
             resultats2 = connection.execute(s2,x= session["mail"])
-            if resultats2 != None:
-                for resultat in resultats2:
-                    cmd= {'idcmd': resultat[0], 'nomcheval' : resultat[1], 'datecmd' : resultat[2], 'montant' : resultat[3]}
-            return render_template('espaceclient.html', message=[session["nom"],session["mail"], session['tel'],session['loc'], cmd['idcmd'], cmd['nomcheval'], cmd['datecmd'],cmd['montant']], logged=logged)
+            if (resultats2 != None):
+                if change==0:
+                    for resultat in resultats2:
+                        cmd. append({'idcmd': resultat[0], 'nomcheval' : resultat[1], 'datecmd' : resultat[2], 'montant' : resultat[3]}) # liste de dictionnaires
+            return render_template('espaceclient.html', message=[session["nom"],session["mail"], session['tel'],session['loc']], commandes= cmd, logged=logged)
         if session['logged'] == False:
             txt = "Mauvais identifiants. Veuillez réessayer"
             return render_template('espaceclient.html', mauvaisid=txt)
     else:
         return render_template('espaceclient.html')
+
+
+#----------------------------------------------------------------------------------------
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -389,8 +395,7 @@ def inscription():
 def entregistrement():
     connection = engine.connect()
     if request.method == 'POST':
-        session['nom'] = escape(request.form['nom'])
-        session['prenom']= escape(request.form['prenom'])
+        session['nom'] = escape(request.form['nom']) + escape(request.form['prenom'])
         session['loc'] = escape(request.form['ville'])
         session['tel'] = escape(request.form['tel'])
         session["mail"] = escape(request.form['mail'])
@@ -407,6 +412,67 @@ def entregistrement():
                 {'nom': session['nom'], 'prenom': session['prenom'], "mail": session["mail"], "telephone": session["tel"], "numLocation": session["loc"], "mdp": session["mdp"]}
             ])
             return redirect("/espaceclient")
+
+
+#Changement infos utilisateur------------------------------------------------------------
+@app.route('/changerinfos')
+def changeinfos():
+    logged= "logged" in session
+    change=1
+    return render_template('espaceclient.html', message=[session["nom"],session["mail"], session['tel'],session['loc']], commandes= cmd, logged=logged, change=change)
+
+@app.route('/changermdp')
+def changemdp():
+    logged= "logged" in session
+    change=2
+    return render_template('espaceclient.html', message=[session["nom"],session["mail"], session['tel'],session['loc']], commandes= cmd, logged=logged, change=change)
+
+
+
+@app.route('/updateinfos',methods=['POST'])
+def updateinfos():
+    connection = engine.connect()
+    if request.method=="POST":
+        session['nom'] = escape(request.form['nom'])
+        session['loc'] = escape(request.form['ville'])
+        session['tel'] = escape(request.form['tel'])
+        session["mail"] = escape(request.form['mail'])
+        nomprenom= session['nom'].split()
+        nom= nomprenom[0]
+        prenom=nomprenom[1]
+        infos = utilisateur.update().\
+                    where(utilisateur.c.mail == session['mail']).\
+                    values(nom=nom, prenom=prenom, mail=session['mail'], telephone=session['tel'], numLocation=session['loc'])
+        connection.execute(infos)
+        return redirect('/espaceclient')
+
+
+@app.route('/updatemdp',methods=['POST'])
+def updatemdp():
+    connection = engine.connect()
+    if request.method=="POST":
+        ancienmdp = request.form['ancienmdp']
+        nouveaumdp = request.form['nouveaumdp']
+        confnouveaumdp= request.form['confnouveaumdp']
+        s = text(
+            'SELECT utilisateur.mdp FROM utilisateur WHERE utilisateur.mail==:x')
+        resultats = connection.execute(s, x=session["mail"])
+        if resultats==None:
+            msg = "Mot de passe erroné!"
+            return render_template("espaceclient.html", message = msg)
+        if resultats != None:
+            if confnouveaumdp==nouveaumdp:
+                    mdpupdate = utilisateur.update().\
+                    where(utilisateur.c.mail == session['mail']).\
+                    values(mdp=nouveaumdp)
+                    session['mdp'] = confnouveaumdp
+                    connection.execute(mdpupdate)
+        return redirect('/espaceclient')
+
+
+
+
+#-----------------------------------------------------------------------------------------------
 
 
 # FIN INSCRIPTION UTILISATEUR-----------------------------------------------------------------------------------------
