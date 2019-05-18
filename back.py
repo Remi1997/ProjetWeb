@@ -25,7 +25,7 @@ prestation = Table('prestation', metadata,
                    Column('prix', Integer)
                    )
 
-date = Table('date', metadata,
+dates = Table('dates', metadata,
                       Column('numLocation', Integer, autoincrement=True, primary_key=True),
                       Column('nomCheval', String),
                       Column('dateDebut', String),
@@ -74,7 +74,10 @@ metadata.create_all(engine)
 ch_ins = cheval.insert()
 te_ins=temoignage.insert()
 ac_ins=actualite.insert()
-da_ins=date.insert()
+ut_ins=utilisateur.insert()
+pres_ins=prestation.insert()
+da_ins=dates.insert()
+
 
 connection = engine.connect()
 
@@ -104,12 +107,12 @@ session = {'nom': '', 'mail': '', 'mdp': '', 'tel': '', 'loc': ''}
 #connection.execute(ch_ins.values(nomCheval="Castor",age=12,race="New Forest",description="Poney très gentil, passe partout. Idéal enfants et débutants.",photo="static/img/pages/castor.jpg",typ="Location"))
 #connection.execute(ch_ins.values(nomCheval="Perle",age=2,race="Shetland",description="Très gentil, adapté aux familles.Bonnes conditions de vie exigées.",photo="static/img/pages/perle.jpg",typ="Vente"))
 
-connection.execute(ac_ins.values(date="Dimanche 09 septembre",titre="Stand Informations !",descr="Nous tenons à vous informer que le dimanche 09 septembre nous serons présents à la Foire de la Vigne de Charly Sur Marne. Pour l’occasion, nous tiendrons un stand d’informations pour ceux intéressés par notre centre équestre, nos cours et stages.",image="static/img/b1.jpg"))
-connection.execute(ac_ins.values(date="Samedi 08 Septembre",titre="Baptêmes Poney",descr="Nous tenons à vous informer que le samedi 08 septembre 2018 se tiendra les baptêmes des poneys. L’événement aura lieu de 14h00 à 18h00 au magasin Décathlon à Château Thierry. Nous espérons vous voir nombreux !",image="static/img/b2.jpg"))
+#connection.execute(ac_ins.values(date="Dimanche 09 septembre",titre="Stand Informations !",descr="Nous tenons à vous informer que le dimanche 09 septembre nous serons présents à la Foire de la Vigne de Charly Sur Marne. Pour l’occasion, nous tiendrons un stand d’informations pour ceux intéressés par notre centre équestre, nos cours et stages.",image="static/img/b1.jpg"))
+#connection.execute(ac_ins.values(date="Samedi 08 Septembre",titre="Baptêmes Poney",descr="Nous tenons à vous informer que le samedi 08 septembre 2018 se tiendra les baptêmes des poneys. L’événement aura lieu de 14h00 à 18h00 au magasin Décathlon à Château Thierry. Nous espérons vous voir nombreux !",image="static/img/b2.jpg"))
 
-connection.execute(ut_ins.values(nom="bernet", prenom="agathe", mail="a@hotmail.com", telephone=0617890924, numLocation=0, mdp="123"))
+#connection.execute(ut_ins.values(nom="bernet", prenom="agathe", mail="a@hotmail.com", telephone=722235643, numLocation=0, mdp="123"))
 
-connexion.execute(pres_ins.values(activite = "randonnée", prix=250))
+#connection.execute(pres_ins.values(activite = "randonnée", prix=250))
 
 @app.route('/')
 def accueil():
@@ -246,11 +249,12 @@ def calendrier(nomChe):
     info1=[]
     info2=[]
     connection = engine.connect()
-    for row in connection.execute(select([date.c.dateDebut]).where(date.c.nomCheval == nomChe)):
+    for row in connection.execute(select([dates.c.dateDebut]).where(dates.c.nomCheval == nomChe)):
         info1.append(row[0])
 
-    for row in connection.execute(select([date.c.dateFin]).where(date.c.nomCheval == nomChe)):
-        info2.append(row[0])
+    for row in connection.execute(select([dates.c.dateFin]).where(dates.c.nomCheval == nomChe)):
+        
+        info2.append(ajoute_jour(row[0]))
     
     return render_template("demos/background-events.html", liste = info1, liste2=info2)
 
@@ -258,7 +262,8 @@ def calendrier(nomChe):
 def resa():   
     connection = engine.connect()
     if request.method == 'POST':
-        
+
+        nomUt = request.form['nomUtilisateur']
         name = request.form['nom']
         dated = request.form['dd']
         datef= request.form['df']
@@ -266,7 +271,18 @@ def resa():
 
     jours = calcul_jour(dated,datef)
 #on ajoute les valeurs dans la table
-    connection.execute(da_ins.values(nomCheval=name,dateDebut=dated,dateFin=datef,prestation=pres))
+
+    for row in connection.execute(select([utilisateur.c.idUtilisateur]).where(utilisateur.c.nom == nomUt)):
+        nb = row[0]
+
+    for row in connection.execute(select([prestation.c.prix]).where(prestation.c.activite == pres)):
+        arg = row[0]*jours
+        
+  
+
+    print(nb)
+    print(arg)
+    connection.execute(da_ins.values(nomCheval=name,dateDebut=dated,dateFin=datef,prestation=pres, prix=arg, idUtilisateur=nb))
     return(redirect(url_for('calendrier', nomChe=name)))
     
 
@@ -279,15 +295,21 @@ def resa2():
         
     return(redirect(url_for('calendrier', nomChe=name)))
 
-from datetime import datetime   
+from datetime import *  
 def calcul_jour(date1,date2):
     DATETIME_FORMAT = "%Y-%m-%d"
     from_dt =datetime.strptime(date1, DATETIME_FORMAT)
     to_dt = datetime.strptime(date2, DATETIME_FORMAT)
     timedelta = to_dt - from_dt
     diff_day = timedelta.days + float(timedelta.seconds) / 86400
-    print (diff_day)
     return(diff_day)
+
+def ajoute_jour(jour):
+    DATETIME_FORMAT = "%Y-%m-%d"
+    dt =datetime.strptime(jour, DATETIME_FORMAT)
+    dt = dt + timedelta(days = 1)
+    date = dt.strftime(DATETIME_FORMAT)
+    return(date)
 
 # route pour formulaire
 @app.route("/ajouterCheval")
