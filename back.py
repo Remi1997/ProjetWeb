@@ -326,15 +326,25 @@ def entregistrement():
             return redirect("/espaceclient")
 
 
-
-
-
-
-
-
-
 # FIN INSCRIPTION UTILISATEUR-----------------------------------------------------------------------------------------
 
+
+
+
+# DEBUT PAIEMENT-----------------------------------------------------------------------------------------
+
+
+@app.route('/annuler')
+def annulation():
+    render_template('annuler.html')
+
+
+@app.route('/succes')
+def succes():
+    render_template('succes.html')
+
+
+# FIN PAIEMENT-----------------------------------------------------------------------------------------
 
 
 
