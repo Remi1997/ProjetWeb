@@ -236,6 +236,56 @@ def AvendreAlouer():
     else:
         return render_template('achat.html', title='A vendre / A louer',liste=data)
 
+#route calendrier
+
+@app.route("/calendrier/<nomChe>")
+def calendrier(nomChe):
+    print(nomChe)
+    info1=[]
+    info2=[]
+    connection = engine.connect()
+    for row in connection.execute(select([date.c.dateDebut]).where(date.c.nomCheval == nomChe)):
+        info1.append(row[0])
+
+    for row in connection.execute(select([date.c.dateFin]).where(date.c.nomCheval == nomChe)):
+        info2.append(row[0])
+    print(info1)
+    return render_template("demos/background-events.html", liste = info1, liste2=info2)
+
+@app.route("/resa",methods=['GET', 'POST'])
+def resa():   
+    connection = engine.connect()
+    if request.method == 'POST':
+        
+        name = request.form['nom']
+        dated = request.form['dd']
+        datef= request.form['df']
+        pres = request.form['pre']
+
+    jours = calcul_jour(dated,datef)
+#on ajoute les valeurs dans la table
+    connection.execute(da_ins.values(nomCheval=name,dateDebut=dated,dateFin=datef,prestation=pres))
+    return(redirect(url_for('calendrier', nomChe=name)))
+    
+
+
+@app.route("/resa2",methods=['GET', 'POST'])
+def resa2():   
+    connection = engine.connect()
+    if request.method == 'POST':
+        name = request.form['nom']
+        
+    return(redirect(url_for('calendrier', nomChe=name)))
+
+from datetime import datetime   
+def calcul_jour(date1,date2):
+    DATETIME_FORMAT = "%Y-%m-%d"
+    from_dt =datetime.strptime(date1, DATETIME_FORMAT)
+    to_dt = datetime.strptime(date2, DATETIME_FORMAT)
+    timedelta = to_dt - from_dt
+    diff_day = timedelta.days + float(timedelta.seconds) / 86400
+    print (diff_day)
+    return(diff_day)
 
 # route pour formulaire
 @app.route("/ajouterCheval")
