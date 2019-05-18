@@ -21,10 +21,7 @@ cheval = Table('cheval', metadata,
 
 prestation = Table('prestation', metadata,
                    Column('idPrestation', Integer, autoincrement=True, primary_key=True),
-                   Column('nomCheval', String),
                    Column('activite', String),
-                   Column('public', String),
-                   Column('periode', String),
                    Column('prix', Integer)
                    )
 
@@ -110,6 +107,9 @@ session = {'nom': '', 'mail': '', 'mdp': '', 'tel': '', 'loc': ''}
 connection.execute(ac_ins.values(date="Dimanche 09 septembre",titre="Stand Informations !",descr="Nous tenons à vous informer que le dimanche 09 septembre nous serons présents à la Foire de la Vigne de Charly Sur Marne. Pour l’occasion, nous tiendrons un stand d’informations pour ceux intéressés par notre centre équestre, nos cours et stages.",image="static/img/b1.jpg"))
 connection.execute(ac_ins.values(date="Samedi 08 Septembre",titre="Baptêmes Poney",descr="Nous tenons à vous informer que le samedi 08 septembre 2018 se tiendra les baptêmes des poneys. L’événement aura lieu de 14h00 à 18h00 au magasin Décathlon à Château Thierry. Nous espérons vous voir nombreux !",image="static/img/b2.jpg"))
 
+connection.execute(ut_ins.values(nom="bernet", prenom="agathe", mail="a@hotmail.com", telephone=0617890924, numLocation=0, mdp="123"))
+
+connexion.execute(pres_ins.values(activite = "randonnée", prix=250))
 
 @app.route('/')
 def accueil():
