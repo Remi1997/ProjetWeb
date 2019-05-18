@@ -242,7 +242,7 @@ def AvendreAlouer():
 
 @app.route("/calendrier/<nomChe>")
 def calendrier(nomChe):
-    print(nomChe)
+    
     info1=[]
     info2=[]
     connection = engine.connect()
@@ -251,7 +251,7 @@ def calendrier(nomChe):
 
     for row in connection.execute(select([date.c.dateFin]).where(date.c.nomCheval == nomChe)):
         info2.append(row[0])
-    print(info1)
+    
     return render_template("demos/background-events.html", liste = info1, liste2=info2)
 
 @app.route("/resa",methods=['GET', 'POST'])
