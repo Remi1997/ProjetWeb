@@ -77,6 +77,7 @@ metadata.create_all(engine)
 ch_ins = cheval.insert()
 te_ins=temoignage.insert()
 ac_ins=actualite.insert()
+da_ins=date.insert()
 
 connection = engine.connect()
 
