@@ -28,13 +28,14 @@ prestation = Table('prestation', metadata,
                    Column('prix', Integer)
                    )
 
-disponibilite = Table('disponibilite', metadata,
+date = Table('date', metadata,
                       Column('numLocation', Integer, autoincrement=True, primary_key=True),
-                      Column('idUtilisateur', Integer),
-                      Column('idPrestation', Integer),
                       Column('nomCheval', String),
-                      Column('dateDebut', Date),
-                      Column('dateFin', Date)
+                      Column('dateDebut', String),
+                      Column('dateFin', String),
+                      Column('prestation',String),
+                      Column('prix',Integer),
+                      Column('idUtilisateur',Integer)
                       )
 
 utilisateur = Table('utilisateur', metadata,
