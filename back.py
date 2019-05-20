@@ -265,8 +265,11 @@ def calendrier(nomChe):
     return render_template("demos/background-events.html", liste = info1, liste2=info2)
 
 #REQUETES POUR LES INFOS + ON REMPLIT TABLE DATES --------------------------------------------------------------------------
+
 @app.route("/resa",methods=['GET', 'POST'])
-def resa():   
+def resa():
+    info1 = []
+    info2 = []
     connection = engine.connect()
     if request.method == 'POST':
 
@@ -276,6 +279,15 @@ def resa():
         datef= request.form['df']
         pres = request.form['pre']
 
+    for row in connection.execute(select([dates.c.dateDebut]).where(dates.c.nomCheval == name)):
+        info1.append(row[0])
+
+    for row in connection.execute(select([dates.c.dateFin]).where(dates.c.nomCheval == name)):
+        info2.append(ajoute_jour(row[0]))
+        
+     
+    a = verif_date(dated, datef,info1,info2)
+    
     jours = calcul_jour(dated,datef)
 #on ajoute les valeurs dans la table
 
@@ -286,11 +298,12 @@ def resa():
         arg = row[0]*jours
         
   
-#ici, on remplit la table dates 
-    print(nb)
-    print(arg)
-    connection.execute(da_ins.values(nomCheval=name,dateDebut=dated,dateFin=datef,prestation=pres, prix=arg, idUtilisateur=nb))
-    return(redirect(url_for('calendrier', nomChe=name)))
+#ici, on remplit la table dates
+    if a ==1:
+        connection.execute(da_ins.values(nomCheval=name,dateDebut=dated,dateFin=datef,prestation=pres, prix=arg, idUtilisateur=nb))
+        return(redirect(url_for('calendrier', nomChe=name)))
+    if a==0:
+        return render_template("erreur.html")
     
 
 
@@ -319,6 +332,20 @@ def ajoute_jour(jour):
     dt = dt + timedelta(days = 1)
     date = dt.strftime(DATETIME_FORMAT)
     return(date)
+def verif_date(date1,date2,liste1,liste2):
+    for i in range(len(liste1)):
+        if date1 == liste1[i] or date1 == liste2[i]:
+            return(0)
+        if date2 == liste1[i] or date2 == liste2[i]:
+            return(0)
+        if liste1[i][5:7] == date1[5:7]:
+            if date1[8:10]<liste1[i][8:10]:
+                if date2[8:10]>liste1[i][8:10]:
+                    return(0)
+            if date1[8:10]>liste1[i][8:10]:
+                if date1[8:10]<liste2[i][8:10]:
+                    return(0)
+    return(1)
 
 # route pour formulaire
 @app.route("/ajouterCheval")
