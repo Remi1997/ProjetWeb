@@ -223,41 +223,33 @@
                     <div class="menu-content pb-60 col-lg-8">
                         <div class="title text-center">
                             <h1 class="mb-10">Dernières actualités</h1>
+                            {%if mail=="admin@admin.com"%}
+                                <input type="button" name="lien1" value="ajouter une actualité" onclick="self.location.href='ajouterActualite'" style="background-color:##FEFEFE" style="color:white; font-weight:white"onclick>
+                                <input type="button" name="lien1" value="supprimer une actualité" onclick="self.location.href='supprimerActualite'" style="background-color:##FEFEFE" style="color:white; font-weight:white"onclick>
+                                <input type="button" name="lien1" value="modifier une actualité" onclick="self.location.href='modifierActualite'" style="background-color:##FEFEFE" style="color:white; font-weight:white"onclick>
+                                                                      {%else%}
+                                                                      {%endif%}
                             <p></p>
                         </div>
                     </div>
                 </div>					
                 <div class="row">
+                    <!-- Ajout dynamique actualités -->
+                    {%for i in liste2%}
                     <div class="col-lg-6 single-blog">
-                        <img class="img-fluid" src="static/img/b1.jpg" alt="">
+                        <img class="img-fluid" src={{i[3]}} alt="">
                         <ul class="tags">
-                            <li><a href="about.html">Evénements</a></li>
+                            <li style="color: black">Evénements</li>
                         </ul>
-                        <a href="#"><h4>Dimanche 09 septembre : Stand Informations ! </h4></a>
+                        <h4>{{ i[0]}} : {{ i[1]}}</h4>
                         <p>
-                            Nous tenons à vous informer que le dimanche 09 septembre nous serons présents à la Foire de la Vigne de Charly Sur Marne.
-
-                            Pour l’occasion, nous tiendrons un stand d’informations pour ceux intéressés par notre centre équestre, nos cours et stages.
+                          {{ i[2]}}
                         </p>
-                        <p class="post-date">29 août 2018</p>
                     </div>
-                    <div class="col-lg-6 single-blog">
-                        <img class="img-fluid" src="static/img/b2.jpg" alt="">
-                        <ul class="tags">
-                            <li><a href="about.html">Evénements</a></li>
-                        </ul>
-                        <a href="about.html"><h4>Samedi 08 Septembre : Baptêmes Poney</h4></a>
-                        <p>
-                            Nous tenons à vous informer que le samedi 08 septembre 2018 se tiendra les baptêmes des poneys.
-
-                            L’événement aura lieu de 14h00 à 18h00 au magasin Décathlon à Château Thierry.
-
-                            Nous espérons vous voir nombreux !
-                        </p>
-                        <p class="post-date">29 août 2018</p>
-                    </div>						
+                    {% endfor %}
                 </div>
-            </div>	
+            </div>
+
         </section>
         <!-- End latest-blog Area -->
 
