@@ -1,7 +1,10 @@
 from flask import *
 from sqlalchemy import *
 from sqlalchemy.sql import *
+from flask_mail import Mail
+from flask_mail import Message
 import datetime
+import socket
 app = Flask(__name__)
 # CreationBDD
 engine = create_engine('sqlite:///mabase.db', echo=True)
@@ -77,9 +80,11 @@ ac_ins=actualite.insert()
 ut_ins=utilisateur.insert()
 pres_ins=prestation.insert()
 da_ins=dates.insert()
-
-
 connection = engine.connect()
+
+
+
+
 
 #------------------------------------------------------------ REQUETES INSERT POUR LES TESTS ---------------------------
 #ENREGISTREMENT TEST POUR UTILISATEUR + PROFIL ADMIN
@@ -94,11 +99,10 @@ connection = engine.connect()
 #connection.execute(cheval.insert(), [{"nomCheval":"chevaltest","age": 10, "race":"orange", "description":"test","photo": "test","typ": "male"}])
 #------------------------------------------------------------ FIN REQUETES TEST ----------------------------------------
 
-session = {'nom': '', 'mail': '', 'mdp': '', 'tel': '', 'loc': ''}
+session = {'nom': '', 'mail': '', 'mdp': '', 'tel': '', 'loc': '', 'change' : '0', 'message' : ''}
 
 cmd = []
 
-change = 0
 #connection.execute(ch_ins.values(nomCheval= 'Nougat',age=15,race="Anglo arabe",description="Cheval d’école, facile et gentil. Convient parfaitement à un niveau débutant comme confirmé. Idéal pour se faire plaisir à cheval.",photo="static/img/pages/caramel.jpg",typ="Location"))
 #connection.execute(ch_ins.values(nomCheval="Alaska",age=4,race="Mustang espagnol",description="Caractère calme et sûre.Excellente jument idéale débutants et enfants.",photo="static/img/pages/alaska.jpg",typ="Location / Vente"))
 #connection.execute(ch_ins.values(nomCheval="Volcanic",age=12,race="Pur sang",description="C est un cheval calin et attachant.Cavalier confirmé.Il aime beaucoup les sauts d obstacle.",photo="static/img/pages/volcanic.jpg",typ="Location"))
@@ -128,7 +132,7 @@ def accueil():
     for i in connection.execute(select([temoignage.c.nom, temoignage.c.message])):
         data.append(i)
     print (data)
-    return render_template('accueil.html', title='Accueil', liste=data, liste2=dataAct, mail=session["mail"])
+    return render_template('accueil.html', title='Accueil', liste=data, liste2=dataAct, session=session)
 
 @app.route("/ajoutertemoi", methods=['GET', 'POST'])
 def ajoutertemoi():
@@ -218,17 +222,17 @@ def modifAct():
 
 @app.route('/contact')
 def Contact():
-    return render_template('contact.html', title='contact')
+    return render_template('contact.html', title='contact', session=session)
 
 
 @app.route('/presentation')
 def Presentation():
-    return render_template('presentation.html', title='présentation')
+    return render_template('presentation.html', title='présentation', session=session)
 
 
 @app.route('/activites')
 def Activites():
-    return render_template('activite.html', title='Activités')
+    return render_template('activite.html', title='Activités', session=session)
 
 @app.route('/achat')
 def AvendreAlouer():
@@ -239,9 +243,9 @@ def AvendreAlouer():
     logged = "logged" in session
     if logged:
         if session['logged']== True:
-            return render_template('achat.html', title='A vendre / A louer',liste=data, mail=session["mail"])
+            return render_template('achat.html', title='A vendre / A louer',liste=data, mail=session["mail"], session=session)
     else:
-        return render_template('achat.html', title='A vendre / A louer',liste=data)
+        return render_template('achat.html', title='A vendre / A louer',liste=data, session=session)
 
 #route calendrier
 #PAGE CALENDRIER + FORMULAIRE -------------------------------------------------------------------------------------------------
@@ -409,7 +413,6 @@ def modif():
 app.secret_key = 'iswuygdedgv{&75619892__01;;>..zzqwQIHQIWS'
 @app.route('/espaceclient')
 def index():
-    #cmd = {'idcmd': '', 'nomcheval': '', 'datecmd': '', 'montant': ''}
     connection = engine.connect()
     logged= "logged" in session
     #si utilisateur connecté:
@@ -425,18 +428,18 @@ def index():
                     session['mail']= resultat[2]
                     session['tel'] = resultat[3]
                     session['loc'] = resultat[4]
-            s2= text ('SELECT commandes.idcommande, cheval.nomCheval, commandes.datecommande, commandes.montant FROM utilisateur inner join commandes on utilisateur.idUtilisateur = commandes.idUtilisateur inner join cheval on cheval.idCheval = commandes.idCheval WHERE utilisateur.mail==:x')
-            resultats2 = connection.execute(s2,x= session["mail"])
-            if (resultats2 != None):
-                if change==0:
-                    for resultat in resultats2:
-                        cmd. append({'idcmd': resultat[0], 'nomcheval' : resultat[1], 'datecmd' : resultat[2], 'montant' : resultat[3]}) # liste de dictionnaires
-            return render_template('espaceclient.html', message=[session["nom"],session["mail"], session['tel'],session['loc']], commandes= cmd, logged=logged)
+            if session['change'] == '0':
+                s2= text ('SELECT commandes.idcommande, cheval.nomCheval, commandes.datecommande, commandes.montant FROM utilisateur inner join commandes on utilisateur.idUtilisateur = commandes.idUtilisateur inner join cheval on cheval.idCheval = commandes.idCheval WHERE utilisateur.mail==:x')
+                resultats2 = connection.execute(s2,x= session["mail"])
+                if (resultats2 != None):
+                        for resultat in resultats2:
+                            cmd. append({'idcmd': resultat[0], 'nomcheval' : resultat[1], 'datecmd' : resultat[2], 'montant' : resultat[3]}) # liste de dictionnaires
+            return render_template('espaceclient.html', message=[session["nom"],session["mail"], session['tel'],session['loc']], commandes= cmd, logged=logged, texte=session['message'], session=session)
         if session['logged'] == False:
             txt = "Mauvais identifiants. Veuillez réessayer"
-            return render_template('espaceclient.html', mauvaisid=txt)
+            return render_template('espaceclient.html', mauvaisid=txt, session=session)
     else:
-        return render_template('espaceclient.html')
+        return render_template('espaceclient.html', session=session)
 
 
 #----------------------------------------------------------------------------------------
@@ -495,14 +498,14 @@ def entregistrement():
 @app.route('/changerinfos')
 def changeinfos():
     logged= "logged" in session
-    change=1
-    return render_template('espaceclient.html', message=[session["nom"],session["mail"], session['tel'],session['loc']], commandes= cmd, logged=logged, change=change)
+    session['change']='1'
+    return render_template('espaceclient.html', message=[session["nom"],session["mail"], session['tel'],session['loc']], commandes= cmd, logged=logged, change=1)
 
 @app.route('/changermdp')
 def changemdp():
     logged= "logged" in session
-    change=2
-    return render_template('espaceclient.html', message=[session["nom"],session["mail"], session['tel'],session['loc']], commandes= cmd, logged=logged, change=change)
+    session['change']='2'
+    return render_template('espaceclient.html', message=[session["nom"],session["mail"], session['tel'],session['loc']], commandes= cmd, logged=logged, change=2)
 
 
 
@@ -569,9 +572,12 @@ def annulation():
 def succes():
     render_template('succes.html')
 
-
 # FIN PAIEMENT-----------------------------------------------------------------------------------------
 
+
+@app.route('/rapport')
+def rapport():
+    return render_template("rapport.html")
 
 
 # LOGOUT DE l'UTILISATEUR-----------------------------------------------------------------------------------------
@@ -581,6 +587,39 @@ def logout():
     return redirect('/')
 
 # FIN LOGOUT DE l'UTILISATEUR-----------------------------------------------------------------------------------------
+
+# ENVOI MAIL A l'UTILISATEUR-----------------------------------------------------------------------------------------
+
+app.config["MAIL_SERVER"] = "smtp.hotmail.com"
+app.config["MAIL_PORT"] = 587 #465
+app.config["MAIL_USE_SSL"] = True
+app.config["MAIL_USERNAME"] = 'serviceclientcyclone@hotmail.com'
+app.config["MAIL_PASSWORD"] = 'TCINSA123'
+
+@app.route('/serviceclient', methods=['POST'])
+def serviceclt():
+    if request.method == "POST":
+        mail = Mail()
+        socket.getaddrinfo('127.0.0.1', 5000)
+        mail.init_app(app)
+        with mail.connect() as conn:
+            nom = escape(request.form['name'])
+            mail = escape(request.form['email'])
+            sujet = escape(request.form['subject'])
+            texte= escape(request.form['message'])
+            msg = Message(sender=[mail],
+                      recipients=["serviceclientcyclone@hotmail.com"], body = texte, subject=sujet)
+            conn.send(msg)
+        session['message']="Message envoyé. Nous vous recontacterons très bientôt!"
+        return redirect('/espaceclient')
+
+
+# FIN ENVOI MAIL A l'UTILISATEUR-----------------------------------------------------------------------------------------
+
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
