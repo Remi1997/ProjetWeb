@@ -1,286 +1,328 @@
-	<!DOCTYPE html>
-	<html lang="zxx" class="no-js">
-	<head>
-		<!-- Mobile Specific Meta -->
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<!-- Favicon-->
-		<link rel="shortcut icon" href="static/img/fav.png">
-		<!-- Author Meta -->
-		<meta name="author" content="codepixer">
-		<!-- Meta Description -->
-		<meta name="description" content="">
-		<!-- Meta Keyword -->
-		<meta name="keywords" content="">
-		<!-- meta character set -->
-		<meta charset="UTF-8">
-		<!-- Site Title -->
-		<title>Prestations</title>
+<!DOCTYPE html>
+<html lang="zxx" class="no-js">
+    <head>
+        <!-- Mobile Specific Meta -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Favicon-->
+        <link rel="shortcut icon" href="static/img/fav.png">
+        <!-- Author Meta -->
+        <meta name="author" content="codepixer">
+        <!-- Meta Description -->
+        <meta name="description" content="">
+        <!-- Meta Keyword -->
+        <meta name="keywords" content="">
+        <!-- meta character set -->
+        <meta charset="UTF-8">
+        <!-- Site Title -->
+        <title>Prestations</title>
 
         <link rel="stylesheet" href="{{ url_for('static', filename='https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700')}}">
-			<!--
-			CSS
-			============================================= -->
-			<link rel="stylesheet" href="static/css/linearicons.css">
-			<link rel="stylesheet" href="static/css/font-awesome.min.css">
-			<link rel="stylesheet" href="static/css/bootstrap.css">
-			<link rel="stylesheet" href="static/css/magnific-popup.css">
-			<link rel="stylesheet" href="static/css/nice-select.css">
-			<link rel="stylesheet" href="static/css/animate.min.css">
-			<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-			<link rel="stylesheet" href="static/css/owl.carousel.css">
-			<link rel="stylesheet" href="static/css/main.css">
-		</head>
-		<body>
-
-			<header id="header" id="home">
-					<div class="container">
-							<div class="row header-top align-items-center">
-									<div class="col-lg-4 col-sm-4 menu-top-left">
-											<a href="mailto:info@horseclub.com"><span class="lnr lnr-location"></span></a>
-											<a class="tel" href="mailto:info@horseclub.com">info@cyclone.fr</a>
-									</div>
-									<div class="col-lg-4 menu-top-middle justify-content-center d-flex">
-											<a href="accueil.html">
-													<img class="img-fluid" src="static/img/logo.png" alt="">
-											</a>
-									</div>
-									<div class="col-lg-4 col-sm-4 menu-top-right">
-											<a class="tel" href="tel:+880 123 12 658 439"> 01 23 45 67 89</a>
-											<a href="tel:+880 123 12 658 439"><span class="lnr lnr-phone-handset"></span></a>
-									</div>
-							</div>
-					</div>
-                              <!-- POUR LE CALENDRIER
-                              <div class="input-group dates-wrap">
-										<input id="datepicker" class="dates form-control" id="exampleAmount" placeholder="Date " type="text">
-										<div class="input-group-prepend">
-											<span  class="input-group-text"><span class="lnr lnr-calendar-full"></span></span>
-										</div>
-									</div>
-
-                              -->
-			    	<hr>
-			    <div class="container">
-			    	<div class="row align-items-center justify-content-center d-flex">
-				      <nav id="nav-menu-container">
-				        <ul class="nav-menu">
-									<li><a href="/">Accueil</a></li>
-									<li><a href="/presentation">Présentation</a></li>
-									<li class="menu-active"><a href="/activite">Nos prestations</a></li>
-									<li><a href="/achat">Acheter/louer un cheval</a></li>
-									<li><a href="/contact">Contact</a></li>
-									<li><a href="/espaceclient">Espace Client</a></li>
-                </ul>
-				      </nav><!-- #nav-menu-container -->
-			    	</div>
-			    </div>
-			  </header><!-- #header -->
-
-			<!-- start banner Area -->
-			<section class="banner-area relative" id="home">
-				<div class="overlay overlay-bg"></div>
-				<div class="container">
-					<div class="row d-flex align-items-center justify-content-center">
-						<div class="about-content col-lg-12">
-							<h1 class="text-white">
-								Prestations
-							</h1>
-							<p class="text-white link-nav"><a href="accueil.html">Accueil </a>  <span class="lnr lnr-arrow-right"></span>  <a href="service.html"> Prestation</a></p>
-						</div>
-					</div>
-				</div>
-			</section>
-			<!-- End banner Area -->
-
-			<!-- Start service-page Area -->
-			<section class="service-page-area section-gap">
-				<div class="container">
-					<div class="row d-flex justify-content-center">
-						<div class="col-md-9 pb-40 header-text text-center">
-							<h1 class="pb-10">Quelles activités vous sont proposées ?</h1>
-							<p>
-								Retrouvez ici toutes nos activités et leurs tarifs.
-							</p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-lg-4 col-md-6">
-							<div class="single-service-page">
-								<div class="thumbs relative">
-									<div class="overlay-bg"></div>
-									<img class="img-fluid" src="static/img/pages/ballade.jpg" alt="">
-								</div>
-								<div class="details">
-									<a href="#"><h4>Ballades</h4></a>
-									<p>
-									Embarquez pour des promenades, au coeur du vercors,encadrées par des monitrices qualifiées et par groupes de niveaux.
-								</p>
-								<p><h5>1h : 30€</h5></p>
-									<p><h5>2h : 50€</h5></p>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-6">
-							<div class="single-service-page">
-								<div class="thumbs relative">
-									<div class="overlay-bg"></div>
-									<img class="img-fluid" src="static/img/pages/rando.jpg" alt="">
-								</div>
-								<div class="details">
-									<a href="#"><h4>Randonnées</h4></a>
-									<p>
-										Découvrez notre belle région à travers une randonnée équestre sur 1 ou 2 jours. Venez vivre en groupe un moment intense dans un cadre convivial.
-									</p>
-									<p><h5>1 jour : 100€</h5></p>
-										<p><h5>2 jours : 175€</h5></p>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-6">
-							<div class="single-service-page">
-								<div class="thumbs relative">
-									<div class="overlay-bg"></div>
-									<img class="img-fluid" src="static/img/pages/centre.jpg" alt="">
-								</div>
-								<div class="details">
-									<a href="#"><h4>Centre de loisir</h4></a>
-									<p>
-										Venez découvrir sur plusieurs jours le monde des chevaux par des activités diverses et variées. L'occasion de passer des moments de détente et de loisir, mais également de permettre aux enfants de découvrir le milieu naturel.
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-6">
-							<div class="single-service-page">
-								<div class="thumbs relative">
-									<div class="overlay-bg"></div>
-									<img class="img-fluid" src="static/img/pages/stage.jpg" alt="">
-								</div>
-								<div class="details">
-									<a href="#"><h4>Stage</h4></a>
-									<p>
-										Passez 5 jours dans le quotidien d'un cavalier. Du débutant au confirmé, tout le monde y trouve sa place.La technique équestre et les connaissances autour du cheval sont au cœur des activités proposées.
-									<p><h5>Tarif : 240€</h5></p>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-6">
-							<div class="single-service-page">
-								<div class="thumbs relative">
-									<div class="overlay-bg"></div>
-									<img class="img-fluid" src="static/img/pages/adap.jpg" alt="">
-								</div>
-								<div class="details">
-									<a href="#"><h4>Equitation Adaptée</h4></a>
-									<p>
-										Nous souhaitons proposer des activités ludiques avec des objectifs adaptés à chaque enfant selon leur projet personnalisé. Nous souhaitons avant tout favoriser le contact entre le jeune et le cheval afin de développer : La sensorialité, la relation affective avec l'animal, la motricité, le plaisir sensori-moteur et l'autonomie.
-									<p><h5>Tarif : 85€/jours</h5></p>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-6">
-							<div class="single-service-page">
-								<div class="thumbs relative">
-									<div class="overlay-bg"></div>
-									<img class="img-fluid" src="static/img/pages/scolaire.jpg" alt="">
-								</div>
-								<div class="details">
-									<a href="#"><h4>Equitation Scolaire</h4></a>
-									<p>
-										Nous pouvons accueillir des classes de maternelle, de primaire ou du secondaire, dans le cadre de journées découvertes ou sur plusieurs séances. Autour de plusieurs ateliers (soins, monte, hippologie, découverte) cela favorise la cohésion de la classe.
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-			<!-- End service-page Area -->
+        <!--
+     CSS
+     ============================================= -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/linearicons.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/magnific-popup.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/nice-select.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.min.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.css')}}">
+    </head>
+    <body>
+        <header id="header" id="home">
+            <div class="container">
+                <div class="row header-top align-items-center">
+                    <div class="col-lg-4 col-sm-4 menu-top-left">
+                        <a href="mailto:info@cyclone.fr"><span class="lnr lnr-location"></span></a>
+                        <a class="tel" href="mailto:info@cyclone.fr">info@cyclone.fr</a>
+                    </div>
+                    <div class="col-lg-4 menu-top-middle justify-content-center d-flex">
+                        <a href="accueil.html">
+                            <img class="img-fluid" src="static/img/logo.png" alt="">	
+                        </a>			    			
+                    </div>
+                    <div class="col-lg-4 col-sm-4 menu-top-right">
+                        <a class="tel" href="tel:+880 123 12 658 439"> 01 23 45 67 89</a>
+                        <a href="tel:+880 123 12 658 439"><span class="lnr lnr-phone-handset"></span></a>
+                    </div>
+                </div>
+            </div>	
+            <hr>
 
 
-			<!-- Start booking Area -->
-			<!-- End booking Area -->
+            {%if session['nom'] == 'Le Mouël Frédéric'%}
+            <div class="container">	
+                <div class="row align-items-center justify-content-center d-flex">
+                    <nav id="nav-menu-container">
+                        <ul class="nav-menu">
+                            <li class="menu-active"><a href="/">Accueil</a></li>			          
+                            <li><a href="/presentation">Présentation</a></li>
+                            <li><a href="/activites">Nos prestations</a></li>
+                            <li><a href="achat">Acheter/louer un cheval</a></li>
+                            <li><a href="contact">Contact</a></li>
+                            <li><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
+                                <ul class="nav-menu">
+                                    <li> <a href='espaceclient'> Espace client </a> </li>
+                                    <li> <a href='rapport'> Rapport Web </a></li>
+                                    <li> <a href='logout'> Se déconnecter </a> </li>
+                                </ul>
 
-			<!-- start footer Area -->
-			<footer class="footer-area section-gap">
-					<div class="container">
-							<div class="row">
-									<div class="col-lg-3  col-md-6 col-sm-6">
-											<div class="single-footer-widget">
-													<h4>A propos</h4>
-													<p>
-															© 2019	Centre Equestre Tornado <br> Centre équestre – Poney club <br> Mentions légales
-													</p>
-											</div>
-									</div>
-									<div class="col-lg-4  col-md-6 col-sm-6">
-											<div class="single-footer-widget">
-													<h4>Contactez-nous</h4>
-													<p>
-															Notre équipe sera ravie de vous accueillir!  <br>
-													Adresse: HAMEAU DE CHARNESSEUIL - 77750 SAINT CYR SUR MORIN <br>
-															Mail: info@cyclone.fr
-													</p>
-
-													<p class="number">
-															Tél: 01 23 45 67 89 <br>
-													</p>
-											</div>
-									</div>
-									<div class="col-lg-5  col-md-6 col-sm-6">
-											<div class="single-footer-widget">
-													<h4>Newsletter</h4>
-													<p>Suivez nos actualités en nous renseignant votre adresse mail.</p>
-													<div class="d-flex flex-row" id="mc_embed_signup">
+                            </li>
+                        </ul>
+                    </nav><!-- #nav-menu-container -->		    		
+                </div>
+            </div>
 
 
-															<form class="navbar-form" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get">
-																	<div class="input-group add-on align-items-center d-flex">
-																			<input class="form-control" name="EMAIL" placeholder="Adresse mail" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adresse mail'" required="" type="email">
-																			<div style="position: absolute; left: -5000px;">
-																					<input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
-																			</div>
-																			<div class="input-group-btn">
-																					<button class="genric-btn"><span class="lnr lnr-arrow-right"></span></button>
-																			</div>
-																	</div>
-																	<div class="info mt-20"></div>
-															</form>
-													</div>
-											</div>
-									</div>
-							</div>
-							<div class="footer-bottom row">
-									<p class="footer-text m-0 col-lg-6 col-md-12">
-											<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-											Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-											<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-									</p>
-									<div class="footer-social col-lg-6 col-md-12">
-											<a href="#"><i class="fa fa-facebook"></i></a>
-											<a href="#"><i class="fa fa-twitter"></i></a>
-											<a href="#"><i class="fa fa-dribbble"></i></a>
-											<a href="#"><i class="fa fa-behance"></i></a>
-									</div>
-							</div>
-					</div>
-			</footer>
-			<!-- End footer Area -->
+            {%elif session['logged'] == True%}
 
-			<script src="static/js/vendor/jquery-2.2.4.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-			<script src="static/js/vendor/bootstrap.min.js"></script>
-			<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
-  			<script src="static/js/easing.min.js"></script>
-			<script src="static/js/hoverIntent.js"></script>
-			<script src="static/js/superfish.min.js"></script>
-			<script src="static/js/jquery.ajaxchimp.min.js"></script>
-			<script src="static/js/jquery.magnific-popup.min.js"></script>
-			<script src="static/js/owl.carousel.min.js"></script>
-			<script src="static/js/jquery.sticky.js"></script>
-			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-			<script src="static/js/jquery.nice-select.min.js"></script>
-			<script src="static/js/parallax.min.js"></script>
-			<script src="static/js/waypoints.min.js"></script>
-			<script src="static/js/jquery.counterup.min.js"></script>
-			<script src="static/js/mail-script.js"></script>
-			<script src="static/js/main.js"></script>
-		</body>
-	</html>
+            <div class="container">	
+                <div class="row align-items-center justify-content-center d-flex">
+                    <nav id="nav-menu-container">
+                        <ul class="nav-menu">
+                            <li class="menu-active"><a href="/">Accueil</a></li>			          
+                            <li><a href="presentation">Présentation</a></li>
+                            <li><a href="activites">Nos prestations</a></li>
+                            <li><a href="achat">Acheter/louer un cheval</a></li>
+                            <li><a href="contact">Contact</a></li>
+                            <li><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
+                                <ul class="nav-menu">
+                                    <li> <a href='espaceclient'> Espace client </a> </li>
+                                    <li> <a href='logout'> Se déconnecter </a> </li>
+                                </ul>
+
+                            </li>
+                        </ul>
+                    </nav><!-- #nav-menu-container -->		    		
+                </div>
+            </div>
+
+
+            {%else%}
+
+            <div class="container">	
+                <div class="row align-items-center justify-content-center d-flex">
+                    <nav id="nav-menu-container">
+                        <ul class="nav-menu">
+                            <li class="menu-active"><a href="/">Accueil</a></li>			          
+                            <li><a href="/presentation">Présentation</a></li>
+                            <li><a href="/activites">Nos prestations</a></li>
+                            <li><a href="achat">Acheter/louer un cheval</a></li>
+                            <li><a href="contact">Contact</a></li>
+                            <li><a href="espaceclient">Espace client</a></li>
+                        </ul>
+                    </nav><!-- #nav-menu-container -->		    		
+                </div>
+            </div>
+            {%endif%}
+        </header><!-- #header -->
+        <!-- start banner Area -->
+        <section class="banner-area relative" id="home">
+            <div class="overlay overlay-bg"></div>
+            <div class="container">
+                <div class="row d-flex align-items-center justify-content-center">
+                    <div class="about-content col-lg-12">
+                        <h1 class="text-white">
+                            Prestations
+                        </h1>
+                        <p class="text-white link-nav"><a href="accueil.html">Accueil </a>  <span class="lnr lnr-arrow-right"></span>  <a href="service.html"> Prestation</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End banner Area -->
+
+        <!-- Start service-page Area -->
+        <section class="service-page-area section-gap">
+            <div class="container">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-9 pb-40 header-text text-center">
+                        <h1 class="pb-10">Quelles activités vous sont proposées ?</h1>
+                        <p>
+                            Retrouvez ici toutes nos activités et leurs tarifs.
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-service-page">
+                            <div class="thumbs relative">
+                                <div class="overlay-bg"></div>
+                                <img class="img-fluid" src="static/img/pages/ballade.jpg" alt="">
+                            </div>
+                            <div class="details">
+                                <a href="#"><h4>Ballades</h4></a>
+                                <p>
+                                    Embarquez pour des promenades, au coeur du vercors,encadrées par des monitrices qualifiées et par groupes de niveaux.
+                                </p>
+                                <p><h5>1h : 30€</h5></p>
+                                <p><h5>2h : 50€</h5></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-service-page">
+                            <div class="thumbs relative">
+                                <div class="overlay-bg"></div>
+                                <img class="img-fluid" src="static/img/pages/rando.jpg" alt="">
+                            </div>
+                            <div class="details">
+                                <a href="#"><h4>Randonnées</h4></a>
+                                <p>
+                                    Découvrez notre belle région à travers une randonnée équestre sur 1 ou 2 jours. Venez vivre en groupe un moment intense dans un cadre convivial.
+                                </p>
+                                <p><h5>1 jour : 100€</h5></p>
+                                <p><h5>2 jours : 175€</h5></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-service-page">
+                            <div class="thumbs relative">
+                                <div class="overlay-bg"></div>
+                                <img class="img-fluid" src="static/img/pages/centre.jpg" alt="">
+                            </div>
+                            <div class="details">
+                                <a href="#"><h4>Centre de loisir</h4></a>
+                                <p>
+                                    Venez découvrir sur plusieurs jours le monde des chevaux par des activités diverses et variées. L'occasion de passer des moments de détente et de loisir, mais également de permettre aux enfants de découvrir le milieu naturel.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-service-page">
+                            <div class="thumbs relative">
+                                <div class="overlay-bg"></div>
+                                <img class="img-fluid" src="static/img/pages/stage.jpg" alt="">
+                            </div>
+                            <div class="details">
+                                <a href="#"><h4>Stage</h4></a>
+                                <p>
+                                    Passez 5 jours dans le quotidien d'un cavalier. Du débutant au confirmé, tout le monde y trouve sa place.La technique équestre et les connaissances autour du cheval sont au cœur des activités proposées.
+                                <p><h5>Tarif : 240€</h5></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-service-page">
+                            <div class="thumbs relative">
+                                <div class="overlay-bg"></div>
+                                <img class="img-fluid" src="static/img/pages/adap.jpg" alt="">
+                            </div>
+                            <div class="details">
+                                <a href="#"><h4>Equitation Adaptée</h4></a>
+                                <p>
+                                    Nous souhaitons proposer des activités ludiques avec des objectifs adaptés à chaque enfant selon leur projet personnalisé. Nous souhaitons avant tout favoriser le contact entre le jeune et le cheval afin de développer : La sensorialité, la relation affective avec l'animal, la motricité, le plaisir sensori-moteur et l'autonomie.
+                                <p><h5>Tarif : 85€/jours</h5></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-service-page">
+                            <div class="thumbs relative">
+                                <div class="overlay-bg"></div>
+                                <img class="img-fluid" src="static/img/pages/scolaire.jpg" alt="">
+                            </div>
+                            <div class="details">
+                                <a href="#"><h4>Equitation Scolaire</h4></a>
+                                <p>
+                                    Nous pouvons accueillir des classes de maternelle, de primaire ou du secondaire, dans le cadre de journées découvertes ou sur plusieurs séances. Autour de plusieurs ateliers (soins, monte, hippologie, découverte) cela favorise la cohésion de la classe.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+        <!-- End service-page Area -->
+
+
+        <!-- Start booking Area -->
+        <!-- End booking Area -->
+
+        <!-- start footer Area -->
+        <footer class="footer-area section-gap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3  col-md-6 col-sm-6">
+                        <div class="single-footer-widget">
+                            <h4>A propos</h4>
+                            <p>
+                                © 2019	Centre Equestre Tornado <br> Centre équestre – Poney club <br> Mentions légales
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4  col-md-6 col-sm-6">
+                        <div class="single-footer-widget">
+                            <h4>Contactez-nous</h4>
+                            <p>
+                                Notre équipe sera ravie de vous accueillir!  <br>
+                                Adresse: HAMEAU DE CHARNESSEUIL - 77750 SAINT CYR SUR MORIN <br>
+                                Mail: info@cyclone.fr
+                            </p>
+
+                            <p class="number">
+                                Tél: 01 23 45 67 89 <br>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-5  col-md-6 col-sm-6">
+                        <div class="single-footer-widget">
+                            <h4>Newsletter</h4>
+                            <p>Suivez nos actualités en nous renseignant votre adresse mail.</p>
+                            <div class="d-flex flex-row" id="mc_embed_signup">
+
+
+                                <form class="navbar-form" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get">
+                                    <div class="input-group add-on align-items-center d-flex">
+                                        <input class="form-control" name="EMAIL" placeholder="Adresse mail" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adresse mail'" required="" type="email">
+                                        <div style="position: absolute; left: -5000px;">
+                                            <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
+                                        </div>
+                                        <div class="input-group-btn">
+                                            <button class="genric-btn"><span class="lnr lnr-arrow-right"></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="info mt-20"></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom row">
+                    <p class="footer-text m-0 col-lg-6 col-md-12">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </p>
+                    <div class="footer-social col-lg-6 col-md-12">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-dribbble"></i></a>
+                        <a href="#"><i class="fa fa-behance"></i></a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- End footer Area -->
+
+        <script src="static/js/vendor/jquery-2.2.4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="static/js/vendor/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
+        <script src="static/js/easing.min.js"></script>
+        <script src="static/js/hoverIntent.js"></script>
+        <script src="static/js/superfish.min.js"></script>
+        <script src="static/js/jquery.ajaxchimp.min.js"></script>
+        <script src="static/js/jquery.magnific-popup.min.js"></script>
+        <script src="static/js/owl.carousel.min.js"></script>
+        <script src="static/js/jquery.sticky.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="static/js/jquery.nice-select.min.js"></script>
+        <script src="static/js/parallax.min.js"></script>
+        <script src="static/js/waypoints.min.js"></script>
+        <script src="static/js/jquery.counterup.min.js"></script>
+        <script src="static/js/mail-script.js"></script>
+        <script src="static/js/main.js"></script>
+    </body>
+</html>

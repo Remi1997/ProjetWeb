@@ -3,8 +3,8 @@
     <head>
         <!-- Mobile Specific Meta -->
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <!-- Favicon -->
-        <link rel="shortcut icon" href="static/img/fav.png"> 
+        <!-- Favicon-->
+        <link rel="shortcut icon" href="static/img/fav.png">
         <!-- Author Meta -->
         <meta name="author" content="codepixer">
         <!-- Meta Description -->
@@ -35,11 +35,11 @@
             <div class="container">
                 <div class="row header-top align-items-center">
                     <div class="col-lg-4 col-sm-4 menu-top-left">
-                        <a href="mailto:info@horseclub.com"><span class="lnr lnr-location"></span></a>
-                        <a class="tel" href="mailto:info@horseclub.com">info@cyclone.fr</a>
+                        <a href="mailto:info@cyclone.fr"><span class="lnr lnr-location"></span></a>
+                        <a class="tel" href="mailto:info@cyclone.fr">info@cyclone.fr</a>
                     </div>
                     <div class="col-lg-4 menu-top-middle justify-content-center d-flex">
-                        <a href="accueil">
+                        <a href="accueil.html">
                             <img class="img-fluid" src="static/img/logo.png" alt="">	
                         </a>			    			
                     </div>
@@ -50,38 +50,73 @@
                 </div>
             </div>	
             <hr>
+
+            
+            {%if session['nom'] == 'Le Mouël Frédéric'%}
             <div class="container">	
                 <div class="row align-items-center justify-content-center d-flex">
-                    {%if logged%}
                     <nav id="nav-menu-container">
                         <ul class="nav-menu">
-                            <li class="menu-active"><a href="/">Accueil</a></li>				          
+                            <li class="menu-active"><a href="/">Accueil</a></li>			          
+                            <li><a href="/presentation">Présentation</a></li>
+                            <li><a href="/activites">Nos prestations</a></li>
+                            <li><a href="achat">Acheter/louer un cheval</a></li>
+                            <li><a href="contact">Contact</a></li>
+                           <li><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
+                            <ul class="nav-menu">
+                                <li> <a href='espaceclient'> Espace client </a> </li>
+                                <li> <a href='rapport'> Rapport Web </a></li>
+                                <li> <a href='logout'> Se déconnecter </a> </li>
+                            </ul>
+                                
+                                </li>
+                        </ul>
+                    </nav><!-- #nav-menu-container -->		    		
+                </div>
+            </div>
+
+            
+            {%elif session['logged'] == True%}
+
+            <div class="container">	
+                <div class="row align-items-center justify-content-center d-flex">
+                    <nav id="nav-menu-container">
+                        <ul class="nav-menu">
+                            <li class="menu-active"><a href="/">Accueil</a></li>			          
                             <li><a href="presentation">Présentation</a></li>
                             <li><a href="activites">Nos prestations</a></li>
                             <li><a href="achat">Acheter/louer un cheval</a></li>
                             <li><a href="contact">Contact</a></li>
-
-                            <li><a href="espaceclient"> Bonjour {{message[0]}}! </a></li>
-
+                            <li><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
+                            <ul class="nav-menu">
+                                <li> <a href='espaceclient'> Espace client </a> </li>
+                                <li> <a href='logout'> Se déconnecter </a> </li>
+                            </ul>
+                                
+                                </li>
                         </ul>
-                    </nav><!-- #nav-menu-container -->	
+                    </nav><!-- #nav-menu-container -->		    		
+                </div>
+            </div>
 
-                    {%else%}
 
+            {%else%}
 
+            <div class="container">	
+                <div class="row align-items-center justify-content-center d-flex">
                     <nav id="nav-menu-container">
                         <ul class="nav-menu">
-                            <li class="menu-active"><a href="/">Accueil</a></li>				          
-                            <li><a href="presentation">Présentation</a></li>
-                            <li><a href="activites">Nos prestations</a></li>
+                            <li class="menu-active"><a href="/">Accueil</a></li>			          
+                            <li><a href="/presentation">Présentation</a></li>
+                            <li><a href="/activites">Nos prestations</a></li>
                             <li><a href="achat">Acheter/louer un cheval</a></li>
                             <li><a href="contact">Contact</a></li>
                             <li><a href="espaceclient">Espace client</a></li>
                         </ul>
-                    </nav><!-- #nav-menu-container -->	
-                    {%endif%}
+                    </nav><!-- #nav-menu-container -->		    		
                 </div>
             </div>
+            {%endif%}
         </header><!-- #header -->
         <!------------------------------------ ESPACE CLIENT SI CLIENT S'EST CONNECTE -------------------------------------------------->
         {% if logged %}
@@ -104,16 +139,22 @@
 
             </article>
 
+            {%if texte== "Message envoyé. Nous vous recontacterons très bientôt!"%}
+            <div>
+                <p> texte </p>
+            </div>
+            {%endif%}
+            
             <article class="col-lg-4 col-md-6 booking-right" >
                 <div>
-                    <div id="informations" class="row d-flex justify-content-left" style="margin-bottom: 50px">
-                        
-                        {%if change==1%}
-                         <div class="col-lg-6 single-blog">
-                            <h2 style="margin-bottom:35px" > Changer mes informations </h2> 
-                            <form method="post" action="updateinfos">
-                                
-                        <input class="form-control" type="text" name="nom" placeholder="Nom et prénom" value="{{message[0]}}" required>
+<div id="informations" class="row d-flex justify-content-left" style="margin-bottom: 50px">
+
+    {%if change==1%}
+    <div class="col-lg-6 single-blog">
+        <h2 style="margin-bottom:35px" > Changer mes informations </h2> 
+        <form method="post" action="updateinfos">
+
+            <input class="form-control" type="text" name="nom" placeholder="Nom et prénom" value="{{message[0]}}" required>
                         <input class="form-control" type="text" name="mail"  value="{{message[1]}}" required>
                         <input class="form-control" type="text" name="tel" value="{{message[2]}}" required>
                         <input class="form-control" type="text" name="ville" value="{{message[3]}}" required>
@@ -155,7 +196,7 @@ Confirmez votre nouveau mot de passe: <input class="form-control" type="password
 
             <article class="col-lg-4 col-md-6 booking-right" >
                 <div id="mescommandes">
-                    {% if commandes[0]['idcmd'] ==''%}
+                    {% if cmd == []%}
                     <div class="col-lg-6 single-blog">
                         <p> Pas de commandes pour l'instant :-( </p>
                         <a href="achat" class="genric-btn">Accéder à la che-boutique</a>
@@ -192,26 +233,28 @@ Confirmez votre nouveau mot de passe: <input class="form-control" type="password
 <article class="col-lg-4 col-md-6 booking-right">
     <!-- RUBRIQUE CONTACT-->
                          <h2 style="margin-bottom:35px" > Contactez le service client </h2>
-                    <div class="col-lg-8" id="contact"                    >
-                        <form class="form-area " id="myForm" action="" method="post" class="contact-form text-right">
-                                                   
-                                <div class="col-lg-6 form-group">
-                         <div                                >
+                    <div class="col-lg-8" id="contact">
+                                <div class="col-lg-6 form-group">                    
+                         <div>
+                        <form  action="serviceclient" method="POST" class="form-area" class="contact-form text-right">
+                               
                                     <input name="name" value="{{message[0]}}" class="common-input mb-20 form-control" required="" type="text">                                
 
                                     <input name="email" value="{{message[1]}}" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$" class="common-input mb-20 form-control" required="" type="email">                                
 
                                     <input name="subject" placeholder="Entrez votre sujet" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Entrez votre sujet'" class="common-input mb-20 form-control" required="" type="text">
                                                                   
-                                      <textarea class="common-textarea form-control" name="message" placeholder="Message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Message'" required="" style="resize: horizontal;                                          
-                                              ; position: relative; left: 300px; bottom: 150px; width:400px; height:100px"></textarea>
+                                      <textarea class="common-textarea form-control" name="message" placeholder="Message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Message'" required="" style="resize: horizontal;position: relative; left: 300px; bottom: 150px; width:400px; height:100px"></textarea>
                                                         
                                     <button class="primary-btn mt-20 text-white" name="submit" style="position: relative; bottom: 90px; right: 1px">Envoyer</button>                                 
+                         
+               
+                        </form> 
                          </div>
-                                               
-                        </form>                
+                                
                     </div>
-
+                    </div>
+                         
            
 
                     {%endif%}
@@ -260,6 +303,9 @@ Confirmez votre nouveau mot de passe: <input class="form-control" type="password
                     </form>
                 </div>
             </div>
+            
+            
+            
 
         </section>
         {% endif %}
@@ -381,43 +427,6 @@ Confirmez votre nouveau mot de passe: <input class="form-control" type="password
             </div>
         </footer>	
         <!-- End footer Area -->
-
-        <!--------------------------------------------------------------- CODE PHP POUR ENVOYER UN MAIL --------------------------------------------------------------
-        <?php if(!empty($_POST[submit]) {
-
-        $to = 'hind_amhache@hotmail.com';
-        $name = $_POST["name"];
-        $email= $_POST["email"];
-        $text= $_POST["message"];
-        $sub= $_POST["sub"];
-
-
-
-        $headers = 'MIME-Version: 1.0' . "\r\n";
-        $headers .= "From: " . $email . "\r\n"; // Sender's E-mail
-        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-
-        $message ='<table style="width:100%"> ?>
-            <tr>
-                <td><?php'.$name.'?></td>
-            </tr>
-            <tr><td><?php Email: '.$email.'?></td></tr>
-            <tr><td><?php phone: '.$sub.'?></td></tr>
-            <tr><td><?php Text: '.$text.'?></td></tr>
-
-        </table><?php';?>
-
-        <?php if (@mail($to, $email, $message, $headers))
-        {
-        echo 'The message has been sent.';
-        }else{
-        echo 'failed';
-        }
-
-        ?        >
-        
---------------------------------------------------------------- FIN CODE PHP POUR ENVOYER UN MAIL -------------------------------------------------------------->
-
 
 
 
