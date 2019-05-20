@@ -2390,7 +2390,11 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .banner-area {
+<<<<<<< HEAD
   background: url(../img/header-bg.jpg) center;
+=======
+  background: url(../img/centre.jpg) center;
+>>>>>>> 6514bda9d27168cd3e13f70b1f8af5941f09c5e9
   background-size: cover;
 }
 

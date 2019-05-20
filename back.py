@@ -494,7 +494,10 @@ def entregistrement():
             return redirect("/espaceclient")
 
 
-#Changement infos utilisateur------------------------------------------------------------
+
+# FIN INSCRIPTION UTILISATEUR-----------------------------------------------------------------------------------------
+
+#CHANGEMENT INFOS UTILISATEUR----------------------------------------------------------------------------------------
 @app.route('/changerinfos')
 def changeinfos():
     logged= "logged" in session
@@ -550,12 +553,31 @@ def updatemdp():
         return redirect('/espaceclient')
 
 
+#FIN CHANGEMENT INFOS UTILISATEUR----------------------------------------------------------------------------------------
 
+@app.route('/panier')
+def panier():
+    message=[] #liste dont chaque élément représente une location
+    connection = engine.connect()
+    logged = "logged" in session #la clé logged est elle dans session?
+    if logged:
+        if session["logged"] == True:
+            #ids= connection.execute(('SELECT utilisateur.idUtilisateur FROM utilisateur WHERE utilisateur.mail==:x'),x=session['mail'])
+            for row in connection.execute(select([utilisateur.c.idUtilisateur]).where(utilisateur.c.mail == session['mail'])):
+                iduser= row
+            #if ids != None:
+             #   for id in ids:
+              #      iduser= id
+            s = text(
+            'SELECT dates.nomCheval,dates.prestation, dates.dateDebut, dates.dateFin, dates.prix FROM dates WHERE dates.idUtilisateur==:x')
+            resultats = connection.execute(s, x=iduser)
+            if resultats != None:
+                for resultat in resultats:
+                    message.append(resultat)
+            else:
+                message="Panier vide."
 
-#-----------------------------------------------------------------------------------------------
-
-
-# FIN INSCRIPTION UTILISATEUR-----------------------------------------------------------------------------------------
+            return render_template("panier.html", panierinfos=message)
 
 
 

@@ -51,7 +51,7 @@
             </div>	
             <hr>
 
-            
+
             {%if session['nom'] == 'Le Mouël Frédéric'%}
             <div class="container">	
                 <div class="row align-items-center justify-content-center d-flex">
@@ -62,21 +62,22 @@
                             <li><a href="/activites">Nos prestations</a></li>
                             <li><a href="achat">Acheter/louer un cheval</a></li>
                             <li><a href="contact">Contact</a></li>
-                           <li><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
-                            <ul class="nav-menu">
-                                <li> <a href='espaceclient'> Espace client </a> </li>
-                                <li> <a href='panier'> Mon panier </a> </li>
-                                <li> <a href='rapport'> Rapport Web </a></li>
-                                <li> <a href='logout'> Se déconnecter </a> </li>
-                            </ul>
-                                
-                                </li>
+                            <li><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
+                                <ul class="nav-menu">
+                                    <li> <a href='espaceclient'> Espace client </a> </li>
+                                    <li> <a href='panier'> Mon panier </a> </li>
+                                    <li> <a href='rapport'> Rapport Web </a></li>
+                                    <li> <a href='logout'> Se déconnecter </a> </li>
+                                </ul>
+
+                            </li>
                         </ul>
                     </nav><!-- #nav-menu-container -->		    		
                 </div>
             </div>
 
-            
+
+
             {%elif session['logged'] == True%}
 
             <div class="container">	
@@ -89,13 +90,13 @@
                             <li><a href="achat">Acheter/louer un cheval</a></li>
                             <li><a href="contact">Contact</a></li>
                             <li><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
-                            <ul class="nav-menu">
-                                <li> <a href='espaceclient'> Espace client </a> </li>
-                                <li> <a href='panier'> Mon panier </a> </li>
-                                <li> <a href='logout'> Se déconnecter </a> </li>
-                            </ul>
-                                
-                                </li>
+                                <ul class="nav-menu">
+                                    <li> <a href='espaceclient'> Espace client </a> </li>
+                                    <li> <a href='panier'> Mon panier </a> </li>
+                                    <li> <a href='logout'> Se déconnecter </a> </li>
+                                </ul>
+
+                            </li>
                         </ul>
                     </nav><!-- #nav-menu-container -->		    		
                 </div>
@@ -120,196 +121,62 @@
             </div>
             {%endif%}
         </header><!-- #header -->
-        <!------------------------------------ ESPACE CLIENT SI CLIENT S'EST CONNECTE -------------------------------------------------->
-        {% if logged %}
         <section class="home-about-area section-gap"> </section>
 
         <section class="home-about-area section-gap" style="padding-top: 10px; margin-left: 200px; margin-right:10px; width: 2750px">
-            <article class="col-lg-4 col-md-6 booking-right" style="border-color: white">
-                <div class="row d-flex justify-content-center" style="size: 500px; margin-bottom: 20px">
 
-                    <nav id="nav-menu-container">
-                        <ul class="nav-menu">
-
-                            <li><a href="espaceclient#informations" class="btn-lg text-white">Mes informations</a></li>
-                            <li><a href="espaceclient#mescommandes" class="btn-lg text-white">Mes commandes</a></li>
-                            <li><a href="espaceclient#contact" class="btn-lg text-white">Contacter le service client </a></li>
-                        </ul>
-                    </nav>
-                </div>
-
-            </article>
-
-            {%if texte== "Message envoyé. Nous vous recontacterons très bientôt!"%}
-            <div>
-                <p style="color:red"> {{texte}} </p>
-            </div>
-            {%endif%}
-            
             <article class="col-lg-4 col-md-6 booking-right" >
+
+                {%if panierinfos == "Panier vide."}
+                <h2> {{panierinfos}} </h2>
+                <a href="achat" class="genric-btn">Accéder à la che-boutique</a>
+
+
+                {%else%}
+
+
+
+                <h2 style="margin-bottom:35px" > Mon panier </h2>
                 <div>
-<div id="informations" class="row d-flex justify-content-left" style="margin-bottom: 50px">
+                    <table style="width: 800px">
 
-    {%if change==1%}
-    <div class="col-lg-6 single-blog">
-        <h2 style="margin-bottom:35px" > Changer mes informations </h2> 
-        <form method="post" action="updateinfos">
+                        <tr> 
+                            <th class="text-black" style="font-weight: bold; text-align: center"> Nom du cheval </th>
+                            <th class="text-black" style="font-weight: bold; text-align: center"> Prestation choisie </th>
+                            <th class="text-black" style="font-weight: bold; text-align: center">  Date de début de la location</th>
+                            <th class="text-black" style="font-weight: bold; text-align: center">  Date de fin de la location</th>
+                            <th class="text-black" style="font-weight: bold; text-align: center"> Montant à payer </th> 
+                        <a href="#detailprestation" class="genric-btn"> Voir les détails du prix </a>
 
-            <input class="form-control" type="text" name="nom" placeholder="Nom et prénom" value="{{message[0]}}" required>
-                        <input class="form-control" type="text" name="mail"  value="{{message[1]}}" required>
-                        <input class="form-control" type="text" name="tel" value="{{message[2]}}" required>
-                        <input class="form-control" type="text" name="ville" value="{{message[3]}}" required>
-                                
+                        </tr>
 
-                        <button  class="btn btn-default btn-lg btn-block text-center">OK</button>
-                            </form>
-                        </div>
-                        
-                         {%elif change==2%}
-                         <div class="col-lg-6 single-blog">
-                            <h2 style="margin-bottom:35px" > Changer mon mot de passe </h2> 
-                            <form method="post" action="updatemdp">
-                                 
-                                Ancien mot de passe: <input class="form-control" type="password" name="ancienmdp" placeholder="ancien mot de passe" required> {{msg}} <br>
-                                Nouveau mot de passe: <input class="form-control" type="password" name="nouveaumdp" placeholder="nouveau mot de passe" required> <br>
-Confirmez votre nouveau mot de passe: <input class="form-control" type="password" name="confnouveaumdp" placeholder="retapez le nouveau mot de passe" required><br>
 
-<button  class="btn btn-default btn-lg btn-block text-center">OK</button>
-</form>
-</div>
-{%else%}
+                        {%for element in panierinfos%}
+                        <tr>
+                            <td style="text-align: center">{{element[0]}}</td>
+                            <td style="text-align: center">{{element[1]}}</td>                             
+                            <td style="text-align: center">{{element[2]}}</td>                            
+                            <td style="text-align: center">{{element[3]}}</td>                                 
+                            <td style="text-align: center">{{element[4]}} euros</td>
 
-<div class="col-lg-6 single-blog">
-    <h2 style="margin-bottom:35px" > Mes informations </h2> 
-    <p > <span class="text-black" style="font-weight: bold" > Nom et prénom </span> <span class="text-uppercase" >&nbsp {{message[0]}} </span></p>
-                            <p > <span class="text-black" style="font-weight: bold"> Adresse mail </span>&nbsp{{message[1]}}</p>
-                            <p > <span class="text-black" style="font-weight: bold"> Numéro de téléphone </span>&nbsp {{message[2]}}</p>
-                            <p > <span class="text-black" style="font-weight: bold"> Ville </span>&nbsp{{message[3]}}</p>
 
-                            <a href="changerinfos" class="primary-btn" style="width: 250px; height: 40px; font-size: 12px; "> Changer mes informations</a>
-                              <a href="changermdp" class="primary-btn" style="width: 250px; height: 40px; font-size: 12px; "> Changer mon mot de passe</a>
-                       
-                    </div>
-                        
-                        {%endif%}
-                    </div>
-            </article>
-
-            <article class="col-lg-4 col-md-6 booking-right" >
-                <div id="mescommandes">
-                    {% if cmd == []%}
-                    <div class="col-lg-6 single-blog">
-                        <p> Pas de commandes pour l'instant :-( </p>
-                        <a href="achat" class="genric-btn">Accéder à la che-boutique</a>
-
-                    </div>
-                    {%else%}  
-
-                    <h2 style="margin-bottom:35px" > Mes commandes </h2>
-                    <div>
-                        <table style="width: 800px">
-
-<tr> 
-    <th class="text-black" style="font-weight: bold; text-align: center"> Numéro de commande </th>
-    <th class="text-black" style="font-weight: bold; text-align: center"> Cheval acheté/loué </th>
-    <th class="text-black" style="font-weight: bold; text-align: center"> Date de la commande </th>
-      <th class="text-black" style="font-weight: bold; text-align: center"> Montant payé </th>                            
-
-</tr>
-{%for commande in commandes%}
-<tr>
-    <td style="text-align: center">{{commande['idcmd']}}</td>
-    <td style="text-align: center">{{commande['nomcheval']}}</td>                             
-    <td style="text-align: center">{{commande['datecmd']}}</td>                              
-    <td style="text-align: center">{{commande['montant']}} euros</td>
-                            
-
-</tr>
-{%endfor%}
-</table>
-</div>                
-
-</div>
-</article>
-<article class="col-lg-4 col-md-6 booking-right">
-    <!-- RUBRIQUE CONTACT-->
-                         <h2 style="margin-bottom:35px" > Contactez le service client </h2>
-                    <div class="col-lg-8" id="contact">
-                                <div class="col-lg-6 form-group">                    
-                         <div>
-                        <form  action="serviceclient" method="POST" class="form-area" class="contact-form text-right">
-                               
-                                    <input name="name" value="{{message[0]}}" class="common-input mb-20 form-control" required="" type="text">                                
-
-                                    <input name="email" value="{{message[1]}}" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$" class="common-input mb-20 form-control" required="" type="email">                                
-
-                                    <input name="subject" placeholder="Entrez votre sujet" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Entrez votre sujet'" class="common-input mb-20 form-control" required="" type="text">
-                                                                  
-                                      <textarea class="common-textarea form-control" name="message" placeholder="Message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Message'" required="" style="resize: horizontal;position: relative; left: 300px; bottom: 150px; width:400px; height:100px"></textarea>
-                                                        
-                                    <button class="primary-btn mt-20 text-white" name="submit" style="position: relative; bottom: 90px; right: 1px">Envoyer</button>                                 
-                         
-               
-                        </form> 
-                         </div>
-                                
-                    </div>
-                    </div>
-                         
-           
+                        </tr>
+                        {%endfor%}
+                    </table>
 
                     {%endif%}
-                   
-                    
             </article>
-            <article class="col-lg-4 col-md-6 booking-right">
-            <div>
-                               
-                   <a href="logout" class="primary-btn" style="width: 160px; height: 40px; font-size: 10.5px; ">Se déconnecter</a>
-                        <!--<a href="logout" class="genric-btn">Se déconnecter</a>-->
-                    </div>
-            </article>
-                    <div>
-                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                            <input type="hidden" name="cmd" value="_s-xclick">
-                            <input type="hidden" name="hosted_button_id" value="WTKVFSNTZM5F2">
-                            <input type="image" src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne">
-                            <img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
-                        </form>            
-
-                    </div>
         </section>
-   <!---------------------------------------------------------------------------------FIN ESPACE CLIENT ------------------------------------------------------------------>
 
 
 
-        {% else%}
 
 
-        <section class="home-about-area section-gap" > </section>
-        <section class="home-about-area section-gap"> 
-            <!--<div class="overlay overlay-bg"></div>-->
-            <div class="row d-flex justify-content-center" style="margin-top: -80px">
-                <div class="col-lg-4 col-md-6 booking-right" >
-                    <form action="login" method="POST">
-                        <p class="text-uppercase" style="text-align:center">
-                            Connexion
-                        </p>
-                        <p> {{mauvaisid}} </p>
-                        <div> </div>
-                        <input class="form-control" type="text" name="mail" placeholder="adresse mail" required>
-                        <input class="form-control" type="password" name="mdp" placeholder="mot de passe" required>
-                        <button  class="btn btn-default btn-lg btn-block text-center">OK</button>
-                        <a href="inscription" class="genric-btn">Vous n'êtes pas membre? Inscrivez-vous ! </a>
-                    </form>
-                </div>
-            </div>
-            
-            
-            
 
-        </section>
-        {% endif %}
+
+
+
+
         <!-- Start gallery Area -->
         <section class="gallery-area">
             <div class="container-fluid">
