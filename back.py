@@ -332,6 +332,20 @@ def ajoute_jour(jour):
     dt = dt + timedelta(days = 1)
     date = dt.strftime(DATETIME_FORMAT)
     return(date)
+def verif_date(date1,date2,liste1,liste2):
+    for i in range(len(liste1)):
+        if date1 == liste1[i] or date1 == liste2[i]:
+            return(0)
+        if date2 == liste1[i] or date2 == liste2[i]:
+            return(0)
+        if liste1[i][5:7] == date1[5:7]:
+            if date1[8:10]<liste1[i][8:10]:
+                if date2[8:10]>liste1[i][8:10]:
+                    return(0)
+            if date1[8:10]>liste1[i][8:10]:
+                if date1[8:10]<liste2[i][8:10]:
+                    return(0)
+    return(1)
 
 # route pour formulaire
 @app.route("/ajouterCheval")
