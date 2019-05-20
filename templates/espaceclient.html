@@ -197,7 +197,7 @@ Confirmez votre nouveau mot de passe: <input class="form-control" type="password
 
             <article class="col-lg-4 col-md-6 booking-right" >
                 <div id="mescommandes">
-                    {% if cmd == []%}
+                    {% if commandes == []%}
                     <div class="col-lg-6 single-blog">
                         <p> Pas de commandes pour l'instant :-( </p>
                         <a href="achat" class="genric-btn">Accéder à la che-boutique</a>
@@ -230,7 +230,9 @@ Confirmez votre nouveau mot de passe: <input class="form-control" type="password
 </div>                
 
 </div>
+                {%endif%}
 </article>
+            
 <article class="col-lg-4 col-md-6 booking-right">
     <!-- RUBRIQUE CONTACT-->
                          <h2 style="margin-bottom:35px" > Contactez le service client </h2>
@@ -258,7 +260,6 @@ Confirmez votre nouveau mot de passe: <input class="form-control" type="password
                          
            
 
-                    {%endif%}
                    
                     
             </article>
