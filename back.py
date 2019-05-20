@@ -590,27 +590,33 @@ def logout():
 
 # ENVOI MAIL A l'UTILISATEUR-----------------------------------------------------------------------------------------
 
-app.config["MAIL_SERVER"] = "smtp.hotmail.com"
-app.config["MAIL_PORT"] = 587 #465
-app.config["MAIL_USE_SSL"] = True
-app.config["MAIL_USERNAME"] = 'serviceclientcyclone@hotmail.com'
-app.config["MAIL_PASSWORD"] = 'TCINSA123'
+
+mail_settings = {
+    "MAIL_SERVER": 'smtp.gmail.com',
+    "MAIL_PORT": 465,
+    "MAIL_USE_TLS": False,
+    "MAIL_USE_SSL": True,
+    "MAIL_USERNAME": 'vipmovie7@gmail.com', #remplacer par gmail de serviceclientcyclone
+    "MAIL_PASSWORD":  'anhichamos12'
+}
+
+app.config.update(mail_settings)
 
 @app.route('/serviceclient', methods=['POST'])
 def serviceclt():
     if request.method == "POST":
-        mail = Mail()
-        socket.getaddrinfo('127.0.0.1', 5000)
-        mail.init_app(app)
-        with mail.connect() as conn:
-            nom = escape(request.form['name'])
-            mail = escape(request.form['email'])
-            sujet = escape(request.form['subject'])
-            texte= escape(request.form['message'])
-            msg = Message(sender=[mail],
-                      recipients=["serviceclientcyclone@hotmail.com"], body = texte, subject=sujet)
-            conn.send(msg)
+        nom = escape(request.form['name'])
+        adrmail = escape(request.form['email'])
+        sujet = escape(request.form['subject'])
+        texte = escape(request.form['message'])
+        mail = Mail(app)
+        #mail.init_app(app)
+        with app.app_context():
+            msg = Message(sender=adrmail,
+                      recipients=["vipmovie7@gmail.com"],body = "Message de: "+nom+"\n"+"adresse mail: " + adrmail+"\n"+texte, subject=sujet)
+            mail.send(msg)
         session['message']="Message envoyé. Nous vous recontacterons très bientôt!"
+        session['change']='3'
         return redirect('/espaceclient')
 
 
