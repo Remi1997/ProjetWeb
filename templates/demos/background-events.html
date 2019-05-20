@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='UTF-8' />
+    <link href='/static/packages/core/main.css' rel='stylesheet' />
+    <link href='/static/packages/daygrid/main.css' rel='stylesheet' />
+    <link href='/static/packages/timegrid/main.css' rel='stylesheet' />
+    <link href='/static/packages/list/main.css' rel='stylesheet' />
+    <script src='/static/packages/core/main.js'></script>
+    <script src='/static/packages/interaction/main.js'></script>
+    <script src='/static/packages/daygrid/main.js'></script>
+    <script src='/static/packages/timegrid/main.js'></script>
+    <script src='/static/packages/list/main.js'></script>
+    <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+      var datedebut = document.getElementById("dated").innerHTML;
+      document.getElementById("dated").innerHTML="";
+
+
+
+      var deb = datedebut.replace("[","");
+      deb = deb.replace("]","");
+      deb = deb.split(",");
+
+      
+
+      var datefin = document.getElementById("datef").innerHTML;
+      document.getElementById("datef").innerHTML="";
+
+      var fin = datefin.replace("[","");
+      fin = fin.replace("]","");
+      fin = fin.split(",");
+
+      
+
+
+      var calendarEl = document.getElementById('calendar');
+
+      function ll(elem1,elem2){
+        elem1 = elem1.substring(1,11);
+        elem2 = elem2.substring(1,11);
+
+        
+
+        return{
+
+          start : elem1,
+          end : elem2,
+          overlap: false,
+          rendering: 'background',
+          color: '#ff9f89'
+        };
+      };
+
+      function jj(elem1,elem2){
+        elem1 = elem1.substring(2,12);
+        elem2 = elem2.substring(2,12);
+
+        return{
+
+          start : elem1,
+          end : elem2,
+          overlap: false,
+          rendering: 'background',
+          color: '#ff9f89'
+        };
+      };
+
+      var calendarEl = document.getElementById('calendar');
+
+      var final = []
+      for (var i = 0; i < fin.length; i++) {
+        if (i == 0) {
+          final.push((ll(deb[i],fin[i])))
+        }
+        else{
+          final.push((jj(deb[i],fin[i])))
+        }
+        
+      }
+
+      final = JSON.stringify(final)
+
+      //document.getElementById("demo").innerHTML = JSON.stringify(final);
+         
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+
+        plugins: [ 'interaction', 'dayGrid','list' ],
+        header: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+        },
+        defaultDate: '2019-05-12',
+        navLinks: true, // can click day/week names to navigate views
+        businessHours: true, // display business hours
+        editable: true,
+        events: 
+
+          
+          //{"start": "2019-04-06","end": "2019-04-08","overlap": false,"rendering": "background","color": '#ff9f89'},
+          //for (var i = 0; i < deb.length; i++) {
+          JSON.parse(final)
+          //}
+         
+        
+      });
+    
+
+      calendar.render();
+    });
+
+  </script>
+<style>
+
+  body {
+    margin: 40px 10px;
+    padding: 0;
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 14px;
+  }
+
+  #calendar {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .titre2
+  {
+    margin-left: auto;
+    margin-right: auto;
+    width: 6em
+  }
+
+  
+
+</style>
+</head>
+<body>
+
+  <div>
+  <p id="dated">{{liste}}<p>
+  <p id="datef">{{liste2}}</p>
+  </div>
+
+ 
+  <p id="demo"></p>
+
+  <div id='calendar'></div>
+ 
+  <form class="titre2" action = "http://localhost:5000/resa" method = "POST">
+    <fieldset>
+         <legend>Réservation</legend>
+         <p>Votre nom <input type = "text" name = "nomUtilisateur"/></p>
+         <p>Nom cheval <input type = "text" name = "nom"/></p>
+         <p>Date début <input type ="text" name = "dd" /></p>
+         <p>Date fin <input type ="text" name = "df" /></p>
+         <p>Prestation <input type ="text" name = "pre" /></p>
+         <p><input type = "submit" value = "submit" /></p>
+    </fieldset>
+        
+  </form>
+
+</body>
+</html>
