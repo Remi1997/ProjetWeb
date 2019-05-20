@@ -127,29 +127,28 @@
 
             <article class="col-lg-4 col-md-6 booking-right" >
 
-                {%if panierinfos == "Panier vide."}
-                <h2> {{panierinfos}} </h2>
-                <a href="achat" class="genric-btn">Accéder à la che-boutique</a>
+                {%if panierinfos == []%}
+                <div class="col-lg-6 single-blog">
+                    <h3> Panier vide :-( </h3>
+                    <p> <a href="achat" class="genric-btn" style="position:relative; right:30px">Accéder à la che-boutique</a> </p>
 
-
+                </div>
                 {%else%}
 
 
 
-                <h2 style="margin-bottom:35px" > Mon panier </h2>
+                <h2 style="margin-bottom:35px"> Mon panier </h2>
                 <div>
-                    <table style="width: 800px">
+                    <table style="width: 900px">
 
                         <tr> 
                             <th class="text-black" style="font-weight: bold; text-align: center"> Nom du cheval </th>
                             <th class="text-black" style="font-weight: bold; text-align: center"> Prestation choisie </th>
                             <th class="text-black" style="font-weight: bold; text-align: center">  Date de début de la location</th>
                             <th class="text-black" style="font-weight: bold; text-align: center">  Date de fin de la location</th>
-                            <th class="text-black" style="font-weight: bold; text-align: center"> Montant à payer </th> 
-                        <a href="#detailprestation" class="genric-btn"> Voir les détails du prix </a>
+                            <th  class="text-black" style="font-weight: bold; text-align: center"> Montant à payer </th>
 
                         </tr>
-
 
                         {%for element in panierinfos%}
                         <tr>
@@ -157,14 +156,38 @@
                             <td style="text-align: center">{{element[1]}}</td>                             
                             <td style="text-align: center">{{element[2]}}</td>                            
                             <td style="text-align: center">{{element[3]}}</td>                                 
-                            <td style="text-align: center">{{element[4]}} euros</td>
-
+                            <td style="text-align: center"> {{element[4]}}€  <a href="#detailprestation" style="font-size:13px">voir détails </a> </td>
+                            <td> 
+                                <form action="supprpanier" method="POST">
+                                    <input type='hidden' name="numlocation" value="{{element[5]}}">
+                                    <button class="btn btn-default btn-lg btn-block text-center" style="width:80px; height:10px; font-size:12px"> <span style="position:relative; bottom: 8px; right: 3px"> supprimer</span></button>
+                                </form>
+                            </td>
 
                         </tr>
                         {%endfor%}
                     </table>
 
                     {%endif%}
+                    <div>
+                        <p> Total : {{total}} € </p>
+
+                    </div>
+
+
+                    <div>
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                            <input type="hidden" name="cmd" value="_s-xclick">
+                            <input type="hidden" name="hosted_button_id" value="WTKVFSNTZM5F2">
+                            <input type="image" src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne">
+                            <img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
+                        </form>            
+
+                    </div>
+
+
+
+
             </article>
         </section>
 

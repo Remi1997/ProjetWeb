@@ -84,9 +84,12 @@ connection = engine.connect()
 
 
 
+session = {'nom': '', 'mail': '', 'mdp': '', 'tel': '', 'loc': '', 'change' : '0', 'message' : ''}
+
+cmd = []
 
 
-#------------------------------------------------------------ REQUETES INSERT POUR LES TESTS ---------------------------
+#------------------------------------------------------------ REQUETES INSERT POUR LES TESTS ---------------------------------------------------------------
 #ENREGISTREMENT TEST POUR UTILISATEUR + PROFIL ADMIN
 
 #connection.execute(utilisateur.insert(), [
@@ -95,14 +98,8 @@ connection = engine.connect()
 #])
 #ENREGISTREMENT DE TEST POUR COMMANDES
 #connection.execute(commandes.insert(), [{"idCheval":1,"datecommande":datetime.datetime(2018,12,13), "idUtilisateur":1, "montant":200}])
-#ENREGISTREMENT DE TEST POUR CHEVAL
-#connection.execute(cheval.insert(), [{"nomCheval":"chevaltest","age": 10, "race":"orange", "description":"test","photo": "test","typ": "male"}])
-#------------------------------------------------------------ FIN REQUETES TEST ----------------------------------------
 
-session = {'nom': '', 'mail': '', 'mdp': '', 'tel': '', 'loc': '', 'change' : '0', 'message' : ''}
-
-cmd = []
-
+#----------------------------------------------------------------------------------REQUETES-------------------------------------------------------------------
 #connection.execute(ch_ins.values(nomCheval= 'Nougat',age=15,race="Anglo arabe",description="Cheval d’école, facile et gentil. Convient parfaitement à un niveau débutant comme confirmé. Idéal pour se faire plaisir à cheval.",photo="static/img/pages/caramel.jpg",typ="Location"))
 #connection.execute(ch_ins.values(nomCheval="Alaska",age=4,race="Mustang espagnol",description="Caractère calme et sûre.Excellente jument idéale débutants et enfants.",photo="static/img/pages/alaska.jpg",typ="Location / Vente"))
 #connection.execute(ch_ins.values(nomCheval="Volcanic",age=12,race="Pur sang",description="C est un cheval calin et attachant.Cavalier confirmé.Il aime beaucoup les sauts d obstacle.",photo="static/img/pages/volcanic.jpg",typ="Location"))
@@ -112,14 +109,12 @@ cmd = []
 #connection.execute(ch_ins.values(nomCheval="Bambou",age=4,race="Welsh cob",description="Poney adapté au sport qui combine souplesse et sport. Idéal pour promenade en forêt.",photo="static/img/pages/bambou.jpg",typ="Location / Vente"))
 #connection.execute(ch_ins.values(nomCheval="Castor",age=12,race="New Forest",description="Poney très gentil, passe partout. Idéal enfants et débutants.",photo="static/img/pages/castor.jpg",typ="Location"))
 #connection.execute(ch_ins.values(nomCheval="Perle",age=2,race="Shetland",description="Très gentil, adapté aux familles.Bonnes conditions de vie exigées.",photo="static/img/pages/perle.jpg",typ="Vente"))
-
 #connection.execute(ac_ins.values(date="Dimanche 09 septembre",titre="Stand Informations !",descr="Nous tenons à vous informer que le dimanche 09 septembre nous serons présents à la Foire de la Vigne de Charly Sur Marne. Pour l’occasion, nous tiendrons un stand d’informations pour ceux intéressés par notre centre équestre, nos cours et stages.",image="static/img/b1.jpg"))
 #connection.execute(ac_ins.values(date="Samedi 08 Septembre",titre="Baptêmes Poney",descr="Nous tenons à vous informer que le samedi 08 septembre 2018 se tiendra les baptêmes des poneys. L’événement aura lieu de 14h00 à 18h00 au magasin Décathlon à Château Thierry. Nous espérons vous voir nombreux !",image="static/img/b2.jpg"))
-
 #connection.execute(ut_ins.values(nom="bernet", prenom="agathe", mail="a@hotmail.com", telephone=722235643, numLocation=0, mdp="123"))
-
 #connection.execute(pres_ins.values(activite = "randonnée", prix=250))
 
+#------------------------------------------------------------ FIN REQUETES ----------------------------------------------------------------------------------------
 @app.route('/')
 def accueil():
     connection = engine.connect()
@@ -585,28 +580,28 @@ def updatemdp():
 @app.route('/panier')
 def panier():
     message=[] #liste dont chaque élément représente une location
+    total=0
     connection = engine.connect()
     logged = "logged" in session #la clé logged est elle dans session?
     if logged:
         if session["logged"] == True:
-            #ids= connection.execute(('SELECT utilisateur.idUtilisateur FROM utilisateur WHERE utilisateur.mail==:x'),x=session['mail'])
             for row in connection.execute(select([utilisateur.c.idUtilisateur]).where(utilisateur.c.mail == session['mail'])):
-                iduser= row
-            #if ids != None:
-             #   for id in ids:
-              #      iduser= id
-            s = text(
-            'SELECT dates.nomCheval,dates.prestation, dates.dateDebut, dates.dateFin, dates.prix FROM dates WHERE dates.idUtilisateur==:x')
-            resultats = connection.execute(s, x=iduser)
-            if resultats != None:
-                for resultat in resultats:
-                    message.append(resultat)
-            else:
-                message="Panier vide."
-
-            return render_template("panier.html", panierinfos=message)
+                iduser= row[0]
+            for row in connection.execute(select([dates.c.nomCheval,dates.c.prestation,dates.c.dateDebut, dates.c.dateFin, dates.c.prix, dates.c.numLocation]).where(dates.c.idUtilisateur == iduser)):
+                message.append(row)
+                total += row[4]
+            return render_template("panier.html", panierinfos=message, total=total)
+    else:
+        return redirect('/espaceclient')
 
 
+@app.route('/supprpanier',methods=['POST'])
+def supprpanier():
+    connection = engine.connect()
+    if request.method == "POST":
+        numlocation = escape(request.form['numlocation'])
+        connection.execute(dates.delete().where(dates.c.numLocation == numlocation))
+        return redirect('/panier')
 
 
 # DEBUT PAIEMENT-----------------------------------------------------------------------------------------
