@@ -699,7 +699,7 @@ def envoiNewsletter():
         mail = Mail(app)
         mail.init_app(app)
         with app.app_context():
-            msg = Message(sender="serviceclientcyclone@gmail.com",recipients=[adrmail],body = "Suite à votre demande sur le site du centre équestre Cyclone, vous êtes bien abonné à la Newsletter. A bientôt !" , subject="Votre abonnement à la Newsletter Cyclone")
+            msg = Message(sender="serviceclientcyclone@gmail.com",recipients=[adrmail],body = "Suite à votre demande sur le site du centre équestre Cyclone, vous êtes bien abonné à la Newsletter. \n A bientôt !" , subject="Votre abonnement à la Newsletter Cyclone")
             mail.send(msg)
         session['message']="Votre adresse a été enregistrée, vous recevrez notre Newsletter !"
         session['change']='3'
