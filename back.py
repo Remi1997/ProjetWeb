@@ -605,8 +605,6 @@ def supprpanier():
 
 
 # DEBUT PAIEMENT-----------------------------------------------------------------------------------------
-
-
 @app.route('/annuler')
 def annulation():
     render_template('annuler.html')
@@ -615,7 +613,6 @@ def annulation():
 @app.route('/succes')
 def succes():
     render_template('succes.html')
-
 # FIN PAIEMENT-----------------------------------------------------------------------------------------
 
 
