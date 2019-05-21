@@ -1,7 +1,10 @@
 from flask import *
 from sqlalchemy import *
 from sqlalchemy.sql import *
+from flask_mail import Mail
+from flask_mail import Message
 import datetime
+import socket
 app = Flask(__name__)
 # CreationBDD
 engine = create_engine('sqlite:///mabase.db', echo=True)
@@ -77,11 +80,16 @@ ac_ins=actualite.insert()
 ut_ins=utilisateur.insert()
 pres_ins=prestation.insert()
 da_ins=dates.insert()
-
-
 connection = engine.connect()
 
-#------------------------------------------------------------ REQUETES INSERT POUR LES TESTS ---------------------------
+
+
+session = {'nom': '', 'mail': '', 'mdp': '', 'tel': '', 'loc': '', 'change' : '0', 'message' : ''}
+
+cmd = []
+
+
+#------------------------------------------------------------ REQUETES INSERT POUR LES TESTS ---------------------------------------------------------------
 #ENREGISTREMENT TEST POUR UTILISATEUR + PROFIL ADMIN
 
 #connection.execute(utilisateur.insert(), [
@@ -90,15 +98,8 @@ connection = engine.connect()
 #])
 #ENREGISTREMENT DE TEST POUR COMMANDES
 #connection.execute(commandes.insert(), [{"idCheval":1,"datecommande":datetime.datetime(2018,12,13), "idUtilisateur":1, "montant":200}])
-#ENREGISTREMENT DE TEST POUR CHEVAL
-#connection.execute(cheval.insert(), [{"nomCheval":"chevaltest","age": 10, "race":"orange", "description":"test","photo": "test","typ": "male"}])
-#------------------------------------------------------------ FIN REQUETES TEST ----------------------------------------
 
-session = {'nom': '', 'mail': '', 'mdp': '', 'tel': '', 'loc': ''}
-
-cmd = []
-
-change = 0
+#----------------------------------------------------------------------------------REQUETES-------------------------------------------------------------------
 #connection.execute(ch_ins.values(nomCheval= 'Nougat',age=15,race="Anglo arabe",description="Cheval d’école, facile et gentil. Convient parfaitement à un niveau débutant comme confirmé. Idéal pour se faire plaisir à cheval.",photo="static/img/pages/caramel.jpg",typ="Location"))
 #connection.execute(ch_ins.values(nomCheval="Alaska",age=4,race="Mustang espagnol",description="Caractère calme et sûre.Excellente jument idéale débutants et enfants.",photo="static/img/pages/alaska.jpg",typ="Location / Vente"))
 #connection.execute(ch_ins.values(nomCheval="Volcanic",age=12,race="Pur sang",description="C est un cheval calin et attachant.Cavalier confirmé.Il aime beaucoup les sauts d obstacle.",photo="static/img/pages/volcanic.jpg",typ="Location"))
@@ -108,14 +109,12 @@ change = 0
 #connection.execute(ch_ins.values(nomCheval="Bambou",age=4,race="Welsh cob",description="Poney adapté au sport qui combine souplesse et sport. Idéal pour promenade en forêt.",photo="static/img/pages/bambou.jpg",typ="Location / Vente"))
 #connection.execute(ch_ins.values(nomCheval="Castor",age=12,race="New Forest",description="Poney très gentil, passe partout. Idéal enfants et débutants.",photo="static/img/pages/castor.jpg",typ="Location"))
 #connection.execute(ch_ins.values(nomCheval="Perle",age=2,race="Shetland",description="Très gentil, adapté aux familles.Bonnes conditions de vie exigées.",photo="static/img/pages/perle.jpg",typ="Vente"))
-
 #connection.execute(ac_ins.values(date="Dimanche 09 septembre",titre="Stand Informations !",descr="Nous tenons à vous informer que le dimanche 09 septembre nous serons présents à la Foire de la Vigne de Charly Sur Marne. Pour l’occasion, nous tiendrons un stand d’informations pour ceux intéressés par notre centre équestre, nos cours et stages.",image="static/img/b1.jpg"))
 #connection.execute(ac_ins.values(date="Samedi 08 Septembre",titre="Baptêmes Poney",descr="Nous tenons à vous informer que le samedi 08 septembre 2018 se tiendra les baptêmes des poneys. L’événement aura lieu de 14h00 à 18h00 au magasin Décathlon à Château Thierry. Nous espérons vous voir nombreux !",image="static/img/b2.jpg"))
-
 #connection.execute(ut_ins.values(nom="bernet", prenom="agathe", mail="a@hotmail.com", telephone=722235643, numLocation=0, mdp="123"))
-
 #connection.execute(pres_ins.values(activite = "randonnée", prix=250))
 
+#------------------------------------------------------------ FIN REQUETES ----------------------------------------------------------------------------------------
 @app.route('/')
 def accueil():
     connection = engine.connect()
@@ -128,7 +127,7 @@ def accueil():
     for i in connection.execute(select([temoignage.c.nom, temoignage.c.message])):
         data.append(i)
     print (data)
-    return render_template('accueil.html', title='Accueil', liste=data, liste2=dataAct, mail=session["mail"])
+    return render_template('accueil.html', title='Accueil', liste=data, liste2=dataAct, session=session)
 
 @app.route("/ajoutertemoi", methods=['GET', 'POST'])
 def ajoutertemoi():
@@ -218,17 +217,17 @@ def modifAct():
 
 @app.route('/contact')
 def Contact():
-    return render_template('contact.html', title='contact')
+    return render_template('contact.html', title='contact', session=session)
 
 
 @app.route('/presentation')
 def Presentation():
-    return render_template('presentation.html', title='présentation')
+    return render_template('presentation.html', title='présentation', session=session)
 
 
 @app.route('/activites')
 def Activites():
-    return render_template('activite.html', title='Activités')
+    return render_template('activite.html', title='Activités', session=session)
 
 @app.route('/achat')
 def AvendreAlouer():
@@ -239,9 +238,9 @@ def AvendreAlouer():
     logged = "logged" in session
     if logged:
         if session['logged']== True:
-            return render_template('achat.html', title='A vendre / A louer',liste=data, mail=session["mail"])
+            return render_template('achat.html', title='A vendre / A louer',liste=data, mail=session["mail"], session=session)
     else:
-        return render_template('achat.html', title='A vendre / A louer',liste=data)
+        return render_template('achat.html', title='A vendre / A louer',liste=data, session=session)
 
 #route calendrier
 #PAGE CALENDRIER + FORMULAIRE -------------------------------------------------------------------------------------------------
@@ -261,8 +260,11 @@ def calendrier(nomChe):
     return render_template("demos/background-events.html", liste = info1, liste2=info2)
 
 #REQUETES POUR LES INFOS + ON REMPLIT TABLE DATES --------------------------------------------------------------------------
+
 @app.route("/resa",methods=['GET', 'POST'])
-def resa():   
+def resa():
+    info1 = []
+    info2 = []
     connection = engine.connect()
     if request.method == 'POST':
 
@@ -272,6 +274,15 @@ def resa():
         datef= request.form['df']
         pres = request.form['pre']
 
+    for row in connection.execute(select([dates.c.dateDebut]).where(dates.c.nomCheval == name)):
+        info1.append(row[0])
+
+    for row in connection.execute(select([dates.c.dateFin]).where(dates.c.nomCheval == name)):
+        info2.append(ajoute_jour(row[0]))
+        
+     
+    a = verif_date(dated, datef,info1,info2)
+    
     jours = calcul_jour(dated,datef)
 #on ajoute les valeurs dans la table
 
@@ -282,11 +293,12 @@ def resa():
         arg = row[0]*jours
         
   
-#ici, on remplit la table dates 
-    print(nb)
-    print(arg)
-    connection.execute(da_ins.values(nomCheval=name,dateDebut=dated,dateFin=datef,prestation=pres, prix=arg, idUtilisateur=nb))
-    return(redirect(url_for('calendrier', nomChe=name)))
+#ici, on remplit la table dates
+    if a ==1:
+        connection.execute(da_ins.values(nomCheval=name,dateDebut=dated,dateFin=datef,prestation=pres, prix=arg, idUtilisateur=nb))
+        return(redirect(url_for('calendrier', nomChe=name)))
+    if a==0:
+        return render_template("erreur.html")
     
 
 
@@ -315,6 +327,20 @@ def ajoute_jour(jour):
     dt = dt + timedelta(days = 1)
     date = dt.strftime(DATETIME_FORMAT)
     return(date)
+def verif_date(date1,date2,liste1,liste2):
+    for i in range(len(liste1)):
+        if date1 == liste1[i] or date1 == liste2[i]:
+            return(0)
+        if date2 == liste1[i] or date2 == liste2[i]:
+            return(0)
+        if liste1[i][5:7] == date1[5:7]:
+            if date1[8:10]<liste1[i][8:10]:
+                if date2[8:10]>liste1[i][8:10]:
+                    return(0)
+            if date1[8:10]>liste1[i][8:10]:
+                if date1[8:10]<liste2[i][8:10]:
+                    return(0)
+    return(1)
 
 # route pour formulaire
 @app.route("/ajouterCheval")
@@ -409,7 +435,6 @@ def modif():
 app.secret_key = 'iswuygdedgv{&75619892__01;;>..zzqwQIHQIWS'
 @app.route('/espaceclient')
 def index():
-    #cmd = {'idcmd': '', 'nomcheval': '', 'datecmd': '', 'montant': ''}
     connection = engine.connect()
     logged= "logged" in session
     #si utilisateur connecté:
@@ -425,18 +450,18 @@ def index():
                     session['mail']= resultat[2]
                     session['tel'] = resultat[3]
                     session['loc'] = resultat[4]
-            s2= text ('SELECT commandes.idcommande, cheval.nomCheval, commandes.datecommande, commandes.montant FROM utilisateur inner join commandes on utilisateur.idUtilisateur = commandes.idUtilisateur inner join cheval on cheval.idCheval = commandes.idCheval WHERE utilisateur.mail==:x')
-            resultats2 = connection.execute(s2,x= session["mail"])
-            if (resultats2 != None):
-                if change==0:
-                    for resultat in resultats2:
-                        cmd. append({'idcmd': resultat[0], 'nomcheval' : resultat[1], 'datecmd' : resultat[2], 'montant' : resultat[3]}) # liste de dictionnaires
-            return render_template('espaceclient.html', message=[session["nom"],session["mail"], session['tel'],session['loc']], commandes= cmd, logged=logged)
+            if session['change'] == '0':
+                s2= text ('SELECT commandes.idcommande, cheval.nomCheval, commandes.datecommande, commandes.montant FROM utilisateur inner join commandes on utilisateur.idUtilisateur = commandes.idUtilisateur inner join cheval on cheval.idCheval = commandes.idCheval WHERE utilisateur.mail==:x')
+                resultats2 = connection.execute(s2,x= session["mail"])
+                if (resultats2 != None):
+                        for resultat in resultats2:
+                            cmd. append({'idcmd': resultat[0], 'nomcheval' : resultat[1], 'datecmd' : resultat[2], 'montant' : resultat[3]}) # liste de dictionnaires
+            return render_template('espaceclient.html', message=[session["nom"],session["mail"], session['tel'],session['loc']], commandes= cmd, logged=logged, texte=session['message'], session=session)
         if session['logged'] == False:
             txt = "Mauvais identifiants. Veuillez réessayer"
-            return render_template('espaceclient.html', mauvaisid=txt)
+            return render_template('espaceclient.html', mauvaisid=txt, session=session)
     else:
-        return render_template('espaceclient.html')
+        return render_template('espaceclient.html', session=session)
 
 
 #----------------------------------------------------------------------------------------
@@ -491,18 +516,21 @@ def entregistrement():
             return redirect("/espaceclient")
 
 
-#Changement infos utilisateur------------------------------------------------------------
+
+# FIN INSCRIPTION UTILISATEUR-----------------------------------------------------------------------------------------
+
+#CHANGEMENT INFOS UTILISATEUR----------------------------------------------------------------------------------------
 @app.route('/changerinfos')
 def changeinfos():
     logged= "logged" in session
-    change=1
-    return render_template('espaceclient.html', message=[session["nom"],session["mail"], session['tel'],session['loc']], commandes= cmd, logged=logged, change=change)
+    session['change']='1'
+    return render_template('espaceclient.html', message=[session["nom"],session["mail"], session['tel'],session['loc']], commandes= cmd, logged=logged, change=1)
 
 @app.route('/changermdp')
 def changemdp():
     logged= "logged" in session
-    change=2
-    return render_template('espaceclient.html', message=[session["nom"],session["mail"], session['tel'],session['loc']], commandes= cmd, logged=logged, change=change)
+    session['change']='2'
+    return render_template('espaceclient.html', message=[session["nom"],session["mail"], session['tel'],session['loc']], commandes= cmd, logged=logged, change=2)
 
 
 
@@ -547,14 +575,33 @@ def updatemdp():
         return redirect('/espaceclient')
 
 
+#FIN CHANGEMENT INFOS UTILISATEUR----------------------------------------------------------------------------------------
+
+@app.route('/panier')
+def panier():
+    message=[] #liste dont chaque élément représente une location
+    total=0
+    connection = engine.connect()
+    logged = "logged" in session #la clé logged est elle dans session?
+    if logged:
+        if session["logged"] == True:
+            for row in connection.execute(select([utilisateur.c.idUtilisateur]).where(utilisateur.c.mail == session['mail'])):
+                iduser= row[0]
+            for row in connection.execute(select([dates.c.nomCheval,dates.c.prestation,dates.c.dateDebut, dates.c.dateFin, dates.c.prix, dates.c.numLocation]).where(dates.c.idUtilisateur == iduser)):
+                message.append(row)
+                total += row[4]
+            return render_template("panier.html", panierinfos=message, total=total)
+    else:
+        return redirect('/espaceclient')
 
 
-#-----------------------------------------------------------------------------------------------
-
-
-# FIN INSCRIPTION UTILISATEUR-----------------------------------------------------------------------------------------
-
-
+@app.route('/supprpanier',methods=['POST'])
+def supprpanier():
+    connection = engine.connect()
+    if request.method == "POST":
+        numlocation = escape(request.form['numlocation'])
+        connection.execute(dates.delete().where(dates.c.numLocation == numlocation))
+        return redirect('/panier')
 
 
 # DEBUT PAIEMENT-----------------------------------------------------------------------------------------
@@ -569,9 +616,12 @@ def annulation():
 def succes():
     render_template('succes.html')
 
-
 # FIN PAIEMENT-----------------------------------------------------------------------------------------
 
+
+@app.route('/rapport')
+def rapport():
+    return render_template("rapport.html")
 
 
 # LOGOUT DE l'UTILISATEUR-----------------------------------------------------------------------------------------
@@ -581,6 +631,45 @@ def logout():
     return redirect('/')
 
 # FIN LOGOUT DE l'UTILISATEUR-----------------------------------------------------------------------------------------
+
+# ENVOI MAIL A l'UTILISATEUR-----------------------------------------------------------------------------------------
+
+
+mail_settings = {
+    "MAIL_SERVER": 'smtp.gmail.com',
+    "MAIL_PORT": 465,
+    "MAIL_USE_TLS": False,
+    "MAIL_USE_SSL": True,
+    "MAIL_USERNAME": 'vipmovie7@gmail.com', #remplacer par gmail de serviceclientcyclone
+    "MAIL_PASSWORD":  'anhichamos12'
+}
+
+app.config.update(mail_settings)
+
+@app.route('/serviceclient', methods=['POST'])
+def serviceclt():
+    if request.method == "POST":
+        nom = escape(request.form['name'])
+        adrmail = escape(request.form['email'])
+        sujet = escape(request.form['subject'])
+        texte = escape(request.form['message'])
+        mail = Mail(app)
+        #mail.init_app(app)
+        with app.app_context():
+            msg = Message(sender=adrmail,
+                      recipients=["vipmovie7@gmail.com"],body = "Message de: "+nom+"\n"+"adresse mail: " + adrmail+"\n"+texte, subject=sujet)
+            mail.send(msg)
+        session['message']="Message envoyé. Nous vous recontacterons très bientôt!"
+        session['change']='3'
+        return redirect('/espaceclient')
+
+
+# FIN ENVOI MAIL A l'UTILISATEUR-----------------------------------------------------------------------------------------
+
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zxx" class="no-js">
+    <head>
+        <!-- Mobile Specific Meta -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Favicon-->
+        <link rel="shortcut icon" href="static/img/fav.png">
+        <!-- Author Meta -->
+        <meta name="author" content="codepixer">
+        <!-- Meta Description -->
+        <meta name="description" content="">
+        <!-- Meta Keyword -->
+        <meta name="keywords" content="">
+        <!-- meta character set -->
+        <meta charset="UTF-8">
+        <!-- Site Title -->
+        <title>Espace client</title>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700')}}">
+        <!--
+     CSS
+     ============================================= -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/linearicons.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/magnific-popup.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/nice-select.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.min.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.css')}}">
+    </head>
+    <body>
+        <header id="header" id="home">
+            <div class="container">
+                <div class="row header-top align-items-center">
+                    <div class="col-lg-4 col-sm-4 menu-top-left">
+                        <a href="mailto:info@cyclone.fr"><span class="lnr lnr-location"></span></a>
+                        <a class="tel" href="mailto:info@cyclone.fr">info@cyclone.fr</a>
+                    </div>
+                    <div class="col-lg-4 menu-top-middle justify-content-center d-flex">
+                        <a href="accueil.html">
+                            <img class="img-fluid" src="static/img/logo.png" alt="">	
+                        </a>			    			
+                    </div>
+                    <div class="col-lg-4 col-sm-4 menu-top-right">
+                        <a class="tel" href="tel:+880 123 12 658 439"> 01 23 45 67 89</a>
+                        <a href="tel:+880 123 12 658 439"><span class="lnr lnr-phone-handset"></span></a>
+                    </div>
+                </div>
+            </div>	
+            <hr>
+
+
+            {%if session['nom'] == 'Le Mouël Frédéric'%}
+            <div class="container">	
+                <div class="row align-items-center justify-content-center d-flex">
+                    <nav id="nav-menu-container">
+                        <ul class="nav-menu">
+                            <li class="menu-active"><a href="/">Accueil</a></li>			          
+                            <li><a href="/presentation">Présentation</a></li>
+                            <li><a href="/activites">Nos prestations</a></li>
+                            <li><a href="achat">Acheter/louer un cheval</a></li>
+                            <li><a href="contact">Contact</a></li>
+                            <li><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
+                                <ul class="nav-menu">
+                                    <li> <a href='espaceclient'> Espace client </a> </li>
+                                    <li> <a href='panier'> Mon panier </a> </li>
+                                    <li> <a href='rapport'> Rapport Web </a></li>
+                                    <li> <a href='logout'> Se déconnecter </a> </li>
+                                </ul>
+
+                            </li>
+                        </ul>
+                    </nav><!-- #nav-menu-container -->		    		
+                </div>
+            </div>
+
+
+
+            {%elif session['logged'] == True%}
+
+            <div class="container">	
+                <div class="row align-items-center justify-content-center d-flex">
+                    <nav id="nav-menu-container">
+                        <ul class="nav-menu">
+                            <li class="menu-active"><a href="/">Accueil</a></li>			          
+                            <li><a href="presentation">Présentation</a></li>
+                            <li><a href="activites">Nos prestations</a></li>
+                            <li><a href="achat">Acheter/louer un cheval</a></li>
+                            <li><a href="contact">Contact</a></li>
+                            <li><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
+                                <ul class="nav-menu">
+                                    <li> <a href='espaceclient'> Espace client </a> </li>
+                                    <li> <a href='panier'> Mon panier </a> </li>
+                                    <li> <a href='logout'> Se déconnecter </a> </li>
+                                </ul>
+
+                            </li>
+                        </ul>
+                    </nav><!-- #nav-menu-container -->		    		
+                </div>
+            </div>
+
+
+            {%else%}
+
+            <div class="container">	
+                <div class="row align-items-center justify-content-center d-flex">
+                    <nav id="nav-menu-container">
+                        <ul class="nav-menu">
+                            <li class="menu-active"><a href="/">Accueil</a></li>			          
+                            <li><a href="/presentation">Présentation</a></li>
+                            <li><a href="/activites">Nos prestations</a></li>
+                            <li><a href="achat">Acheter/louer un cheval</a></li>
+                            <li><a href="contact">Contact</a></li>
+                            <li><a href="espaceclient">Espace client</a></li>
+                        </ul>
+                    </nav><!-- #nav-menu-container -->		    		
+                </div>
+            </div>
+            {%endif%}
+        </header><!-- #header -->
+        <section class="home-about-area section-gap"> </section>
+
+        <section class="home-about-area section-gap" style="padding-top: 10px; margin-left: 200px; margin-right:10px; width: 2750px">
+
+            <article class="col-lg-4 col-md-6 booking-right" >
+
+                {%if panierinfos == []%}
+                <div class="col-lg-6 single-blog">
+                    <h3> Panier vide :-( </h3>
+                    <p> <a href="achat" class="genric-btn" style="position:relative; right:30px">Accéder à la che-boutique</a> </p>
+
+                </div>
+                {%else%}
+
+
+
+                <h2 style="margin-bottom:35px"> Mon panier </h2>
+                <div>
+                    <table style="width: 900px">
+
+                        <tr> 
+                            <th class="text-black" style="font-weight: bold; text-align: center"> Nom du cheval </th>
+                            <th class="text-black" style="font-weight: bold; text-align: center"> Prestation choisie </th>
+                            <th class="text-black" style="font-weight: bold; text-align: center">  Date de début de la location</th>
+                            <th class="text-black" style="font-weight: bold; text-align: center">  Date de fin de la location</th>
+                            <th  class="text-black" style="font-weight: bold; text-align: center"> Montant à payer </th>
+
+                        </tr>
+
+                        {%for element in panierinfos%}
+                        <tr>
+                            <td style="text-align: center">{{element[0]}}</td>
+                            <td style="text-align: center">{{element[1]}}</td>                             
+                            <td style="text-align: center">{{element[2]}}</td>                            
+                            <td style="text-align: center">{{element[3]}}</td>                                 
+                            <td style="text-align: center"> {{element[4]}}€  <a href="#detailprestation" style="font-size:13px">voir détails </a> </td>
+                            <td> 
+                                <form action="supprpanier" method="POST">
+                                    <input type='hidden' name="numlocation" value="{{element[5]}}">
+                                    <button class="btn btn-default btn-lg btn-block text-center" style="width:80px; height:10px; font-size:12px"> <span style="position:relative; bottom: 8px; right: 3px"> supprimer</span></button>
+                                </form>
+                            </td>
+
+                        </tr>
+                        {%endfor%}
+                    </table>
+
+                    {%endif%}
+                    <div>
+                        <p> Total : {{total}} € </p>
+
+                    </div>
+
+
+                    <div>
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                            <input type="hidden" name="cmd" value="_s-xclick">
+                            <input type="hidden" name="hosted_button_id" value="WTKVFSNTZM5F2">
+                            <input type="image" src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne">
+                            <img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
+                        </form>            
+
+                    </div>
+
+
+
+
+            </article>
+        </section>
+
+
+
+
+
+
+
+
+
+
+        <!-- Start gallery Area -->
+        <section class="gallery-area">
+            <div class="container-fluid">
+                <div class="row no-padding">
+                    <div class="active-gallery">
+                        <div class="item single-gallery">
+                            <div class="thumb">
+                                <<img src="static/img/g1.jpg" alt="">
+                                <div class="align-items-center justify-content-center d-flex">
+                                </div>
+                            </div>
+                        </div>	
+                        <div class="item single-gallery">
+                            <div class="thumb">
+                                <img src="static/img/g2.jpg" alt="">
+                                <div class="align-items-center justify-content-center d-flex">
+                                </div>
+                            </div>
+                        </div>	
+                        <div class="item single-gallery">
+                            <div class="thumb">
+                                <img src="static/img/g3.jpg" alt="">
+                                <div class="align-items-center justify-content-center d-flex">
+                                </div>
+                            </div>
+                        </div>	
+                        <div class="item single-gallery">
+                            <div class="thumb">
+                                <img src="static/img/g4.jpg" alt="">
+                                <div class="align-items-center justify-content-center d-flex">
+                                </div>
+                            </div>
+                        </div>	
+                        <div class="item single-gallery">
+                            <div class="thumb">
+                                <img src="static/img/g5.jpg" alt="">
+                                <div class="align-items-center justify-content-center d-flex">
+                                </div>
+                            </div>
+                        </div>	
+                        <div class="item single-gallery">
+                            <div class="thumb">
+                                <img src="static/img/g6.jpg" alt="">
+                                <div class="align-items-center justify-content-center d-flex">
+                                </div>
+                            </div>
+                        </div>							
+
+                    </div>
+                </div>
+            </div>	
+        </section>
+        <!-- End gallery Area -->
+
+        <!-- start footer Area -->		
+        <footer class="footer-area section-gap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3  col-md-6 col-sm-6">
+                        <div class="single-footer-widget">
+                            <h4>A propos</h4>
+                            <p>
+                                © 2019	Centre Equestre Tornado <br> Centre équestre – Poney club <br> Mentions légales
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4  col-md-6 col-sm-6">
+                        <div class="single-footer-widget">
+                            <h4>Contactez-nous</h4>
+                            <p>
+                                Notre équipe sera ravie de vous accueillir!  <br>
+                                Adresse: HAMEAU DE CHARNESSEUIL - 77750 SAINT CYR SUR MORIN <br>
+                                Mail: info@cyclone.fr
+                            </p>
+
+                            <p class="number">
+                                Tél: 01 23 45 67 89     <br>
+                            </p>
+                        </div>
+                    </div>						
+                    <div class="col-lg-5  col-md-6 col-sm-6">
+                        <div class="single-footer-widget">
+                            <h4>Newsletter</h4>
+                            <p>Suivez nos actualités en nous renseignant votre adresse mail.</p>
+                            <div class="d-flex flex-row" id="mc_embed_signup">
+
+
+                                <form class="navbar-form" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get">
+                                    <div class="input-group add-on align-items-center d-flex">
+                                        <input class="form-control" name="EMAIL" placeholder="Adresse mail" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adresse mail'" required="" type="email">
+                                        <div style="position: absolute; left: -5000px;">
+                                            <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
+                                        </div>
+                                        <div class="input-group-btn">
+                                            <button class="genric-btn"><span class="lnr lnr-arrow-right"></span></button>
+                                        </div>
+                                    </div>
+                                    <div class="info mt-20"></div>									    
+                                </form>
+                            </div>
+                        </div>
+                    </div>						
+                </div>
+                <div class="footer-bottom row">
+                    <p class="footer-text m-0 col-lg-6 col-md-12">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </p>
+                    <div class="footer-social col-lg-6 col-md-12">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </footer>	
+        <!-- End footer Area -->
+
+
+
+
+        <script src="static/js/vendor/jquery-2.2.4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="static/js/vendor/bootstrap.min.js"></script>			
+        <script type="static/text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
+        <script src="static/js/easing.min.js"></script>			
+        <script src="static/js/hoverIntent.js"></script>
+        <script src="static/js/superfish.min.js"></script>	
+        <script src="static/js/jquery.ajaxchimp.min.js"></script>
+        <script src="static/js/jquery.magnific-popup.min.js"></script>	
+        <script src="static/js/owl.carousel.min.js"></script>			
+        <script src="static/js/jquery.sticky.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>				
+        <script src="static/js/jquery.nice-select.min.js"></script>			
+        <script src="static/js/parallax.min.js"></script>	
+        <script src="static/js/waypoints.min.js"></script>
+        <script src="static/js/jquery.counterup.min.js"></script>			
+        <script src="static/js/mail-script.js"></script>	
+        <script src="static/js/main.js"></script>
+    </body>
+</html>
