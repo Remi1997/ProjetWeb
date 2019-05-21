@@ -65,6 +65,7 @@
                            <li><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
                             <ul class="nav-menu">
                                 <li> <a href='espaceclient'> Espace client </a> </li>
+                                <li> <a href='panier'> Mon panier </a> </li>
                                 <li> <a href='rapport'> Rapport Web </a></li>
                                 <li> <a href='logout'> Se déconnecter </a> </li>
                             </ul>
@@ -90,6 +91,7 @@
                             <li><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
                             <ul class="nav-menu">
                                 <li> <a href='espaceclient'> Espace client </a> </li>
+                                <li> <a href='panier'> Mon panier </a> </li>
                                 <li> <a href='logout'> Se déconnecter </a> </li>
                             </ul>
                                 
@@ -116,15 +118,8 @@
                     </nav><!-- #nav-menu-container -->		    		
                 </div>
             </div>
-
-
             {%endif%}
-
-
-
-
         </header><!-- #header -->
-
         <!-- start banner Area -->
         <section class="banner-area relative" id="home">	
             <div class="overlay overlay-bg"></div>
@@ -481,13 +476,12 @@
                         <div class="single-footer-widget">
                             <h4>Newsletter</h4>
                             <p>Suivez nos actualités en nous renseignant votre adresse mail.</p>
-                            <div class="d-flex flex-row">
+                            <div class="d-flex flex-row" id="mc_embed_signup">
                                 <form class="navbar-form" action="newsletter" method="POST">
                                     <div class="input-group add-on align-items-center d-flex">
                                         <input class="form-control" name="email" placeholder="Adresse mail" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adresse mail'" required="" type="email">
                                         <div style="position: absolute; left: -5000px;">
                                         </div>
-
                                         <div class="input-group-btn">
                                             <button class="genric-btn"><span class="lnr lnr-arrow-right"></span></button>
                                         </div>
