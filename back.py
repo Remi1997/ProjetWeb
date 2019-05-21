@@ -113,6 +113,9 @@ cmd = []
 #connection.execute(ac_ins.values(date="Samedi 08 Septembre",titre="Baptêmes Poney",descr="Nous tenons à vous informer que le samedi 08 septembre 2018 se tiendra les baptêmes des poneys. L’événement aura lieu de 14h00 à 18h00 au magasin Décathlon à Château Thierry. Nous espérons vous voir nombreux !",image="static/img/b2.jpg"))
 #connection.execute(ut_ins.values(nom="bernet", prenom="agathe", mail="a@hotmail.com", telephone=722235643, numLocation=0, mdp="123"))
 #connection.execute(pres_ins.values(activite = "randonnée", prix=250))
+#connection.execute(pres_ins.values(activite = "mariage", prix=300))
+#connection.execute(pres_ins.values(activite = "mariage + calèche", prix=400))
+#connection.execute(pres_ins.values(activite = "anniversaire", prix=200))
 
 #------------------------------------------------------------ FIN REQUETES ----------------------------------------------------------------------------------------
 @app.route('/')
