@@ -122,7 +122,6 @@ cmd = []
 @app.route('/')
 def accueil():
     connection = engine.connect()
-
     data=[]
     dataAct=[]
     for j in connection.execute(select([actualite.c.date, actualite.c.titre, actualite.c.descr, actualite.c.image])):
@@ -144,19 +143,8 @@ mail_settings = {
 app.config.update(mail_settings)
 listemail=[]
 
-@app.route('/newsletter', methods=['POST'])
-def EnvoiNewsletter():
-	if request.method == "POST":
-		adrmail = escape(request.form['email'])
-		mail = Mail(app)
-		listemail.append(adrmail)
-        #mail.init_app(app)
-		with app.app_context():
-			msg = Message(sender="serviceclientcyclone@gmail.com",recipients=[adrmail],body = "Suite à votre demande sur le site du centre équestre Cyclone, vous êtes bien abonné à la Newsletter. A bientôt !" , subject="Votre abonnement à la Newsletter Cyclone")
-			mail.send(msg)
-		session['message']="Votre adresse a été enregistrée, vous recevrez notre Newsletter !"
-		session['change']='3'
-		return redirect('/')
+
+
 
 @app.route("/ajoutertemoi", methods=['GET', 'POST'])
 def ajoutertemoi():
@@ -285,13 +273,8 @@ def calendrier(nomChe):
     for row in connection.execute(select([dates.c.dateFin]).where(dates.c.nomCheval == nomChe)):
 
         info2.append(ajoute_jour(row[0]))
-<<<<<<< HEAD
-
-    return render_template("demos/background-events.html", liste = info1, liste2=info2)
-=======
     
     return render_template("demos/background-events.html", liste = info1, liste2=info2, nom=nomChe)
->>>>>>> 573766ad146323760df4ab6fbd6c8737e8285406
 
 #REQUETES POUR LES INFOS + ON REMPLIT TABLE DATES --------------------------------------------------------------------------
 
@@ -648,8 +631,6 @@ def supprpanier():
 
 
 # DEBUT PAIEMENT-----------------------------------------------------------------------------------------
-
-
 @app.route('/annuler')
 def annulation():
     render_template('annuler.html')
@@ -658,7 +639,6 @@ def annulation():
 @app.route('/succes')
 def succes():
     render_template('succes.html')
-
 # FIN PAIEMENT-----------------------------------------------------------------------------------------
 
 
@@ -683,7 +663,7 @@ mail_settings = {
     "MAIL_PORT": 465,
     "MAIL_USE_TLS": False,
     "MAIL_USE_SSL": True,
-    "MAIL_USERNAME": 'serviceclientcyclone@gmail.com', #remplacer par gmail de serviceclientcyclone
+    "MAIL_USERNAME": 'serviceclientcyclone@gmail.com',
     "MAIL_PASSWORD":  'Tcinsa123'
 }
 
@@ -697,7 +677,7 @@ def serviceclt():
         sujet = escape(request.form['subject'])
         texte = escape(request.form['message'])
         mail = Mail(app)
-        #mail.init_app(app)
+        mail.init_app(app)
         with app.app_context():
             msg = Message(sender=adrmail,
                       recipients=["serviceclientcyclone@gmail.com"],body = "Message de: "+nom+"\n"+"adresse mail: " + adrmail+"\n"+texte, subject=sujet)
@@ -707,12 +687,23 @@ def serviceclt():
         return redirect('/espaceclient')
 
 
-# FIN ENVOI MAIL A l'UTILISATEUR-----------------------------------------------------------------------------------------
+# FIN ENVOI MAIL A l'UTILISATEUR----------------------------------------------------------------------------------------
 
-#ENVOI MAIL NEWSLETTER
+#ENVOI MAIL NEWSLETTER--------------------------------------------------------------------------------------------------
 
-
-
+@app.route('/newsletter', methods=['POST'])
+def envoiNewsletter():
+    if request.method == "POST":
+        adrmail = escape(request.form['email'])
+        listemail.append(adrmail)
+        mail = Mail(app)
+        mail.init_app(app)
+        with app.app_context():
+            msg = Message(sender="serviceclientcyclone@gmail.com",recipients=[adrmail],body = "Suite à votre demande sur le site du centre équestre Cyclone, vous êtes bien abonné à la Newsletter. \n A bientôt !" , subject="Votre abonnement à la Newsletter Cyclone")
+            mail.send(msg)
+        session['message']="Votre adresse a été enregistrée, vous recevrez notre Newsletter !"
+        session['change']='3'
+        return redirect('/')
 
 
 
