@@ -114,6 +114,9 @@ cmd = []
 #connection.execute(ac_ins.values(date="Samedi 08 Septembre",titre="Baptêmes Poney",descr="Nous tenons à vous informer que le samedi 08 septembre 2018 se tiendra les baptêmes des poneys. L’événement aura lieu de 14h00 à 18h00 au magasin Décathlon à Château Thierry. Nous espérons vous voir nombreux !",image="static/img/b2.jpg"))
 #connection.execute(ut_ins.values(nom="bernet", prenom="agathe", mail="a@hotmail.com", telephone=722235643, numLocation=0, mdp="123"))
 #connection.execute(pres_ins.values(activite = "randonnée", prix=250))
+#connection.execute(pres_ins.values(activite = "mariage", prix=300))
+#connection.execute(pres_ins.values(activite = "mariage + calèche", prix=400))
+#connection.execute(pres_ins.values(activite = "anniversaire", prix=200))
 
 #------------------------------------------------------------ FIN REQUETES ----------------------------------------------------------------------------------------
 @app.route('/')
@@ -282,8 +285,13 @@ def calendrier(nomChe):
     for row in connection.execute(select([dates.c.dateFin]).where(dates.c.nomCheval == nomChe)):
 
         info2.append(ajoute_jour(row[0]))
+<<<<<<< HEAD
 
     return render_template("demos/background-events.html", liste = info1, liste2=info2)
+=======
+    
+    return render_template("demos/background-events.html", liste = info1, liste2=info2, nom=nomChe)
+>>>>>>> 573766ad146323760df4ab6fbd6c8737e8285406
 
 #REQUETES POUR LES INFOS + ON REMPLIT TABLE DATES --------------------------------------------------------------------------
 
@@ -291,6 +299,8 @@ def calendrier(nomChe):
 def resa():
     info1 = []
     info2 = []
+    tout = []
+    b=0
     connection = engine.connect()
     if request.method == 'POST':
 
@@ -306,7 +316,12 @@ def resa():
     for row in connection.execute(select([dates.c.dateFin]).where(dates.c.nomCheval == name)):
         info2.append(ajoute_jour(row[0]))
 
-
+    for row in connection.execute(select([utilisateur.c.nom])):
+        tout.append(row[0])
+        
+    for i in tout:
+        if i == name:
+            b = 1
     a = verif_date(dated, datef,info1,info2)
 
     jours = calcul_jour(dated,datef)
@@ -320,6 +335,8 @@ def resa():
 
 
 #ici, on remplit la table dates
+    if b == 0:
+        return render_template("erreur2.html")
     if a ==1:
         connection.execute(da_ins.values(nomCheval=name,dateDebut=dated,dateFin=datef,prestation=pres, prix=arg, idUtilisateur=nb))
         return(redirect(url_for('calendrier', nomChe=name)))
