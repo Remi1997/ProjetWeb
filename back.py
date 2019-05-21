@@ -73,6 +73,7 @@ actualite = Table('actualite', metadata,
             Column('image', String),
             )
 
+
 metadata.create_all(engine)
 ch_ins = cheval.insert()
 te_ins=temoignage.insert()
@@ -113,6 +114,9 @@ cmd = []
 #connection.execute(ac_ins.values(date="Samedi 08 Septembre",titre="Baptêmes Poney",descr="Nous tenons à vous informer que le samedi 08 septembre 2018 se tiendra les baptêmes des poneys. L’événement aura lieu de 14h00 à 18h00 au magasin Décathlon à Château Thierry. Nous espérons vous voir nombreux !",image="static/img/b2.jpg"))
 #connection.execute(ut_ins.values(nom="bernet", prenom="agathe", mail="a@hotmail.com", telephone=722235643, numLocation=0, mdp="123"))
 #connection.execute(pres_ins.values(activite = "randonnée", prix=250))
+#connection.execute(pres_ins.values(activite = "mariage", prix=300))
+#connection.execute(pres_ins.values(activite = "mariage + calèche", prix=400))
+#connection.execute(pres_ins.values(activite = "anniversaire", prix=200))
 
 #------------------------------------------------------------ FIN REQUETES ----------------------------------------------------------------------------------------
 @app.route('/')
@@ -128,6 +132,31 @@ def accueil():
         data.append(i)
     print (data)
     return render_template('accueil.html', title='Accueil', liste=data, liste2=dataAct, session=session)
+
+mail_settings = {
+    "MAIL_SERVER": 'smtp.gmail.com',
+    "MAIL_PORT": 465,
+    "MAIL_USE_TLS": False,
+    "MAIL_USE_SSL": True,
+    "MAIL_USERNAME": 'serviceclientcyclone@gmail.com', #remplacer par gmail de serviceclientcyclone
+    "MAIL_PASSWORD":  'Tcinsa123'
+}
+app.config.update(mail_settings)
+listemail=[]
+
+@app.route('/newsletter', methods=['POST'])
+def EnvoiNewsletter():
+	if request.method == "POST":
+		adrmail = escape(request.form['email'])
+		mail = Mail(app)
+		listemail.append(adrmail)
+        #mail.init_app(app)
+		with app.app_context():
+			msg = Message(sender="serviceclientcyclone@gmail.com",recipients=[adrmail],body = "Suite à votre demande sur le site du centre équestre Cyclone, vous êtes bien abonné à la Newsletter. A bientôt !" , subject="Votre abonnement à la Newsletter Cyclone")
+			mail.send(msg)
+		session['message']="Votre adresse a été enregistrée, vous recevrez notre Newsletter !"
+		session['change']='3'
+		return redirect('/')
 
 @app.route("/ajoutertemoi", methods=['GET', 'POST'])
 def ajoutertemoi():
@@ -246,7 +275,7 @@ def AvendreAlouer():
 #PAGE CALENDRIER + FORMULAIRE -------------------------------------------------------------------------------------------------
 @app.route("/calendrier/<nomChe>")
 def calendrier(nomChe):
-    
+
     info1=[]
     info2=[]
     connection = engine.connect()
@@ -254,10 +283,15 @@ def calendrier(nomChe):
         info1.append(row[0])
 
     for row in connection.execute(select([dates.c.dateFin]).where(dates.c.nomCheval == nomChe)):
-        
+
         info2.append(ajoute_jour(row[0]))
-    
+<<<<<<< HEAD
+
     return render_template("demos/background-events.html", liste = info1, liste2=info2)
+=======
+    
+    return render_template("demos/background-events.html", liste = info1, liste2=info2, nom=nomChe)
+>>>>>>> 573766ad146323760df4ab6fbd6c8737e8285406
 
 #REQUETES POUR LES INFOS + ON REMPLIT TABLE DATES --------------------------------------------------------------------------
 
@@ -265,6 +299,8 @@ def calendrier(nomChe):
 def resa():
     info1 = []
     info2 = []
+    tout = []
+    b=0
     connection = engine.connect()
     if request.method == 'POST':
 
@@ -279,10 +315,15 @@ def resa():
 
     for row in connection.execute(select([dates.c.dateFin]).where(dates.c.nomCheval == name)):
         info2.append(ajoute_jour(row[0]))
+
+    for row in connection.execute(select([utilisateur.c.nom])):
+        tout.append(row[0])
         
-     
+    for i in tout:
+        if i == name:
+            b = 1
     a = verif_date(dated, datef,info1,info2)
-    
+
     jours = calcul_jour(dated,datef)
 #on ajoute les valeurs dans la table
 
@@ -291,26 +332,28 @@ def resa():
 
     for row in connection.execute(select([prestation.c.prix]).where(prestation.c.activite == pres)):
         arg = row[0]*jours
-        
-  
+
+
 #ici, on remplit la table dates
+    if b == 0:
+        return render_template("erreur2.html")
     if a ==1:
         connection.execute(da_ins.values(nomCheval=name,dateDebut=dated,dateFin=datef,prestation=pres, prix=arg, idUtilisateur=nb))
         return(redirect(url_for('calendrier', nomChe=name)))
     if a==0:
         return render_template("erreur.html")
-    
+
 
 
 @app.route("/resa2",methods=['GET', 'POST'])
-def resa2():   
+def resa2():
     connection = engine.connect()
     if request.method == 'POST':
         name = request.form['nom']
-        
+
     return(redirect(url_for('calendrier', nomChe=name)))
 
-from datetime import *  
+from datetime import *
 #calcul de différence entre 2 jours
 def calcul_jour(date1,date2):
     DATETIME_FORMAT = "%Y-%m-%d"
@@ -320,7 +363,7 @@ def calcul_jour(date1,date2):
     diff_day = timedelta.days + float(timedelta.seconds) / 86400
     return(diff_day)
 
-#on ajoute un jour à la date fin pour erreur dans calendrier 
+#on ajoute un jour à la date fin pour erreur dans calendrier
 def ajoute_jour(jour):
     DATETIME_FORMAT = "%Y-%m-%d"
     dt =datetime.strptime(jour, DATETIME_FORMAT)
@@ -356,27 +399,27 @@ def modifierCheval():
     return render_template("modifierCheval.html")
 
 @app.route("/ajoute",methods=['GET', 'POST'])
-def ajoute():   
+def ajoute():
     connection = engine.connect()
     if request.method == 'POST':
-        
+
         name = request.form['nom']
         nb = request.form['age']
         ra = request.form['race']
         ty = request.form['typ']
         des = request.form['des']
         img = request.form['img']
-     
+
 #on ajoute les valeurs dans la table
     connection.execute(ch_ins.values(nomCheval=name,typ=ty,age=nb,race=ra,description=des, photo=img))
     return redirect('/achat')
 
 @app.route("/supprime",methods=['GET', 'POST'])
-def supprime():   
+def supprime():
     conn = engine.connect()
     if request.method == 'POST':
         nom = request.form['nom']
-     
+
 #on supprime au nom :
     conn.execute(cheval.delete().where(cheval.c.nomCheval == nom))
     return redirect('/achat')
@@ -391,43 +434,43 @@ def modif():
         ty = request.form['typ']
         des = request.form['des']
         img= request.form['img']
-     
+
 #on modifie la table :
-        
+
     if nb != "":
         stmt = cheval.update().\
                     where(cheval.c.nomCheval == nom).\
                     values(age=nb)
         connection.execute(stmt)
-        
-       
+
+
     if ra != "":
-        
+
         stmt = cheval.update().\
                     where(cheval.c.nomCheval == nom).\
                     values(race=ra)
         connection.execute(stmt)
-        
+
     if des != "":
 
         stmt = cheval.update().\
                     where(cheval.c.nomCheval == nom).\
                     values(description=des)
         connection.execute(stmt)
-        
+
     if ty!= "":
         stmt = cheval.update().\
                     where(cheval.c.nomCheval == nom).\
                     values(typ=ty)
         connection.execute(stmt)
-        
+
     if img != "":
         sstmt = cheval.update().\
                     where(cheval.c.nomCheval == nom).\
                     values(photo=img)
         connection.execute(stmt)
-    
-    return redirect('/achat')     
+
+    return redirect('/achat')
 
 #fd74a08fcc14617a4e5614b5effc49cdf8ee94f8
 
@@ -637,8 +680,8 @@ mail_settings = {
     "MAIL_PORT": 465,
     "MAIL_USE_TLS": False,
     "MAIL_USE_SSL": True,
-    "MAIL_USERNAME": 'vipmovie7@gmail.com', #remplacer par gmail de serviceclientcyclone
-    "MAIL_PASSWORD":  'anhichamos12'
+    "MAIL_USERNAME": 'serviceclientcyclone@gmail.com', #remplacer par gmail de serviceclientcyclone
+    "MAIL_PASSWORD":  'Tcinsa123'
 }
 
 app.config.update(mail_settings)
@@ -654,7 +697,7 @@ def serviceclt():
         #mail.init_app(app)
         with app.app_context():
             msg = Message(sender=adrmail,
-                      recipients=["vipmovie7@gmail.com"],body = "Message de: "+nom+"\n"+"adresse mail: " + adrmail+"\n"+texte, subject=sujet)
+                      recipients=["serviceclientcyclone@gmail.com"],body = "Message de: "+nom+"\n"+"adresse mail: " + adrmail+"\n"+texte, subject=sujet)
             mail.send(msg)
         session['message']="Message envoyé. Nous vous recontacterons très bientôt!"
         session['change']='3'
@@ -662,6 +705,9 @@ def serviceclt():
 
 
 # FIN ENVOI MAIL A l'UTILISATEUR-----------------------------------------------------------------------------------------
+
+#ENVOI MAIL NEWSLETTER
+
 
 
 

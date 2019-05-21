@@ -57,11 +57,11 @@
                 <div class="row align-items-center justify-content-center d-flex">
                     <nav id="nav-menu-container">
                         <ul class="nav-menu">
-                            <li class="menu-active"><a href="/">Accueil</a></li>			          
+                            <li ><a href="/">Accueil</a></li>			          
                             <li><a href="/presentation">Présentation</a></li>
                             <li><a href="/activites">Nos prestations</a></li>
                             <li><a href="achat">Acheter/louer un cheval</a></li>
-                            <li><a href="contact">Contact</a></li>
+                            <li class="menu-active"><a href="contact">Contact</a></li>
                            <li><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
                             <ul class="nav-menu">
                                 <li> <a href='espaceclient'> Espace client </a> </li>
@@ -82,11 +82,11 @@
                 <div class="row align-items-center justify-content-center d-flex">
                     <nav id="nav-menu-container">
                         <ul class="nav-menu">
-                            <li class="menu-active"><a href="/">Accueil</a></li>			          
+                            <li><a href="/">Accueil</a></li>			          
                             <li><a href="presentation">Présentation</a></li>
                             <li><a href="activites">Nos prestations</a></li>
                             <li><a href="achat">Acheter/louer un cheval</a></li>
-                            <li><a href="contact">Contact</a></li>
+                            <li class="menu-active"><a href="contact">Contact</a></li>
                             <li><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
                             <ul class="nav-menu">
                                 <li> <a href='espaceclient'> Espace client </a> </li>
@@ -106,11 +106,11 @@
                 <div class="row align-items-center justify-content-center d-flex">
                     <nav id="nav-menu-container">
                         <ul class="nav-menu">
-                            <li class="menu-active"><a href="/">Accueil</a></li>			          
+                            <li><a href="/">Accueil</a></li>			          
                             <li><a href="/presentation">Présentation</a></li>
                             <li><a href="/activites">Nos prestations</a></li>
                             <li><a href="achat">Acheter/louer un cheval</a></li>
-                            <li><a href="contact">Contact</a></li>
+                            <li class="menu-active"><a href="contact">Contact</a></li>
                             <li><a href="espaceclient">Espace client</a></li>
                         </ul>
                     </nav><!-- #nav-menu-container -->		    		
@@ -141,7 +141,8 @@
 					<div class="row">
 						<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3013.4159370532807!2d5.576412115593572!3d46.130865396732254!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478ca16cd5998e0f%3A0x1cbbff1385c9bf1b!2sImpasse+de+la+Lachere%2C+01430+Saint-Martin-du-Fresne!5e1!3m2!1sfr!2sfr!4v1557214000913!5m2!1sfr!2sfr" width="600" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
 
-						<div class="col-lg-4 d-flex flex-column address-wrap">
+						<div class="col-lg-4 d-flex flex-column address-wrap"
+                                                     style = "position : relative; top:80px">
 							<div class="single-contact-address d-flex flex-row">
 								<div class="icon">
 									<span class="lnr lnr-home"></span>

@@ -115,6 +115,8 @@
   </script>
 <style>
 
+
+
   body {
     margin: 40px 10px;
     padding: 0;
@@ -123,15 +125,15 @@
   }
 
   #calendar {
-    max-width: 400px;
-    margin: 0 auto;
+  	float:left;
+    width:50%;
   }
 
-  .titre2
+  .titre
   {
-    margin-left: auto;
-    margin-right: auto;
-    width: 6em
+  	margin-top: 100px;
+  	margin-left:60%; 
+  	width: 6em;
   }
 
   
@@ -140,6 +142,8 @@
 </head>
 <body>
 
+
+	<h1>Réservation de {{nom}}</h1><br>
   <div>
   <p id="dated">{{liste}}<p>
   <p id="datef">{{liste2}}</p>
@@ -148,20 +152,40 @@
  
   <p id="demo"></p>
 
+
   <div id='calendar'></div>
+
  
-  <form class="titre2" action = "http://localhost:5000/resa" method = "POST">
+ 
+ <div class="titre">
+  <form class="titre2" style="background-color:#ffffff;font-size:14px;font-family:'MS Sans Serif',Geneva,sans-serif;color:#000000;max-width:480px;min-width:150px" action = "http://localhost:5000/resa" method = "POST">
+
+
     <fieldset>
          <legend>Réservation</legend>
+
          <p>Votre nom <input type = "text" name = "nomUtilisateur"/></p>
-         <p>Nom cheval <input type = "text" name = "nom"/></p>
-         <p>Date début <input type ="text" name = "dd" /></p>
-         <p>Date fin <input type ="text" name = "df" /></p>
-         <p>Prestation <input type ="text" name = "pre" /></p>
-         <p><input type = "submit" value = "submit" /></p>
+         <p>Nom cheval <input type = "text" name = "nom" value={{nom}}></p>
+         <p>Date début <input type ="date" name = "dd" /></p>
+         <p>Date fin <input type ="date" name = "df" /></p>
+         <p>
+       		<label for="pre">Quel prestation souhaitez - vous ?</label><br />
+       		<select name="pre" id="pre">
+          	 <option value="randonnée">Randonnée -- 250€/j</option>
+          	 <option value="mariage">Mariage -- 300€/j</option>
+           	 <option value="mariage + calèche">Mariage + calèche -- 400€/j</option>
+           	 <option value="anniversaire">Anniversaire -- 200€/j</option>
+       		</select>
+       
+   </p>
+         <p><input type = "submit" value = "Ajouter au panier" /></p>
+         <button><a href="panier" style = "text-decoration:none; color:black"><span class = "text-black">Voir mon panier</span></a></button>
     </fieldset>
         
   </form>
+  </div>
+</section>
+
 
 </body>
 </html>
