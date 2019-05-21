@@ -268,6 +268,8 @@ def calendrier(nomChe):
 def resa():
     info1 = []
     info2 = []
+    tout = []
+    b=0
     connection = engine.connect()
     if request.method == 'POST':
 
@@ -282,8 +284,14 @@ def resa():
 
     for row in connection.execute(select([dates.c.dateFin]).where(dates.c.nomCheval == name)):
         info2.append(ajoute_jour(row[0]))
+
+    for row in connection.execute(select([utilisateurs.c.nom])):
+        tout.append(row[0])
         
-     
+    for i in tout:
+        if i == name:
+            b = 1
+            
     a = verif_date(dated, datef,info1,info2)
     
     jours = calcul_jour(dated,datef)
@@ -302,6 +310,8 @@ def resa():
         return(redirect(url_for('calendrier', nomChe=name)))
     if a==0:
         return render_template("erreur.html")
+    if b == 0:
+        return render_template("erreur2.html")
     
 
 
