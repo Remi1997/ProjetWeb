@@ -285,7 +285,7 @@ def resa():
     for row in connection.execute(select([dates.c.dateFin]).where(dates.c.nomCheval == name)):
         info2.append(ajoute_jour(row[0]))
 
-    for row in connection.execute(select([utilisateurs.c.nom])):
+    for row in connection.execute(select([utilisateur.c.nom])):
         tout.append(row[0])
         
     for i in tout:
@@ -305,13 +305,13 @@ def resa():
         
   
 #ici, on remplit la table dates
+    if b == 0:
+        return render_template("erreur2.html")
     if a ==1:
         connection.execute(da_ins.values(nomCheval=name,dateDebut=dated,dateFin=datef,prestation=pres, prix=arg, idUtilisateur=nb))
         return(redirect(url_for('calendrier', nomChe=name)))
     if a==0:
         return render_template("erreur.html")
-    if b == 0:
-        return render_template("erreur2.html")
     
 
 
