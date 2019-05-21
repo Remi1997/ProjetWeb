@@ -260,7 +260,7 @@ def calendrier(nomChe):
         
         info2.append(ajoute_jour(row[0]))
     
-    return render_template("demos/background-events.html", liste = info1, liste2=info2)
+    return render_template("demos/background-events.html", liste = info1, liste2=info2, nom=nomChe)
 
 #REQUETES POUR LES INFOS + ON REMPLIT TABLE DATES --------------------------------------------------------------------------
 
