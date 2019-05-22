@@ -4,26 +4,257 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html>
+<html lang="zxx" class="no-js">
     <head>
-        <title>Rapport WEB </title>
+        <!-- Mobile Specific Meta -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Favicon-->
+        <link rel="shortcut icon" href="static/img/fav.png">
+        <!-- Author Meta -->
+        <meta name="author" content="codepixer">
+        <!-- Meta Description -->
+        <meta name="description" content="">
+        <!-- Meta Keyword -->
+        <meta name="keywords" content="">
+        <!-- meta character set -->
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Site Title -->
+        <title>Rapport WEB </title>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700')}}">
+        <!--
+     CSS
+     ============================================= -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/linearicons.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/magnific-popup.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/nice-select.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.min.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.css')}}">
     </head>
     <body>
-        <div><h1 style="text-align: center;">Rapport Web</h1></div>
+      <header>
+          <div class="container">
+              <div class="row header-top align-items-center">
+                  <div class="col-lg-4 col-sm-4 menu-top-left">
+                      <a href="mailto:info@cyclone.fr"><span class="lnr lnr-location"></span></a>
+                      <a class="tel" href="mailto:info@cyclone.fr">info@cyclone.fr</a>
+                  </div>
+                  <div class="col-lg-4 menu-top-middle justify-content-center d-flex">
+                      <a href="accueil.html">
+                          <img class="img-fluid" src="static/img/logo.png" alt="">
+                      </a>
+                  </div>
+                  <div class="col-lg-4 col-sm-4 menu-top-right">
+                      <a class="tel" href="tel:+880 123 12 658 439"> 01 23 45 67 89</a>
+                      <a href="tel:+880 123 12 658 439"><span class="lnr lnr-phone-handset"></span></a>
+                  </div>
+              </div>
+          </div>
+          <hr>
 
-        <div><h2>I] Présentation</h2></div>
-        <p align="justify">Introduction sur ce que l'on veut faire et fonctionnalités</p>
 
-        <div><h2>II] Language Back-End/Front-End</h2></div>
-        <p align="justify">Flask pour le serveur<br>MySQL pour la base de données<br>SQLAlchemy pour communiquer<br>HTML/CSS</p>
+          {%if session['nom'] == 'Le Mouël Frédéric'%}
+          <div class="container">
+              <div class="row align-items-center justify-content-center d-flex">
+                  <nav id="nav-menu-container">
+                      <ul class="nav-menu">
+                          <li><a href="/">Accueil</a></li>
+                          <li><a href="/presentation">Présentation</a></li>
+                          <li><a href="/activites">Nos prestations</a></li>
+                          <li><a href="achat">Acheter/louer un cheval</a></li>
+                          <li><a href="contact">Contact</a></li>
+                         <li class="menu-active"><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
+                          <ul class="nav-menu">
+                              <li> <a href='espaceclient'> Espace client </a> </li>
+                              <li> <a href='panier'> Mon panier </a> </li>
+                              <li> <a href='rapport'> Rapport Web </a></li>
+                              <li> <a href='logout'> Se déconnecter </a> </li>
+                          </ul>
 
-        <div><h2>II] Dynamicité</h2></div>
-        <p align="justify">Affichage dynamique (calendrier, gestion dans html de l'utilisateur, ajout depuis base dans html)</p>
+                              </li>
+                      </ul>
+                  </nav><!-- #nav-menu-container -->
+              </div>
+          </div>
 
-        <div><h2>IV] Gestion de projet</h2></div>
-        <p align="justify">Angle d'approche<br>Répartition du travail<br>Mise en commun/GitHub</p>
+
+          {%elif session['logged'] == True%}
+
+          <div class="container">
+              <div class="row align-items-center justify-content-center d-flex">
+                  <nav id="nav-menu-container">
+                      <ul class="nav-menu">
+                          <li><a href="/">Accueil</a></li>
+                          <li><a href="presentation">Présentation</a></li>
+                          <li><a href="activites">Nos prestations</a></li>
+                          <li><a href="achat">Acheter/louer un cheval</a></li>
+                          <li><a href="contact">Contact</a></li>
+                          <li class="menu-active"><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
+                          <ul class="nav-menu">
+                              <li> <a href='espaceclient'> Espace client </a> </li>
+                              <li> <a href='panier'> Mon panier </a> </li>
+                              <li> <a href='logout'> Se déconnecter </a> </li>
+                          </ul>
+
+                              </li>
+                      </ul>
+                  </nav><!-- #nav-menu-container -->
+              </div>
+          </div>
+
+
+          {%else%}
+
+          <div class="container">
+              <div class="row align-items-center justify-content-center d-flex">
+                  <nav id="nav-menu-container">
+                      <ul class="nav-menu">
+                          <li><a href="/">Accueil</a></li>
+                          <li><a href="/presentation">Présentation</a></li>
+                          <li><a href="/activites">Nos prestations</a></li>
+                          <li><a href="achat">Acheter/louer un cheval</a></li>
+                          <li><a href="contact">Contact</a></li>
+                          <li class="menu-active"><a href="espaceclient">Espace client</a></li>
+                      </ul>
+                  </nav><!-- #nav-menu-container -->
+              </div>
+          </div>
+          {%endif%}
+      </header><!-- #header -->
+
+      <section >
+
+        <div style="margin: 120px;">
+          <div align="center"><h2>Sommaire</h2></div>
+
+          <div><a href="#Intro"><p style="color:#000000";><font size="+1">I] Introduction</font></p><a></div>
+
+          <div><a href="#Techno"><p style="color:#000000";><font size="+1">II] Choix des technologies</font></p></a>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. Front </p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. Back </p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. Base de donnée </p></div>
+
+
+          <div><a href="#Fonct"><p style="color:#000000";><font size="+1">III] Fonctionnalités</font></p></a>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. Modification des pages en fonction de la base de donnée </p>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. Gestion des locations </p>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. Espace client </p>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4. Envoi de mail entre utilisateur et service client </p>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5. Paiement en ligne </p></div>
+
+          <div><a href="#Proj"><p style="color:#000000";><font size="+1">IV] Gestion de projet</font></p></a>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. Fonctionnement du groupe </p>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. Planning </p>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. Retour et perspectives d'amélioration </p></div>
+
+          <div><a href="#Conc"><p style="color:#000000";><font size="+1">V] Conclusion et améliorations</font></p></a>
+
+
+        <br>
+        <br>
+          <div><a id="Intro"><h2>I] Introduction</h2></a><br>
+          <p align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dans le cadre de notre projet web, nous avons réalisé un site commercial pour un centre équestre. Cette idée nous est venue au départ d’un projet pour la Junior Entreprise ETIC. Une cliente souhaitait refaire son site de centre équestre, nous devions alors nous en charger. Finalement la demande a été annulée et nous avons décidé de rester sur la même idée de départ car elle nous paraissait correspondre tout de même aux exigences du projet.<br>
+Ainsi nous avons nommé notre centre “Cyclone”. Le but du site est de répondre aux besoins commerciaux du centre équestre. On retrouve sur les différentes pages qui le composent des informations classiques telles que des actualités, des témoignages ou encore les activités proposées. Ce site ne se limite néanmoins pas à un site vitrine, on trouve aussi une page qui présente les chevaux et poneys disponibles à la location et à partir de laquelle on peut les réserver pour ensuite payer les prestations en ligne.
+</p>
+          </div>
+
+          <div><a id="Techno"><h2>II] Choix des technologies</h2></a><br>
+          <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. Front </h3>
+          <p align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pour le front, nous avons décidé d’utiliser les langages : HTML, CSS et Javascript car nous avons un site plutôt classique composé de plusieurs pages qui nous donnent des informations sur le centre équestre. Nous avons donc pu trouver assez facilement un template CSS correspondant à nos attentes. Celui-ci nous a permis de gagner du temps car il avait tous les blocs utiles déjà implémentées. Un espace de newsletter, une page de présentation, une page de contact etc. L’adaptation dynamique des documents se fait à l’aide de JavaScript, qui relie le back-end au front-end de manière optimale. En effet, nous avons un back-end  qui  permet de mettre en paramètre des valeurs dans les pages html qui sont ensuite traitées par Javascript.</p>
+
+          <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. Back </h3>
+          <p align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dans le contexte de notre projet un back-end en php ou python correspondait parfaitement à nos besoins. Nous avons décidé de nous tourner vers le langage python car c’est le langage que nous maîtrisons le mieux dans le groupe. Pour choisir le framework nous avons hésité entre django et flask. Cependant, en vu des besoins de notre site nous avons pris flask comme framework. C’est un micro-framework facile d’utilisation et très adapté dans le cas d’une petite application web. Flask nous permet de générer des documents rapidement et facilement via les routes implémentées et était adapté à la complexité de notre site web.<br>
+	Autre avantage au choix du langage python est que l’on peut utiliser le framework SQLalchemy pour traiter nos bases de données MySQL. Celui-ci nous a permis de créer les tables, de les remplir et faire les requêtes associées.
+</p>
+
+          <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. Base de donnée </h3>
+          <p align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nous n’avons pas à manipuler un gros volume de données nous avons donc choisi de travailler avec MySQL. Notre base de données est composée de 7 tables :
+<ul>
+  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- cheval qui recense tous les chevaux du centre équestre qui sont en location ou vente.</li>
+  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- utilisateur qui recense les personnes inscrites sur le site</li>
+  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- dates recense toutes les locations des chevaux</li>
+  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- commandes qui contient toutes les réservations du client</li>
+  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- prestation qui contient les prestations du centre équestre</li>
+  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temoignages qui contient tous les témoignages entrés par les visiteurs</li>
+  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- actualites qui contient les actualités du centre équestre</li>
+</ul>
+<br>
+Les tables cheval, temoignages et actualites sont modifiés par l’admin du site web.
+Les tables utilisateurs et dates peuvent être modifiées par les utilisateurs du site web.
+Ci-dessous le diagramme de nos tables avec la clé primaire en gras :
+</p> <p align="center"><img src="static/img/bdd.png"></p></div>
+
+
+        <div><a id="Fonct"><h2>III] Fonctionnalités</h2></a><br>
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. Modification des pages en fonction de la base de donnée </h3>
+        <p align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Les actions d’ajouter, de modifier ou de supprimer un cheval ou une actualité sont accessibles seulement à l’administrateur. Ainsi lorsque l’administrateur se connecte à son espace client, les boutons “ajouter”, “supprimer” et “modifier” apparaissent sur les pages “Accueil” et “Acheter/Louer un cheval”. Quand on clique sur un bouton, la fonction correspondante dans le back nous renvoie vers un formulaire à remplir. On renseigne ensuite un champ qui va permettre d’identifier la ligne dans la table de données qui va être altérée. En cliquant sur le bouton “Ajouter”, dans le back une fonction récupère les valeurs puis avec un INSERT les ajoutent dans la base.<br>
+On est alors redirigés vers la page d’origine. Afin que les modifications se mettent en place sur la page web, un SELECT est effectué dans le back. Puis le résultat de celui-ci est placé en paramètre du “render_template” de la page. Ainsi, dans le code HTML on peut réutiliser ces données pour les afficher.
+</p>
+
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. Gestion des locations </h3>
+        <p align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lorsqu’un utilisateur veut louer un cheval il doit se rendre sur la page “A vendre/ A louer”. Sur cette page il y a tous les chevaux recensés par l’admin. L’utilisateur doit entrer le nom du cheval qu’il veut louer dans un formulaire. En appuyant sur le bouton “Louer” l’utilisateur fait une requête dans le back qui redirige vers la page affichant le calendrier correspondant au cheval demandé. Pour ouvrir cette page il faut d’abord que le back lise dans la base de données les dates qui sont déjà réservées et les affiche en rouge sur le calendrier. Pour cela on fait un select des dates de réservation lorsque le nom du cheval est celui entré par l’utilisateur. Sur la page de réservation il y a également un formulaire que l’utilisateur doit remplir. Plusieurs champs ont déjà été pré-remplis (nom de l’utilisateur et nom du cheval ces paramètres ont été traitées par le JavaScript dans la page html du calendrier), les autres champs sont : date de début de la location, date de fin et prestation demandée. Ce formulaire est ensuite traité dans le back end, un insert dans la table dates est fait par sqlalchemy. On vérifie* que le nom de l’utilisateur appartient bien à la base de données sinon on lui demande de s’inscrire, on vérifie que les dates de location ne sont pas déjà prises. Lorsque les erreurs ont été traitées et sont négatives, les champs sont ajoutés dans la base de données dates et la page calendrier se met à jour, on voit les cases des jours loués se colorer en rouge. L’utilisateur peut alors cliquer sur le bouton “voir mon panier” qui le redirige vers la page espace client avec son panier.
+          <br><br>
+          * Pour traiter les erreurs de nom et de dates : on fait une requête dans le back (select) pour récupérer les noms d’utilisateur recensés si le nom du formulaire ne correspond à aucun nom de la table utilisateur, il y a une erreur. Pour les dates, nous avons écrit une fonction python dans le back end qui compare les dates déjà réservées avec les dates entrées par l’utilisateur. Cette fonction retourne 0 si il y a un problème et 1 si cela fonctionne normalement.
+        </p>
+
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. Espace client </h3>
+        <p align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Une session avec tous les paramètres de l’utilisateur est initialisée lorsqu’il se connecte ou s’inscrit sur Cyclone. Cette session est un dictionnaire qui interagit avec le front-end, notamment les documents espaceclient.html et achat.html.
+          <br><br><span style="font-weight:bold;">/Inscription (inscription.html) -> /Enregistrement :</span><br>Cette page présente un formulaire d’inscription. S’il est rempli correctement il y aura une redirection vers enregistrement qui vérifie d’abord que l’adresse mail n’est pas déjà prise, puis insère dans la BDD ce nouvel utilisateur et le renvoie vers son espace client.
+          <br><span style="font-weight:bold;">/espaceclient(espaceclient.html) :</span><br>Elle charge une page de connexion si l’utilisateur n’est pas connecté, sinon une page correspondant à l’espace client. On y retrouve les informations du client, l’historique de ses commandes, la rubrique contact du service client qui permet d’envoyer un message à l’adresse  serviceclientcyclone@gmail.com avec le package flask_mail implémenté dans le serveur, et le bouton se déconnecter.
+L’utilisateur peut accéder à son espace client, au bouton de déconnexion et peut voir son panier sur n’importe quelle page s’il est connecté grâce au menu déroulant de la barre de navigation.
+          <br><span style="font-weight:bold;">/changerinfos(espaceclient.html) -> /updateinfos et /changermdp(espaceclient.html) -> /updatemdp :</span><br>Le client peut changer ses informations ou son mot de passe, ce qui redirige vers un lien présent uniquement dans le serveur, qui modifie la base de données. <br>
+          Gestion d’erreurs :
+          <ul>
+            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Vérification de l’adresse mail dans inscription : si elle est déjà prise l’enregistrement ne peut pas se faire ;</li>
+            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Vérification du mot de passe : l’ancien mot de passe correspond bien au mot de passe courant de la session ;</li>
+          </ul>
+        </p>
+
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4. Envoi de mail entre utilisateur et service client </h3>
+        <p align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sur la page d’accueil, un formulaire permet à un utilisateur non nécessairement connecté de renseigner son adresse mail afin de s’abonner à la Newsletter. Lorsqu’il a entré son adresse mail, celle-ci est récupérée dans une liste d’adresse mails au niveau du back et un email lui est immédiatement envoyé pour confirmer l’abonnement. Nous avons pour cela utilisé le module flask-mail dans lequel nous avons entré les identifiants de l’adresse mail créé pour le service client. L’envoi se fait ensuite automatiquement à l’adresse mail récupérée par le formulaire. <br>
+        De façon similaire dans l’espace client, un formulaire permet à l’utilisateur d’envoyer un mail au service client. On récupère pour cela via un request.form les données sur l’utilisateur, le contenu et l’objet du mail. Ensuite tout se passe comme si l’adresse mail du service client s’était envoyée un mail à elle même avec les informations précitées, toujours grâce au module flask-mail.</p>
+
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5. Paiement en ligne </h3>
+        <p align="justify"><br><span style="font-weight:bold;">/panier (panier.html) -> /supprpanier ou /payment :</span><br>
+          Le serveur remplit cette page avec la base de données de dates. Le client a la possibilité de :
+          <ul>
+            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  Supprimer un élément du panier, ce qui supprime la réservation dans la base de données (table date) ;</li>
+            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Payer le total correspondant au panier avec Paypal ;</li>
+          </ul>
+          <br><span style="font-weight:bold;">/payment  -> /execute ou /annuler :</span><br>
+          Le package paypalrestsdk permet d’implémenter le mode de paiement Paypal. Il s’agissait d’une fonction JS sur le front-end de la page achat.html, et d’un ensemble de fonctions au niveau du back-end pour créer un identifiant de paiement unique, exécuter le paiement et l’accepter ou le refuser. Les paramètres payer-id et payment-id sont échangés entre le serveur et le client et permettent d’alimenter le compte Paypal du marchand. Le tutoriel est disponible sur <a href="https://github.com/paypal/PayPal-Python-SDK">https://github.com/paypal/PayPal-Python-SDK</a>. Lorsque le paiement est effectué, les bases de données sont modifiées pour prendre en compte la commande.<br>
+          Pour débugger : Inspecter l’élement à Network sur le navigateur web Chrome pour visualiser les échanges entre le client et l’API.
+        </p>
+        </div>
+
+        <div><a id="Proj"><h2>IV] Gestion de projet</h2></a><br>
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. Fonctionnement du groupe </h3>
+        <p align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Au début du projet notre groupe ne possédait aucune expérience significative avec la programmation Web en dehors des travaux dirigés. Nous n’avions donc pas non plus d’affinité avec une technologie en particulier. C’est pourquoi nous avons privilégié une division des tâches par fonctionnalités à implémenter sur le site. Cela a permis à chaque membre du groupe de participer à la fois au développement du front-end et du back-end ainsi qu’à la réflexion autour de l’architecture de la base de données.<br>
+          En ce sens, nous avons commencé par définir les fonctionnalités qui paraissaient intéressantes à implémenter sur le site commercial d’un centre équestre puis nous avons trié ces fonctionnalités par ordre d’importance et commencé à programmer celles qui étaient indispensables. A chaque fin de créneau de travail en groupe, nous avons fait un état d’avancement de chacune de nos tâches en précisant bien la démarche que chacun entreprenait pour repérer des similitudes et pouvoir s’entraider sur d’éventuels points de blocage au créneau suivant.<br>
+          D’un point de vue pratique, afin de pouvoir modifier les différentes pages du site de façon simultanée par plusieurs membres du groupe, nous avons utilisé le logiciel de gestion de versions Git et son service d’hébergement GitHub. Cela a nécessité un léger temps de maitrise du logiciel au départ qui a néanmoins permis d’en gagner beaucoup par la suite.
+        </p>
+
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. Planning </h3>
+        <p align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Notre projet s’est déroulé sur 7 séances avec le planning suivant :
+        <p align="center"><img src="static/img/planning.png"></p></p>
+<br>
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. Retour et perspectives d'amélioration </h3
+        <p align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;La répartition du travail par fonctionnalités a été particulièrement adaptée dans le cadre d’un projet pédagogique, car chaque membre du groupe a pu se former sur toutes les technologies utilisées. Néanmoins, étant donné la ressemblance entre certaines des fonctions codées pour chaque fonctionnalité, nous avons bien vu qu’il a été parfois plus efficace d’intervertir nos rôles pour réutiliser des fonctions déjà implémentées par d’autres. Nous avons aussi remarqué que penser le front-end associé à chacune des fonctionnalités en les développant n’était pas optimal: il a fallu une bonne phase de finitions pour remettre à jour les interactions front entre chaque page.</p>
+        </div>
+
+        <div><a id="Conc"><h2>V] Conclusion et améliorations</h2></a><br>
+          <p align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Les fonctionnalités principales du site de notre centre équestre ont été réalisées : la présentation du centre via la partie vitrine et les fonctionnalités de location et de paiement. Néanmoins, il reste de nombreux points d’amélioration à implémenter par la suite.<br>
+          Premièrement, en terme de données, les types d’enregistrement effectués ne sont pas toujours appropriés. Par exemple nous devrions utiliser un type qui permet de restreindre le nombre de caractères à entrer pour un numéro de téléphone mais notre tentative n’a pas fonctionné.<br>
+        De plus, il y a beaucoup d’améliorations à faire au niveau de la gestion des erreurs, que nous n’avons pas totalement traitée par manque de temps. L’utilisateur peut dans l’état actuel entrer un nom de cheval non existant dans le champ de réservation, ce qui est problématique même si il ne peut pas valider la commande dans ce cas. Il faudrait également envoyer un mail de confirmation d’inscription aux utilisateurs souhaitant s’inscrire pour éviter les problèmes d’usurpation d’identité.
+      </p>
+        </div>
+      </div>
+      </section>
+
 
     </body>
 </html>
