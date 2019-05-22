@@ -40,24 +40,24 @@
                     </div>
                     <div class="col-lg-4 menu-top-middle justify-content-center d-flex">
                         <a href="accueil.html">
-                            <img class="img-fluid" src="static/img/logo.png" alt="">	
-                        </a>			    			
+                            <img class="img-fluid" src="static/img/logo.png" alt="">
+                        </a>
                     </div>
                     <div class="col-lg-4 col-sm-4 menu-top-right">
                         <a class="tel" href="tel:+880 123 12 658 439"> 01 23 45 67 89</a>
                         <a href="tel:+880 123 12 658 439"><span class="lnr lnr-phone-handset"></span></a>
                     </div>
                 </div>
-            </div>	
+            </div>
             <hr>
 
-            
+
             {%if session['nom'] == 'Le Mouël Frédéric'%}
-            <div class="container">	
+            <div class="container">
                 <div class="row align-items-center justify-content-center d-flex">
                     <nav id="nav-menu-container">
                         <ul class="nav-menu">
-                            <li class="menu-active"><a href="/">Accueil</a></li>			          
+                            <li class="menu-active"><a href="/">Accueil</a></li>
                             <li><a href="/presentation">Présentation</a></li>
                             <li><a href="/activites">Nos prestations</a></li>
                             <li><a href="achat">Acheter/louer un cheval</a></li>
@@ -69,21 +69,21 @@
                                 <li> <a href='rapport'> Rapport Web </a></li>
                                 <li> <a href='logout'> Se déconnecter </a> </li>
                             </ul>
-                                
+
                                 </li>
                         </ul>
-                    </nav><!-- #nav-menu-container -->		    		
+                    </nav><!-- #nav-menu-container -->
                 </div>
             </div>
 
-            
+
             {%elif session['logged'] == True%}
 
-            <div class="container">	
+            <div class="container">
                 <div class="row align-items-center justify-content-center d-flex">
                     <nav id="nav-menu-container">
                         <ul class="nav-menu">
-                            <li class="menu-active"><a href="/">Accueil</a></li>			          
+                            <li class="menu-active"><a href="/">Accueil</a></li>
                             <li><a href="presentation">Présentation</a></li>
                             <li><a href="activites">Nos prestations</a></li>
                             <li><a href="achat">Acheter/louer un cheval</a></li>
@@ -94,36 +94,36 @@
                                 <li> <a href='panier'> Mon panier </a> </li>
                                 <li> <a href='logout'> Se déconnecter </a> </li>
                             </ul>
-                                
+
                                 </li>
                         </ul>
-                    </nav><!-- #nav-menu-container -->		    		
+                    </nav><!-- #nav-menu-container -->
                 </div>
             </div>
 
 
             {%else%}
 
-            <div class="container">	
+            <div class="container">
                 <div class="row align-items-center justify-content-center d-flex">
                     <nav id="nav-menu-container">
                         <ul class="nav-menu">
-                            <li class="menu-active"><a href="/">Accueil</a></li>			          
+                            <li class="menu-active"><a href="/">Accueil</a></li>
                             <li><a href="/presentation">Présentation</a></li>
                             <li><a href="/activites">Nos prestations</a></li>
                             <li><a href="achat">Acheter/louer un cheval</a></li>
                             <li><a href="contact">Contact</a></li>
                             <li><a href="espaceclient">Espace client</a></li>
                         </ul>
-                    </nav><!-- #nav-menu-container -->		    		
+                    </nav><!-- #nav-menu-container -->
                 </div>
             </div>
             {%endif%}
         </header><!-- #header -->
         <!-- start banner Area -->
-        <section class="banner-area relative" id="home">	
+        <section class="banner-area relative" id="home">
             <div class="overlay overlay-bg"></div>
-            <div class="container">				
+            <div class="container">
                 <div class="row fullscreen d-flex align-items-center justify-content-start">
                     <div class="banner-content col-lg-12">
                         <span class="bar"></span>
@@ -160,7 +160,7 @@
                         <a class="primary-btn" href="activites">Découvrez nos services</a>
                     </div>
                 </div>
-            </div>	
+            </div>
         </section>
         <!-- End home-about Area -->
 
@@ -194,7 +194,7 @@
                                 Poneys / Chevaux de sport
                                 Location, préparation aux concours.                         </p>
                         </div>
-                    </div>	
+                    </div>
                     <div class="col-lg-4 col-md-6">
                         <div class="single-feature">
                             <a href="activites"><h4 class="text-white">Loisirs</h4></a>
@@ -202,9 +202,9 @@
                                 Ballades, animations, cours de passage.
                             </p>
                         </div>
-                    </div>																	
+                    </div>
                 </div>
-            </div>	
+            </div>
         </section>
         <!-- End feature Area -->
 
@@ -227,7 +227,7 @@
                             <p></p>
                         </div>
                     </div>
-                </div>					
+                </div>
                 <div class="row">
                     <!-- Ajout dynamique actualités -->
                     {%for i in liste2%}
@@ -297,9 +297,9 @@
                                         <span class="fa fa-star checked"></span>
                                     </div>
                                 </div>
-                                <p> Grâce à Cyclone, je dépose chaque weekend mon fils pour suivre ses cours 
+                                <p> Grâce à Cyclone, je dépose chaque weekend mon fils pour suivre ses cours
                                     d'équitation et apprendre à s'occuper des chevaux. Cyclone a éveillé en lui de la tendresse et lui a appris le sens de
-                                    la responsabilité. De plus, c'est vraiment rassurant car je sais qu'il est entre de bonnes mains. 
+                                    la responsabilité. De plus, c'est vraiment rassurant car je sais qu'il est entre de bonnes mains.
                                     L'équipe Cyclone est très compétente et accueille chaleureusement ses clients!
 
                                 </p>
@@ -315,7 +315,7 @@
                                     </div>
                                 </div>
                                 <p>
-                                    Ma petite fille est entièrement satisfaite des services de Cyclone! L'équipe est très accueillante et professionnelle, les chevaux sont adorables.       </p>									
+                                    Ma petite fille est entièrement satisfaite des services de Cyclone! L'équipe est très accueillante et professionnelle, les chevaux sont adorables.       </p>
                             </div>
                             <div class="single-carusel">
                                 <img src="static/img/r1.png" alt="">
@@ -345,10 +345,10 @@
                                     </div>
                                 </div>
                                 <p>
-                                    Service satisfaisant, personnel compétent. Les cours sont sympathiques. 
+                                    Service satisfaisant, personnel compétent. Les cours sont sympathiques.
                                 </p>
 
-                            </div>	
+                            </div>
                             <!-- Ajout dynamique des témoignages -->
 
                             <div class="single-carusel">
@@ -376,7 +376,7 @@
                     </div>
                     <div class="col-lg-4 col-md-6 booking-right">
                         <h4 class="mb-20">Laissez un témoignage</h4>
-                        <form action="#">
+                        <form action="http://localhost:5000/ajoutertemoi" method = "POST">
                             <input class="form-control" type="text" name="name" placeholder="nom et prénom" required>
                             <input class="form-control" type="email" name="email" placeholder="adresse mail" required>
                             <input class="form-control" type="text" name="phone" placeholder="portable" required>
@@ -386,7 +386,7 @@
                         </form>
                     </div>
                 </div>
-            </div>	
+            </div>
         </section>
         <!-- End booking Area -->
 
@@ -403,50 +403,50 @@
                                 <div class="align-items-center justify-content-center d-flex">
                                 </div>
                             </div>
-                        </div>	
+                        </div>
                         <div class="item single-gallery">
                             <div class="thumb">
                                 <img src="static/img/g2.jpg" alt="">
                                 <div class="align-items-center justify-content-center d-flex">
                                 </div>
                             </div>
-                        </div>	
+                        </div>
                         <div class="item single-gallery">
                             <div class="thumb">
                                 <img src="static/img/g3.jpg" alt="">
                                 <div class="align-items-center justify-content-center d-flex">
                                 </div>
                             </div>
-                        </div>	
+                        </div>
                         <div class="item single-gallery">
                             <div class="thumb">
                                 <img src="static/img/g4.jpg" alt="">
                                 <div class="align-items-center justify-content-center d-flex">
                                 </div>
                             </div>
-                        </div>	
+                        </div>
                         <div class="item single-gallery">
                             <div class="thumb">
                                 <img src="static/img/g5.jpg" alt="">
                                 <div class="align-items-center justify-content-center d-flex">
                                 </div>
                             </div>
-                        </div>	
+                        </div>
                         <div class="item single-gallery">
                             <div class="thumb">
                                 <img src="static/img/g6.jpg" alt="">
                                 <div class="align-items-center justify-content-center d-flex">
                                 </div>
                             </div>
-                        </div>								
+                        </div>
 
                     </div>
                 </div>
-            </div>	
+            </div>
         </section>
         <!-- End gallery Area -->
 
-        <!-- start footer Area -->		
+        <!-- start footer Area -->
         <footer class="footer-area section-gap">
             <div class="container">
                 <div class="row">
@@ -471,7 +471,7 @@
                                 Tél: 01 23 45 67 89 <br>
                             </p>
                         </div>
-                    </div>						
+                    </div>
                     <div class="col-lg-5  col-md-6 col-sm-6">
                         <div class="single-footer-widget">
                             <h4>Newsletter</h4>
@@ -486,11 +486,11 @@
                                             <button class="genric-btn"><span class="lnr lnr-arrow-right"></span></button>
                                         </div>
                                     </div>
-                                    <div class="info mt-20"></div>									    
+                                    <div class="info mt-20"></div>
                                 </form>
                             </div>
                         </div>
-                    </div>						
+                    </div>
                 </div>
                 <div class="footer-bottom row">
                     <p class="footer-text m-0 col-lg-6 col-md-12">
@@ -509,26 +509,26 @@
                     </div>
                 </div>
             </div>
-        </footer>	
+        </footer>
         <!-- End footer Area -->
 
         <script src="static/js/vendor/jquery-2.2.4.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="static/js/vendor/bootstrap.min.js"></script>			
+        <script src="static/js/vendor/bootstrap.min.js"></script>
         <script type="static/text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
-        <script src="static/js/easing.min.js"></script>			
+        <script src="static/js/easing.min.js"></script>
         <script src="static/js/hoverIntent.js"></script>
-        <script src="static/js/superfish.min.js"></script>	
+        <script src="static/js/superfish.min.js"></script>
         <script src="static/js/jquery.ajaxchimp.min.js"></script>
-        <script src="static/js/jquery.magnific-popup.min.js"></script>	
-        <script src="static/js/owl.carousel.min.js"></script>			
+        <script src="static/js/jquery.magnific-popup.min.js"></script>
+        <script src="static/js/owl.carousel.min.js"></script>
         <script src="static/js/jquery.sticky.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>				
-        <script src="static/js/jquery.nice-select.min.js"></script>			
-        <script src="static/js/parallax.min.js"></script>	
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="static/js/jquery.nice-select.min.js"></script>
+        <script src="static/js/parallax.min.js"></script>
         <script src="static/js/waypoints.min.js"></script>
-        <script src="static/js/jquery.counterup.min.js"></script>			
-        <script src="static/js/mail-script.js"></script>	
+        <script src="static/js/jquery.counterup.min.js"></script>
+        <script src="static/js/mail-script.js"></script>
         <script src="static/js/main.js"></script>
     </body>
 </html>
