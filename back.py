@@ -4,6 +4,8 @@ from sqlalchemy.sql import *
 from flask_mail import Mail
 from flask_mail import Message
 import datetime
+import paypalrestsdk
+import logging
 app = Flask(__name__)
 # CreationBDD
 engine = create_engine('sqlite:///mabase.db', echo=True)
@@ -34,7 +36,8 @@ dates = Table('dates', metadata,
                       Column('dateFin', String),
                       Column('prestation',String),
                       Column('prix',Integer),
-                      Column('idUtilisateur',Integer)
+                      Column('idUtilisateur',Integer),
+                      Column('payé', Integer, default=0)
                       )
 
 utilisateur = Table('utilisateur', metadata,
@@ -302,7 +305,9 @@ def resa():
         tout.append(row[0])
         
     for i in tout:
-        if i == name:
+
+        if i == nomUt:
+
             b = 1
     a = verif_date(dated, datef,info1,info2)
 
@@ -616,14 +621,16 @@ def updatemdp():
 @app.route('/panier')
 def panier():
     message=[] #liste dont chaque élément représente une location
+    global total
     total=0
+    global iduser
     connection = engine.connect()
     logged = "logged" in session #la clé logged est elle dans session?
     if logged:
         if session["logged"] == True:
             for row in connection.execute(select([utilisateur.c.idUtilisateur]).where(utilisateur.c.mail == session['mail'])):
                 iduser= row[0]
-            for row in connection.execute(select([dates.c.nomCheval,dates.c.prestation,dates.c.dateDebut, dates.c.dateFin, dates.c.prix, dates.c.numLocation]).where(dates.c.idUtilisateur == iduser)):
+            for row in connection.execute(select([dates.c.nomCheval,dates.c.prestation,dates.c.dateDebut, dates.c.dateFin, dates.c.prix, dates.c.numLocation]).where(dates.c.idUtilisateur == iduser and dates.c.payé==0)):
                 message.append(row)
                 total += row[4]
             return render_template("panier.html", panierinfos=message, total=total)
@@ -638,18 +645,6 @@ def supprpanier():
         numlocation = escape(request.form['numlocation'])
         connection.execute(dates.delete().where(dates.c.numLocation == numlocation))
         return redirect('/panier')
-
-
-# DEBUT PAIEMENT-----------------------------------------------------------------------------------------
-@app.route('/annuler')
-def annulation():
-    render_template('annuler.html')
-
-
-@app.route('/succes')
-def succes():
-    render_template('succes.html')
-# FIN PAIEMENT-----------------------------------------------------------------------------------------
 
 
 @app.route('/rapport')
@@ -723,14 +718,93 @@ def envoiNewsletter():
         return redirect('/')
 
 
-#PAYPAL ---------------------------------------------------------------------------------------------------------------
-
-import paypalrestsdk
+#PAYPAL -----------------------------------------------------------------------------------------------------------------
 paypalrestsdk.configure({
-  "mode": "sandbox", # sandbox or live
-  "client_id": "EBWKjlELKMYqRNQ6sYvFo64FtaRLRR5BdHEESmha49TM",
-  "client_secret": "EO422dn3gQLgDbuwqTjzrFgFtaRLRR5BdHEESmha49TM" })
+  "mode": "live", # sandbox or live
+  "client_id": "AbJHYLk4rqYPSbXCz8bNIR6YMwQq54F8Zi5jI0jPBcBsQ153vPHJEIEYtbKixyfe2PLOCrBH3cpSlaDy",
+  "client_secret": "ECBkFJubkYA38QY6mE96znTCEjVQyt-_EAsqwSnDG4EjWYISLTwptl6XTa0REBplfq8wGdizQbQqhUT5"})
 
+
+#PAYPAL: CREER UN PAIEMENT-----------------------------------------------------------------------------------------------
+
+@app.route('/payment', methods=['POST'])
+def paiement():
+    #générer le payment.id
+    payment = paypalrestsdk.Payment({
+        "intent": "sale",
+        "payer": {
+            "payment_method": "paypal"},
+        "redirect_urls": {
+            "return_url": "http://localhost:5000/execute",
+            "cancel_url": "http://localhost:5000/annuler"},
+        "transactions": [{
+            "item_list": {
+                "items": [{
+                    "name": "item",
+                    "sku": "item",
+                    "price": "0.00",
+                    "currency": "EUR",
+                    "quantity": 1}]},
+            "amount": {
+                "total": total,
+                "currency": "EUR"},
+            "description": "Paiement pour la location d'un cheval"}]})
+    if payment.create():
+        print("Payment created successfully")
+    else:
+        print(payment.error)
+    response= jsonify({"paymentID": payment.id})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+#Autoriser paiement
+    for link in payment.links:
+        if link.rel == "approval_url":
+        # Convert to str to avoid Google App Engine Unicode issue
+        # https://github.com/paypal/rest-api-sdk-python/pull/58
+            approval_url = str(link.href)
+            print("Redirect for approval: %s" % (approval_url))
+
+
+#EXECUTER LE PAIEMENT---------------------------------------------------------------------------------------------------
+@app.route ('/execute', methods=['POST'])
+def execute():
+    conn = engine.connect()
+    success= False
+    #Créer le payment id
+    payment = paypalrestsdk.Payment.find(request.form['paymentID'])
+
+    if payment.execute({"payer_id": request.form['payerID']}):
+        print("Payment executed successfully")
+        success= True
+        #enlever du panier et remplir la table commandes
+        for row in conn.execute(select([dates.c.idCheval]).where(dates.c.idUtilisateur == iduser)): #selectionner toutes les lignes du panier
+            connection.execute(commandes.insert(), [
+                {"idCheval": row, "datecommande": datetime.datetime.now(), "idUtilisateur": iduser, "montant": total}]) #les insérer dans cmd
+        dates.update(). \
+            where(dates.c.idUtilisateur == iduser). \
+            values(payé=1)
+    else:
+        print(payment.error)  # Error Hash
+    response= jsonify({'success': success})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+
+#ANNULATION DU PAIEMENT-----------------------------------------------------------------------------------------
+
+@app.route('/annuler')
+def annulation():
+    conn = engine.connect()
+    conn.execute(
+        dates.delete().where(dates.c.idUtilisateur == iduser))  # supprimer les lignes de panier de l'utilisateur
+    session['message'] = "Le paiement n'a pas abouti. Nous avons annulé votre réservation."
+    redirect('/espaceclient')
+# FIN PAIEMENT-----------------------------------------------------------------------------------------
+
+#LISTE DE PAIEMENTS-----------------------------------------------------------------------------------------------------
+payment_history = paypalrestsdk.Payment.all({"count": 10})
+payment_history.payments
 
 
 if __name__ == '__main__':

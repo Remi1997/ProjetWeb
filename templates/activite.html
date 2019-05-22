@@ -51,49 +51,51 @@
             </div>	
             <hr>
 
-
+            
             {%if session['nom'] == 'Le Mouël Frédéric'%}
             <div class="container">	
                 <div class="row align-items-center justify-content-center d-flex">
                     <nav id="nav-menu-container">
                         <ul class="nav-menu">
-                            <li class="menu-active"><a href="/">Accueil</a></li>			          
+                            <li><a href="/">Accueil</a></li>			          
                             <li><a href="/presentation">Présentation</a></li>
-                            <li><a href="/activites">Nos prestations</a></li>
+                            <li class="menu-active"><a href="/activites">Nos prestations</a></li>
                             <li><a href="achat">Acheter/louer un cheval</a></li>
                             <li><a href="contact">Contact</a></li>
-                            <li><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
-                                <ul class="nav-menu">
-                                    <li> <a href='espaceclient'> Espace client </a> </li>
-                                    <li> <a href='rapport'> Rapport Web </a></li>
-                                    <li> <a href='logout'> Se déconnecter </a> </li>
-                                </ul>
-
-                            </li>
+                           <li><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
+                            <ul class="nav-menu">
+                                <li> <a href='espaceclient'> Espace client </a> </li>
+                                <li> <a href='panier'> Mon panier </a> </li>
+                                <li> <a href='rapport'> Rapport Web </a></li>
+                                <li> <a href='logout'> Se déconnecter </a> </li>
+                            </ul>
+                                
+                                </li>
                         </ul>
                     </nav><!-- #nav-menu-container -->		    		
                 </div>
             </div>
 
-
+            
             {%elif session['logged'] == True%}
 
             <div class="container">	
                 <div class="row align-items-center justify-content-center d-flex">
                     <nav id="nav-menu-container">
                         <ul class="nav-menu">
-                            <li class="menu-active"><a href="/">Accueil</a></li>			          
+                            <li><a href="/">Accueil</a></li>			          
                             <li><a href="presentation">Présentation</a></li>
-                            <li><a href="activites">Nos prestations</a></li>
+                            <li class="menu-active"><a href="activites">Nos prestations</a></li>
                             <li><a href="achat">Acheter/louer un cheval</a></li>
                             <li><a href="contact">Contact</a></li>
                             <li><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
-                                <ul class="nav-menu">
-                                    <li> <a href='espaceclient'> Espace client </a> </li>
-                                    <li> <a href='logout'> Se déconnecter </a> </li>
-                                </ul>
-
-                            </li>
+                            <ul class="nav-menu">
+                                <li> <a href='espaceclient'> Espace client </a> </li>
+                                <li> <a href='panier'> Mon panier </a> </li>
+                                <li> <a href='logout'> Se déconnecter </a> </li>
+                            </ul>
+                                
+                                </li>
                         </ul>
                     </nav><!-- #nav-menu-container -->		    		
                 </div>
@@ -106,9 +108,9 @@
                 <div class="row align-items-center justify-content-center d-flex">
                     <nav id="nav-menu-container">
                         <ul class="nav-menu">
-                            <li class="menu-active"><a href="/">Accueil</a></li>			          
+                            <li><a href="/">Accueil</a></li>			          
                             <li><a href="/presentation">Présentation</a></li>
-                            <li><a href="/activites">Nos prestations</a></li>
+                            <li class="menu-active"><a href="/activites">Nos prestations</a></li>
                             <li><a href="achat">Acheter/louer un cheval</a></li>
                             <li><a href="contact">Contact</a></li>
                             <li><a href="espaceclient">Espace client</a></li>
@@ -157,7 +159,7 @@
                                 <p>
                                     Pour cette journée inoubliable, profitez d'un ou plusieurs chevaux afin d'aminer et de divertir vos invités.
                                 </p>
-                                <p><h5>La journée :300€</h5></p>
+                                <p><h5>La journée :90€</h5></p>
                             </div>
                         </div>
                     </div>
@@ -172,7 +174,7 @@
                                 <p>
                                     Proposez des balades en calèche conduites par nos soins. Ne vous souciez de rien et profitez juste du voyage !
                                 </p>
-                                <p><h5>La journée :400€</h5></p>
+                                <p><h5>La journée :120€</h5></p>
                             </div>
                         </div>
                     </div>
@@ -187,7 +189,7 @@
                                 <p>
                                     Rien de tel qu'un poney pour rendre inoubliable l'anniversaire de votre enfant ! Ne cherchez plus nous avons ce qu''il vous faut.
                                 </p>
-                                <p><h5>La journée :200€</h5></p>
+                                <p><h5>La journée :70€</h5></p>
                             </div>
                         </div>
                     </div>
@@ -202,7 +204,8 @@
                                 <p>
                                     Découvrez notre belle région à travers une randonnée équestre sur 1 ou 2 jours. Venez vivre en groupe un moment intense dans un cadre convivial.
                                 </p>
-                                <p><h5>La journée : 250€</h5></p>
+                                <p><h5>1 jour : 100€</h5></p>
+                                <p><h5>2 jours : 175€</h5></p>
                             </div>
                         </div>
                     </div>
@@ -284,9 +287,9 @@
                         <div class="single-footer-widget">
                             <h4>Contactez-nous</h4>
                             <p>
-                                Notre équipe sera ravie de vous accueillir!  <br>
-                                Adresse: HAMEAU DE CHARNESSEUIL - 77750 SAINT CYR SUR MORIN <br>
-                                Mail: info@cyclone.fr
+                            Notre équipe sera ravie de vous accueillir!  <br>
+                            Adresse: 377, Chemin de la Lechere, Brié et Angonnes <br>
+                            Mail: info@cyclone.fr
                             </p>
 
                             <p class="number">
