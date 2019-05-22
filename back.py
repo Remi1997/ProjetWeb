@@ -494,8 +494,8 @@ def index():
                     session['loc'] = resultat[4]
                     s2 = text(
                         'SELECT commandes.idcommande, cheval.nomCheval, commandes.datecommande, commandes.montant FROM utilisateur inner join commandes on utilisateur.idUtilisateur = commandes.idUtilisateur inner join cheval on cheval.idCheval = commandes.idCheval WHERE utilisateur.mail==:x')
-                    resultats2 = connection.execute(s2, x=session["mail"])
-                    if resultats2 != None: # sil y a des commandes
+                    resultats2=connection.execute(s2, x=session["mail"])
+                    if (resultats2 != None):
                         if session['change'] == '0':
                             for resultat in resultats2:
                                 cmd.append({'idcmd': resultat[0], 'nomcheval': resultat[1], 'datecmd': resultat[2],
@@ -650,7 +650,7 @@ def panier():
             for row in connection.execute(select([dates.c.nomCheval,dates.c.prestation,dates.c.dateDebut, dates.c.dateFin, dates.c.prix, dates.c.numLocation]).where(dates.c.idUtilisateur == iduser and dates.c.paye==0)):
                 message.append(row)
                 total += row[4]
-            return render_template("panier.html", panierinfos=message, total=total)
+            return render_template("panier.html", panierinfos=message, total=total, session=session)
     else:
         return redirect('/espaceclient')
 
@@ -763,7 +763,7 @@ def paiement():
                     "currency": "EUR",
                     "quantity": 1}]},
             "amount": {
-                "total": '0',
+                "total": total,
                 "currency": "EUR"},
             "description": "Paiement pour la location d'un cheval"}]})
     if payment.create():
@@ -822,6 +822,7 @@ def annulation():
 #LISTE DE PAIEMENTS-----------------------------------------------------------------------------------------------------
 payment_history = paypalrestsdk.Payment.all({"count": 10})
 payment_history.payments
+
 
 
 if __name__ == '__main__':
