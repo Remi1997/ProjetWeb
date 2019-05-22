@@ -132,7 +132,12 @@ def accueil():
     for i in connection.execute(select([temoignage.c.nom, temoignage.c.message])):
         data.append(i)
     print (data)
-    return render_template('accueil.html', title='Accueil', liste=data, liste2=dataAct, session=session)
+    logged = "logged" in session
+    if logged:
+        if session['logged']== True:
+            return render_template('accueil.html', title='Accueil',liste=data, liste2=dataAct, mail=session["mail"], session=session)
+    else:
+        return render_template('accueil.html', title='Accueil', liste=data, liste2=dataAct, session=session)
 
 mail_settings = {
     "MAIL_SERVER": 'smtp.gmail.com',
@@ -275,7 +280,7 @@ def calendrier(nomChe):
     for row in connection.execute(select([dates.c.dateFin]).where(dates.c.nomCheval == nomChe)):
 
         info2.append(ajoute_jour(row[0]))
-    
+
     return render_template("demos/background-events.html", liste = info1, liste2=info2, nom=nomChe)
 
 #REQUETES POUR LES INFOS + ON REMPLIT TABLE DATES --------------------------------------------------------------------------
@@ -303,7 +308,7 @@ def resa():
 
     for row in connection.execute(select([utilisateur.c.nom])):
         tout.append(row[0])
-        
+
     for i in tout:
 
         if i == nomUt:
