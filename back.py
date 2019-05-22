@@ -738,7 +738,7 @@ def envoiNewsletter():
             mail.send(msg)
         session['message']="Votre adresse a été enregistrée, vous recevrez notre Newsletter !"
         session['change']='3'
-        return redirect(request.url)
+        return redirect("/")
 
 
 #PAYPAL -----------------------------------------------------------------------------------------------------------------
