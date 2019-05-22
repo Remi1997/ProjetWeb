@@ -171,7 +171,7 @@ Ainsi nous avons nommé notre centre “Cyclone”. Le but du site est de répon
 	Autre avantage au choix du langage python est que l’on peut utiliser le framework SQLalchemy pour traiter nos bases de données MySQL. Celui-ci nous a permis de créer les tables, de les remplir et faire les requêtes associées.
 </p>
 
-          <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. Base de donnée </h3>
+          <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. Base de données </h3>
           <p align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nous n’avons pas à manipuler un gros volume de données nous avons donc choisi de travailler avec MySQL. Notre base de données est composée de 7 tables :
 <ul>
   <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- cheval qui recense tous les chevaux du centre équestre qui sont en location ou vente.</li>
@@ -227,7 +227,7 @@ L’utilisateur peut accéder à son espace client, au bouton de déconnexion et
           </ul>
           <br><span style="font-weight:bold;">/payment  -> /execute ou /annuler :</span><br>
           Le package paypalrestsdk permet d’implémenter le mode de paiement Paypal. Il s’agissait d’une fonction JS sur le front-end de la page achat.html, et d’un ensemble de fonctions au niveau du back-end pour créer un identifiant de paiement unique, exécuter le paiement et l’accepter ou le refuser. Les paramètres payer-id et payment-id sont échangés entre le serveur et le client et permettent d’alimenter le compte Paypal du marchand. Le tutoriel est disponible sur <a href="https://github.com/paypal/PayPal-Python-SDK">https://github.com/paypal/PayPal-Python-SDK</a>. Lorsque le paiement est effectué, les bases de données sont modifiées pour prendre en compte la commande.<br>
-          Pour débugger : Inspecter l’élement à Network sur le navigateur web Chrome pour visualiser les échanges entre le client et l’API.
+          Pour débugger : Inspecter l’élement -> Network sur le navigateur web Chrome pour visualiser les échanges entre le client et l’API.
         </p>
         </div>
 
@@ -250,6 +250,7 @@ L’utilisateur peut accéder à son espace client, au bouton de déconnexion et
           <p align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Les fonctionnalités principales du site de notre centre équestre ont été réalisées : la présentation du centre via la partie vitrine et les fonctionnalités de location et de paiement. Néanmoins, il reste de nombreux points d’amélioration à implémenter par la suite.<br>
           Premièrement, en terme de données, les types d’enregistrement effectués ne sont pas toujours appropriés. Par exemple nous devrions utiliser un type qui permet de restreindre le nombre de caractères à entrer pour un numéro de téléphone mais notre tentative n’a pas fonctionné.<br>
         De plus, il y a beaucoup d’améliorations à faire au niveau de la gestion des erreurs, que nous n’avons pas totalement traitée par manque de temps. L’utilisateur peut dans l’état actuel entrer un nom de cheval non existant dans le champ de réservation, ce qui est problématique même si il ne peut pas valider la commande dans ce cas. Il faudrait également envoyer un mail de confirmation d’inscription aux utilisateurs souhaitant s’inscrire pour éviter les problèmes d’usurpation d’identité.
+        Le point le plus important reste cependant la possibilité d'ajouter d'autres moyens de paiement que Paypal. Cette fonctionnalité est bien évidemment indispensable à tout site de type e-commerce. 
       </p>
         </div>
       </div>
