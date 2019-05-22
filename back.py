@@ -4,7 +4,6 @@ from sqlalchemy.sql import *
 from flask_mail import Mail
 from flask_mail import Message
 import datetime
-import socket
 app = Flask(__name__)
 # CreationBDD
 engine = create_engine('sqlite:///mabase.db', echo=True)
@@ -43,8 +42,8 @@ utilisateur = Table('utilisateur', metadata,
                     Column('nom', String),
                     Column('prenom', String),
                     Column('mail', String),
-                    Column('telephone', Numeric),
-                    Column('numLocation', Numeric),
+                    Column('telephone', String),
+                    Column('numLocation', VARCHAR(5)),
                     Column('mdp', Integer)
                     )
 
@@ -484,8 +483,7 @@ def index():
                             cmd. append({'idcmd': resultat[0], 'nomcheval' : resultat[1], 'datecmd' : resultat[2], 'montant' : resultat[3]}) # liste de dictionnaires
             return render_template('espaceclient.html', message=[session["nom"],session["mail"], session['tel'],session['loc']], commandes= cmd, logged=logged, texte=session['message'], session=session)
         if session['logged'] == False:
-            txt = "Mauvais identifiants. Veuillez réessayer"
-            return render_template('espaceclient.html', mauvaisid=txt, session=session)
+            return render_template('espaceclient.html', texte="Mauvais identifiants. Veuillez réessayer")
     else:
         return render_template('espaceclient.html', session=session)
 
@@ -523,22 +521,30 @@ def inscription():
 def entregistrement():
     connection = engine.connect()
     if request.method == 'POST':
-        session['nom'] = escape(request.form['nom']) + escape(request.form['prenom'])
-        session['loc'] = escape(request.form['ville'])
-        session['tel'] = escape(request.form['tel'])
-        session["mail"] = escape(request.form['mail'])
-        session["mdp"] = escape(request.form['mdp'])
+        nom = escape(request.form['nom'])
+        loc = escape(request.form['ville'])
+        tel= escape(request.form['tel'])
+        mail = escape(request.form['mail'])
+        mdp = escape(request.form['mdp'])
+        prenomm= escape(request.form['prenom'])
         # VERIFICATION SI MAIL DEJA PRIS
-        s = text('SELECT utilisateur.mail FROM utilisateur WHERE utilisateur.mail==:x')
-        resultats = connection.execute(s, x=session["mail"])
-        if resultats == session["mail"]:
-            msg = "adresse mail déjà prise!"
-            return render_template("inscription.html", message = msg)
+        s = text('SELECT * FROM utilisateur WHERE utilisateur.mail==:x')
+        result=connection.execute(s, x=mail)
+        if  result != None:
+                msg = "adresse mail déjà prise!"
+                return render_template("inscription.html", message = msg)
         else:
             session['logged'] = True
+            session['nom'] = nom
+            session['loc'] = loc
+            session['mail'] = mail
+            session['mdp'] = mdp
+            session['mail'] = mail
+            session['tel'] = tel
             connection.execute(utilisateur.insert(), [
-                {'nom': session['nom'], 'prenom': session['prenom'], "mail": session["mail"], "telephone": session["tel"], "numLocation": session["loc"], "mdp": session["mdp"]}
+                {'nom': session['nom'], 'prenom': prenomm, "mail": session["mail"], "telephone": session["tel"], "numLocation": session["loc"], "mdp": session["mdp"]}
             ])
+            session['nom'] = prenomm + session['nom'] #on garde ce format
             return redirect("/espaceclient")
 
 
@@ -568,9 +574,14 @@ def updateinfos():
         session['loc'] = escape(request.form['ville'])
         session['tel'] = escape(request.form['tel'])
         session["mail"] = escape(request.form['mail'])
-        nomprenom= session['nom'].split()
-        nom= nomprenom[0]
-        prenom=nomprenom[1]
+        nomprenom = session['nom'].split()
+        if len(nomprenom) > 1:
+            nom= nomprenom[0]
+            prenom=nomprenom[1]
+        else:
+            nom=  session['nom']
+            prenom=''
+
         infos = utilisateur.update().\
                     where(utilisateur.c.mail == session['mail']).\
                     values(nom=nom, prenom=prenom, mail=session['mail'], telephone=session['tel'], numLocation=session['loc'])
@@ -585,19 +596,18 @@ def updatemdp():
         ancienmdp = request.form['ancienmdp']
         nouveaumdp = request.form['nouveaumdp']
         confnouveaumdp= request.form['confnouveaumdp']
-        s = text(
-            'SELECT utilisateur.mdp FROM utilisateur WHERE utilisateur.mail==:x')
-        resultats = connection.execute(s, x=session["mail"])
-        if resultats==None:
-            msg = "Mot de passe erroné!"
-            return render_template("espaceclient.html", message = msg)
-        if resultats != None:
+        if session['mdp']!=ancienmdp:
+            session['message'] = "Mot de passe erroné!"
+        else:
             if confnouveaumdp==nouveaumdp:
                     mdpupdate = utilisateur.update().\
                     where(utilisateur.c.mail == session['mail']).\
                     values(mdp=nouveaumdp)
                     session['mdp'] = confnouveaumdp
                     connection.execute(mdpupdate)
+                    session['message'] = "Mot de passe changé avec succès."
+            else:
+                session['message'] = "Veuillez retapez le nouveau mot de passe correctement."
         return redirect('/espaceclient')
 
 
@@ -650,7 +660,14 @@ def rapport():
 # LOGOUT DE l'UTILISATEUR-----------------------------------------------------------------------------------------
 @app.route('/logout')
 def logout():
-    session.clear()
+    session['nom'] = ''
+    session['mail'] = ''
+    session['mdp'] = ''
+    session['tel'] = ''
+    session['loc'] = ''
+    session['change'] = '0'
+    session['message'] = ''
+    session.pop('logged', None)
     return redirect('/')
 
 # FIN LOGOUT DE l'UTILISATEUR-----------------------------------------------------------------------------------------
@@ -705,6 +722,14 @@ def envoiNewsletter():
         session['change']='3'
         return redirect('/')
 
+
+#PAYPAL ---------------------------------------------------------------------------------------------------------------
+
+import paypalrestsdk
+paypalrestsdk.configure({
+  "mode": "sandbox", # sandbox or live
+  "client_id": "EBWKjlELKMYqRNQ6sYvFo64FtaRLRR5BdHEESmha49TM",
+  "client_secret": "EO422dn3gQLgDbuwqTjzrFgFtaRLRR5BdHEESmha49TM" })
 
 
 
