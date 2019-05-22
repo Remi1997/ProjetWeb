@@ -24,8 +24,7 @@ cheval = Table('cheval', metadata,
             )
 
 prestation = Table('prestation', metadata,
-                   Column('idPrestation', Integer, autoincrement=True, primary_key=True),
-                   Column('activite', String),
+                   Column('activite', String, primary_key=True),
                    Column('prix', Integer)
                    )
 
