@@ -485,7 +485,8 @@ def index():
                 resultats2 = connection.execute(s2,x= session["mail"])
                 if (resultats2 != None):
                         for resultat in resultats2:
-                            cmd. append({'idcmd': resultat[0], 'nomcheval' : resultat[1], 'datecmd' : resultat[2], 'montant' : resultat[3]}) # liste de dictionnaires
+                            if resultat not in cmd:
+                                cmd. append({'idcmd': resultat[0], 'nomcheval' : resultat[1], 'datecmd' : resultat[2], 'montant' : resultat[3]}) # liste de dictionnaires
             return render_template('espaceclient.html', message=[session["nom"],session["mail"], session['tel'],session['loc']], commandes= cmd, logged=logged, texte=session['message'], session=session)
         if session['logged'] == False:
             return render_template('espaceclient.html', texte="Mauvais identifiants. Veuillez réessayer")
