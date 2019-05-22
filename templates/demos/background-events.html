@@ -11,6 +11,15 @@
     <script src='../../static/packages/daygrid/main.js'></script>
     <script src='../../static/packages/timegrid/main.js'></script>
     <script src='../../static/packages/list/main.js'></script>
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <script>
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -164,10 +173,11 @@
     <fieldset>
          <legend>Réservation</legend>
 
-         <p>Votre nom <input type = "text" name = "nomUtilisateur"/></p>
+         <p>Votre nom <input type = "text" name = "nomUtilisateur" value="{{name}}"/></p>
          <p>Nom cheval <input type = "text" name = "nom" value={{nom}}></p>
          <p>Date début <input type ="date" name = "dd" /></p>
          <p>Date fin <input type ="date" name = "df" /></p>
+    
          <p>
        		<label for="pre">Quel prestation souhaitez - vous ?</label><br />
        		<select name="pre" id="pre">

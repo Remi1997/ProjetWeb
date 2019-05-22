@@ -268,6 +268,11 @@ def calendrier(nomChe):
 
     info1=[]
     info2=[]
+    if len(session['nom'].split())>1:
+        nomm = session['nom'].split()
+        name= nomm[0]
+    else:
+        name=session['nom']
     connection = engine.connect()
     for row in connection.execute(select([dates.c.dateDebut]).where(dates.c.nomCheval == nomChe)):
         info1.append(row[0])
@@ -276,7 +281,7 @@ def calendrier(nomChe):
 
         info2.append(ajoute_jour(row[0]))
     
-    return render_template("demos/background-events.html", liste = info1, liste2=info2, nom=nomChe)
+    return render_template("demos/background-events.html", liste = info1, liste2=info2, nom=nomChe, name=name)
 
 #REQUETES POUR LES INFOS + ON REMPLIT TABLE DATES --------------------------------------------------------------------------
 
@@ -301,14 +306,9 @@ def resa():
     for row in connection.execute(select([dates.c.dateFin]).where(dates.c.nomCheval == name)):
         info2.append(ajoute_jour(row[0]))
 
-    for row in connection.execute(select([utilisateur.c.nom])):
-        tout.append(row[0])
-        
-    for i in tout:
-
-        if i == nomUt:
-
-            b = 1
+    for row in connection.execute(select([utilisateur.c.nom]).where(utilisateur.c.nom == nomUt)):
+        if row != None:
+            b=1
     a = verif_date(dated, datef,info1,info2)
 
     jours = calcul_jour(dated,datef)
