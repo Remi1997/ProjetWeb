@@ -663,6 +663,12 @@ def supprpanier():
 
 @app.route('/rapport')
 def rapport():
+    logged = "logged" in session
+    if logged:
+        if session['logged']== True:
+            return render_template('rapport.html', title='Rapport Web', session=session)
+    else:
+        return render_template('rapport.html', title='Rapport Web', session=session)
     return render_template("rapport.html")
 
 
