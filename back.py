@@ -534,8 +534,9 @@ def entregistrement():
         prenomm= escape(request.form['prenom'])
         # VERIFICATION SI MAIL DEJA PRIS
         s = text('SELECT * FROM utilisateur WHERE utilisateur.mail==:x')
-        result=connection.execute(s, x=mail)
-        if  result != None:
+        resultats=connection.execute(s, x=mail)
+        for result in resultats:
+            if  result != None:
                 msg = "adresse mail déjà prise!"
                 return render_template("inscription.html", message = msg)
         else:
