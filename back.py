@@ -37,7 +37,7 @@ dates = Table('dates', metadata,
                       Column('prestation',String),
                       Column('prix',Integer),
                       Column('idUtilisateur',Integer),
-                      Column('payé', Integer, default=0)
+                      Column('paye', Integer, default=0)
                       )
 
 utilisateur = Table('utilisateur', metadata,
@@ -631,7 +631,7 @@ def panier():
         if session["logged"] == True:
             for row in connection.execute(select([utilisateur.c.idUtilisateur]).where(utilisateur.c.mail == session['mail'])):
                 iduser= row[0]
-            for row in connection.execute(select([dates.c.nomCheval,dates.c.prestation,dates.c.dateDebut, dates.c.dateFin, dates.c.prix, dates.c.numLocation]).where(dates.c.idUtilisateur == iduser and dates.c.payé==0)):
+            for row in connection.execute(select([dates.c.nomCheval,dates.c.prestation,dates.c.dateDebut, dates.c.dateFin, dates.c.prix, dates.c.numLocation]).where(dates.c.idUtilisateur == iduser and dates.c.paye==0)):
                 message.append(row)
                 total += row[4]
             return render_template("panier.html", panierinfos=message, total=total)
@@ -747,7 +747,7 @@ def paiement():
                     "currency": "EUR",
                     "quantity": 1}]},
             "amount": {
-                "total": total,
+                "total": '0',
                 "currency": "EUR"},
             "description": "Paiement pour la location d'un cheval"}]})
     if payment.create():
