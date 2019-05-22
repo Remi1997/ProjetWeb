@@ -492,14 +492,17 @@ def index():
                     session['tel'] = resultat[3]
                     session['tel'] = resultat[3]
                     session['loc'] = resultat[4]
-            if session['change'] == '0':
-                s2= text ('SELECT commandes.idcommande, cheval.nomCheval, commandes.datecommande, commandes.montant FROM utilisateur inner join commandes on utilisateur.idUtilisateur = commandes.idUtilisateur inner join cheval on cheval.idCheval = commandes.idCheval WHERE utilisateur.mail==:x')
-                resultats2 = connection.execute(s2,x= session["mail"])
-                if (resultats2 != None):
-                        for resultat in resultats2:
-                            if resultat not in cmd:
-                                cmd. append({'idcmd': resultat[0], 'nomcheval' : resultat[1], 'datecmd' : resultat[2], 'montant' : resultat[3]}) # liste de dictionnaires
-            return render_template('espaceclient.html', message=[session["nom"],session["mail"], session['tel'],session['loc']], commandes= cmd, logged=logged, texte=session['message'], session=session)
+                    s2 = text(
+                        'SELECT commandes.idcommande, cheval.nomCheval, commandes.datecommande, commandes.montant FROM utilisateur inner join commandes on utilisateur.idUtilisateur = commandes.idUtilisateur inner join cheval on cheval.idCheval = commandes.idCheval WHERE utilisateur.mail==:x')
+                    resultats2 = connection.execute(s2, x=session["mail"])
+                    if resultats2 != None: # sil y a des commandes
+                        if session['change'] == '0':
+                            for resultat in resultats2:
+                                cmd.append({'idcmd': resultat[0], 'nomcheval': resultat[1], 'datecmd': resultat[2],
+                                            'montant': resultat[3]})  # liste de dictionnaires
+                    return render_template('espaceclient.html',
+                                           message=[session["nom"], session["mail"], session['tel'], session['loc']],
+                                           commandes=cmd, logged=logged, texte=session['message'], session=session)
         if session['logged'] == False:
             return render_template('espaceclient.html', texte="Mauvais identifiants. Veuillez réessayer")
     else:
@@ -729,7 +732,7 @@ def envoiNewsletter():
             mail.send(msg)
         session['message']="Votre adresse a été enregistrée, vous recevrez notre Newsletter !"
         session['change']='3'
-        return redirect('/')
+        return redirect(request.url)
 
 
 #PAYPAL -----------------------------------------------------------------------------------------------------------------
@@ -797,7 +800,7 @@ def execute():
                 {"idCheval": row, "datecommande": datetime.datetime.now(), "idUtilisateur": iduser, "montant": total}]) #les insérer dans cmd
         dates.update(). \
             where(dates.c.idUtilisateur == iduser). \
-            values(payé=1)
+            values(paye=1)
     else:
         print(payment.error)  # Error Hash
     response= jsonify({'success': success})
