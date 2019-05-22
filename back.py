@@ -492,13 +492,14 @@ def index():
                     session['tel'] = resultat[3]
                     session['tel'] = resultat[3]
                     session['loc'] = resultat[4]
+                    listecmd=[cmd[i]['idcmd'] for i in range (len(cmd))]
                     s2 = text(
                         'SELECT commandes.idcommande, cheval.nomCheval, commandes.datecommande, commandes.montant FROM utilisateur inner join commandes on utilisateur.idUtilisateur = commandes.idUtilisateur inner join cheval on cheval.idCheval = commandes.idCheval WHERE utilisateur.mail==:x')
                     resultats2=connection.execute(s2, x=session["mail"])
                     if (resultats2 != None):
-                        if session['change'] == '0':
                             for resultat in resultats2:
-                                cmd.append({'idcmd': resultat[0], 'nomcheval': resultat[1], 'datecmd': resultat[2],
+                                if (resultat[0] in listecmd) == False:
+                                    cmd.append({'idcmd': resultat[0], 'nomcheval': resultat[1], 'datecmd': resultat[2],
                                             'montant': resultat[3]})  # liste de dictionnaires
                     return render_template('espaceclient.html',
                                            message=[session["nom"], session["mail"], session['tel'], session['loc']],
@@ -647,9 +648,10 @@ def panier():
         if session["logged"] == True:
             for row in connection.execute(select([utilisateur.c.idUtilisateur]).where(utilisateur.c.mail == session['mail'])):
                 iduser= row[0]
-            for row in connection.execute(select([dates.c.nomCheval,dates.c.prestation,dates.c.dateDebut, dates.c.dateFin, dates.c.prix, dates.c.numLocation]).where(dates.c.idUtilisateur == iduser and dates.c.paye==0)):
-                message.append(row)
-                total += row[4]
+            for row in connection.execute(select([dates.c.nomCheval,dates.c.prestation,dates.c.dateDebut, dates.c.dateFin, dates.c.prix, dates.c.numLocation, dates.c.paye]).where(dates.c.idUtilisateur == iduser and dates.c.paye==0)):
+                if row[6] ==0: #si non payé
+                    message.append(row)
+                    total += row[4]
             return render_template("panier.html", panierinfos=message, total=total, session=session)
     else:
         return redirect('/espaceclient')
@@ -802,11 +804,11 @@ def execute():
         success= True
         #enlever du panier et remplir la table commandes
         for row in conn.execute(select([dates.c.idCheval]).where(dates.c.idUtilisateur == iduser)): #selectionner toutes les lignes du panier
-            connection.execute(commandes.insert(), [
+            conn.execute(commandes.insert(), [
                 {"idCheval": row, "datecommande": datetime.datetime.now(), "idUtilisateur": iduser, "montant": total}]) #les insérer dans cmd
-        dates.update(). \
+        connection.execute(dates.update(). \
             where(dates.c.idUtilisateur == iduser). \
-            values(paye=1)
+            values(paye=1))                         #met paye à 1 pour le retirer de panier
     else:
         print(payment.error)  # Error Hash
     response= jsonify({'success': success})
@@ -820,14 +822,14 @@ def execute():
 def annulation():
     conn = engine.connect()
     conn.execute(
-        dates.delete().where(dates.c.idUtilisateur == iduser))  # supprimer les lignes de panier de l'utilisateur
+        dates.delete().where(dates.c.idUtilisateur == iduser and dates.c.paye==0))  # supprimer les lignes de panier de l'utilisateur
     session['message'] = "Le paiement n'a pas abouti. Nous avons annulé votre réservation."
     redirect('/espaceclient')
 # FIN PAIEMENT-----------------------------------------------------------------------------------------
 
 #LISTE DE PAIEMENTS-----------------------------------------------------------------------------------------------------
-payment_history = paypalrestsdk.Payment.all({"count": 10})
-payment_history.payments
+#payment_history = paypalrestsdk.Payment.all({"count": 10})
+#payment_history.payments
 
 
 

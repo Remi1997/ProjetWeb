@@ -51,7 +51,7 @@
             </div>	
             <hr>
 
-            
+
             {%if session['nom'] == 'Le Mouël Frédéric'%}
             <div class="container">	
                 <div class="row align-items-center justify-content-center d-flex">
@@ -62,21 +62,21 @@
                             <li><a href="/activites">Nos prestations</a></li>
                             <li><a href="achat">Acheter/louer un cheval</a></li>
                             <li><a href="contact">Contact</a></li>
-                           <li><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
-                            <ul class="nav-menu">
-                                <li> <a href='espaceclient'> Espace client </a> </li>
-                                <li> <a href='panier'> Mon panier </a> </li>
-                                <li> <a href='rapport'> Rapport Web </a></li>
-                                <li> <a href='logout'> Se déconnecter </a> </li>
-                            </ul>
-                                
-                                </li>
+                            <li><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
+                                <ul class="nav-menu">
+                                    <li> <a href='espaceclient'> Espace client </a> </li>
+                                    <li> <a href='panier'> Mon panier </a> </li>
+                                    <li> <a href='rapport'> Rapport Web </a></li>
+                                    <li> <a href='logout'> Se déconnecter </a> </li>
+                                </ul>
+
+                            </li>
                         </ul>
                     </nav><!-- #nav-menu-container -->		    		
                 </div>
             </div>
 
-            
+
             {%elif session['logged'] == True%}
 
             <div class="container">	
@@ -89,13 +89,13 @@
                             <li><a href="achat">Acheter/louer un cheval</a></li>
                             <li><a href="contact">Contact</a></li>
                             <li><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
-                            <ul class="nav-menu">
-                                <li> <a href='espaceclient'> Espace client </a> </li>
-                                <li> <a href='panier'> Mon panier </a> </li>
-                                <li> <a href='logout'> Se déconnecter </a> </li>
-                            </ul>
-                                
-                                </li>
+                                <ul class="nav-menu">
+                                    <li> <a href='espaceclient'> Espace client </a> </li>
+                                    <li> <a href='panier'> Mon panier </a> </li>
+                                    <li> <a href='logout'> Se déconnecter </a> </li>
+                                </ul>
+
+                            </li>
                         </ul>
                     </nav><!-- #nav-menu-container -->		    		
                 </div>
@@ -119,215 +119,197 @@
                 </div>
             </div>
             {%endif%}
-        </header><!-- #header -->
-			<!-- start banner Area -->
-			<section class="banner-area relative" id="home">	
-				<div class="overlay overlay-bg"></div>
-				<div class="container">				
-					<div class="row d-flex align-items-center justify-content-center">
-						<div class="about-content col-lg-12">
-							<h1 class="text-white">
-								Le centre équestre				
-							</h1>	
-							<p class="text-white link-nav"><a href="/">Accueil </a>  <span class="lnr lnr-arrow-right"></span>  <a href="presentation.html"> Présentation</a></p>
-						</div>	
-					</div>
-				</div>
-			</section>
-			<!-- End banner Area -->	
-			
-			<!-- Start home-about Area -->
-			<section class="home-about-area section-gap">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-6 home-about-left">
-							<img class="mx-auto d-block img-fluid" src="static/img/centre-equestre-vercors.jpg" alt="" 
-                                                             style = "position : relative; top:40px">
-						</div>
-						<div class="col-lg-6 home-about-right">
-							<h6 class="text-uppercase">Découvrez notre centre</h6>
-							<h1>Le centre <br>
-							 équestre Cyclone</h1>
-							<p>
-								<span>Localisation</span>
-							</p>
-							<p align="justify">
-								Notre centre équestre Cyclone situé en Isère est à proximité du massif du Vercors. Plusieurs hectares de forêt et de verdure à visiter, avec de belles allées et des immenses chênes pour le plaisir des cavaliers à cheval ou à poney.
-							</p>
-							<a class="primary-btn" href="contact">Parcourez la carte</a>
-						</div>
-					</div>
-				</div>	
-			</section>
-			<!-- End home-about Area -->
-
-			<!-- Start feature Area -->
-			<section class="feature-area relative pt-100 pb-20">
-				<div class="overlay overlay-bg"></div>
-				<div class="container">
-					<div class="row align-items-center justify-content-center">
-						<div class="col-lg-4 col-md-6">
-							<div class="single-feature">
-								<h4 class="text-white">Une ambiance chaleureuse</h4>
-								<p>
-									Profitez d'animations par nos moniteurs et des habitués du centre, tout cela dans la joie et la bonne humeur.
-								</p>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-6">
-							<div class="single-feature">
-								<a href="#"><h4 class="text-white">Des professionnels à votre disposition</h4></a>
-								<p>
-									Nos professionnels sont à l'écoute et vous prodigueront des conseils adaptés à votre niveau. 
-								</p>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-6">
-							<div class="single-feature">
-								<a href="#"><h4 class="text-white">Des équipements à la pointe </h4></a>
-								<p>
-									Rénovés en 2019, nos installations sont aux dernières normes d'équitation ISO 32541. 
-								</p>
-							</div>
-						</div>	
-						<div class="col-lg-4 col-md-6">
-							<div class="single-feature">
-								<a href="#"><h4 class="text-white">Développez vos compétences</h4></a>
-								<p>
-									Que ce soit en maîtrise de votre compagnon ou en performance lors de courses, profitez de nos nombreux cours.
-								</p>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-6">
-							<div class="single-feature">
-								<a href="#"><h4 class="text-white">Des espaces ouverts </h4></a>
-								<p>
-									Les magnifiques paysages du Vercors entourent notre centre. 
-								</p>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-6">
-							<div class="single-feature">
-								<a href="#"><h4 class="text-white">De nombreuses activités</h4></a>
-								<p>
-									Participez à nos ballades, randonnées ou animations détente sur le centre... 
-								</p>
-							</div>
-						</div>																		
-					</div>
-				</div>	
-			</section>
-			<!-- End feature Area -->			
-
-			<!-- Start about-video Area -->
-			<section class="about-video-area section-gap">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-6 about-video-left">
-							<h6 class="text-uppercase">Nos équipements</h6>
-							<h1>
-								De nouvelles  <br>
-								installations modernes 
-							</h1>
-							<p>
-								<span>Rénovation en 2019</span>
-							</p>
-							<p align="justify">
-                            Le centre équestre possède deux écuries dont une écurie intérieure de 35 boxes et une écurie extérieure de 15 boxes. Les activités se déroulent dans les deux manèges, l’un de 20m x 40m avec une tribune et l’autre de 15m x 25m spécialement conçu pour les poneys. Les sols des manèges ont été totalement rénovés pour une pratique plus agréable. Deux grandes carrières sont mises à disposition pour pratiquer l’équitation en extérieur quand la météo le permet. Grâce à ces installations, le centre équestre organise régulièrement des compétitions de dressage et de saut d’obstacles pour les cavaliers internes comme pour les officiels venus des clubs extérieurs. Depuis cette année, le centre équestre Cyclone vous accueille au club house : son espace entièrement rénové offre un grand confort et une ambiance chaleureuse pour un moment de détente des plus agréables.
-							</p>
-							<a class="primary-btn" href="activites">Voir nos prestations</a>
-						</div>
-						<div class="col-lg-6 home-about-left">
-							<img class="img-fluid" src="static/img/installation-centre-equestre.jpg" alt=""
-                                                             style = "position : relative; top:40px">
-						</div>
-					</div>
-				</div>	
-			</section>
-			<!-- End about-video Area -->			
-			
-			
-
-			<!-- start footer Area -->		
-			<footer class="footer-area section-gap">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-3  col-md-6 col-sm-6">
-							<div class="single-footer-widget">
-								<h4>A propos</h4>
-                            <p>
-                                © 2019	Centre Equestre Cyclone <br> Centre équestre – Poney club <br> Mentions légales
-                            </p>
+            <!-- Start home-about Area -->
+            <section class="home-about-area section-gap">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 home-about-left">
+                            <img class="mx-auto d-block img-fluid" src="static/img/centre-equestre-vercors.jpg" alt="">
                         </div>
-						</div>
-						<div class="col-lg-4  col-md-6 col-sm-6">
-							<div class="single-footer-widget">
-								<h4>Contactez-nous</h4>
+                        <div class="col-lg-6 home-about-right">
+                            <h6 class="text-uppercase">Découvrez notre centre</h6>
+                            <h1>Le centre <br>
+                                équestre Cyclone</h1>
                             <p>
-                                Notre équipe sera ravie de vous accueillir!  <br>
-                                Adresse: 377, Chemin de la Lechere, Brié et Angonnes <br>
-                                Mail: info@cyclone.fr
+                                <span>Localisation</span>
                             </p>
-								<p class="number">
-                                Tél: 01 23 45 67 89 <br>
+                            <p align="justify">
+                                Notre centre équestre Cyclone situé en Isère est à proximité du massif du Vercors. Plusieurs hectares de forêt et de verdure à visiter, avec de belles allées et des immenses chênes pour le plaisir des cavaliers à cheval ou à poney.
                             </p>
-							</div>
-						</div>						
-						<div class="col-lg-5  col-md-6 col-sm-6">
-							<div class="single-footer-widget">
-								<h4>Newsletter</h4>
-                            <p>Suivez nos actualités en nous renseignant votre adresse mail.</p>
-                            <div class="d-flex flex-row" id="mc_embed_signup">
+                            <a class="primary-btn" href="contact">Parcourez la carte</a>
+                        </div>
+                    </div>
+                </div>	
+            </section>
+            <!-- End home-about Area -->
+
+            <!-- Start feature Area -->
+            <section class="feature-area relative pt-100 pb-20">
+                <div class="overlay overlay-bg"></div>
+                <div class="container">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="single-feature">
+                                <h4 class="text-white">Une ambiance chaleureuse</h4>
+                                <p>
+                                    Profitez d'animations par nos moniteurs et des habitués du centre, tout cela dans la joie et la bonne humeur.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="single-feature">
+                                <a href="#"><h4 class="text-white">Des professionnels à votre disposition</h4></a>
+                                <p>
+                                    Nos professionnels sont à l'écoute et vous prodigueront des conseils adaptés à votre niveau. 
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="single-feature">
+                                <a href="#"><h4 class="text-white">Des équipements à la pointe </h4></a>
+                                <p>
+                                    Rénovés en 2019, nos installations sont aux dernières normes d'équitation ISO 32541. 
+                                </p>
+                            </div>
+                        </div>	
+                        <div class="col-lg-4 col-md-6">
+                            <div class="single-feature">
+                                <a href="#"><h4 class="text-white">Développez vos compétences</h4></a>
+                                <p>
+                                    Que ce soit en maîtrise de votre compagnon ou en performance lors de courses, profitez de nos nombreux cours.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="single-feature">
+                                <a href="#"><h4 class="text-white">Des espaces ouverts </h4></a>
+                                <p>
+                                    Les magnifiques paysages du Vercors entourent notre centre. 
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="single-feature">
+                                <a href="#"><h4 class="text-white">De nombreuses activités</h4></a>
+                                <p>
+                                    Participez à nos ballades, randonnées ou animations détente sur le centre... 
+                                </p>
+                            </div>
+                        </div>																		
+                    </div>
+                </div>	
+            </section>
+            <!-- End feature Area -->			
+
+            <!-- Start about-video Area -->
+            <section class="about-video-area section-gap">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 about-video-left">
+                            <h6 class="text-uppercase">Nos équipements</h6>
+                            <h1>
+                                De nouvelles  <br>
+                                installations modernes 
+                            </h1>
+                            <p>
+                                <span>Rénovation en 2019</span>
+                            </p>
+                            <p align="justify">
+                                Le centre équestre possède deux écuries dont une écurie intérieure de 35 boxes et une écurie extérieure de 15 boxes. Les activités se déroulent dans les deux manèges, l’un de 20m x 40m avec une tribune et l’autre de 15m x 25m spécialement conçu pour les poneys. Les sols des manèges ont été totalement rénovés pour une pratique plus agréable. Deux grandes carrières sont mises à disposition pour pratiquer l’équitation en extérieur quand la météo le permet. Grâce à ces installations, le centre équestre organise régulièrement des compétitions de dressage et de saut d’obstacles pour les cavaliers internes comme pour les officiels venus des clubs extérieurs. Depuis cette année, le centre équestre Cyclone vous accueille au club house : son espace entièrement rénové offre un grand confort et une ambiance chaleureuse pour un moment de détente des plus agréables.
+                            </p>
+                            <a class="primary-btn" href="activites">Voir nos prestations</a>
+                        </div>
+                        <div class="col-lg-6 home-about-left">
+                            <img class="img-fluid" src="static/img/installation-centre-equestre.jpg" alt=""
+                                 style = "position : relative; top:40px">
+                        </div>
+                    </div>
+                </div>	
+            </section>
+            <!-- End about-video Area -->			
 
 
-									  <form class="navbar-form" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get">
-									    <div class="input-group add-on align-items-center d-flex">
-									      	<input class="form-control" name="EMAIL" placeholder="Adresse e-mail" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adresse e-mail'" required="" type="email">
-											<div style="position: absolute; left: -5000px;">
-												<input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
-											</div>
-									      <div class="input-group-btn">
-									        <button class="genric-btn"><span class="lnr lnr-arrow-right"></span></button>
-									      </div>
-									    </div>
-									      <div class="info mt-20"></div>									    
-									  </form>
-								</div>
-							</div>
-						</div>						
-					</div>
-					<div class="footer-bottom row">
-						<p class="footer-text m-0 col-lg-6 col-md-12">
-							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						</p>
-						
-					</div>
-				</div>
-			</footer>	
-			<!-- End footer Area -->
 
-			<script src="js/vendor/jquery-2.2.4.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-			<script src="js/vendor/bootstrap.min.js"></script>			
-			<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
-  			<script src="js/easing.min.js"></script>			
-			<script src="js/hoverIntent.js"></script>
-			<script src="js/superfish.min.js"></script>	
-			<script src="js/jquery.ajaxchimp.min.js"></script>
-			<script src="js/jquery.magnific-popup.min.js"></script>	
-			<script src="js/owl.carousel.min.js"></script>			
-			<script src="js/jquery.sticky.js"></script>
-			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>				
-			<script src="js/jquery.nice-select.min.js"></script>			
-			<script src="js/parallax.min.js"></script>	
-			<script src="js/waypoints.min.js"></script>
-			<script src="js/jquery.counterup.min.js"></script>			
-			<script src="js/mail-script.js"></script>	
-			<script src="js/main.js"></script>	
-		</body>
-	</html>
+            <!-- start footer Area -->		
+            <footer class="footer-area section-gap">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-3  col-md-6 col-sm-6">
+                            <div class="single-footer-widget">
+                                <h4>A propos</h4>
+                                <p>
+                                    © 2019	Centre Equestre Cyclone <br> Centre équestre – Poney club <br> Mentions légales
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4  col-md-6 col-sm-6">
+                            <div class="single-footer-widget">
+                                <h4>Contactez-nous</h4>
+                                <p>
+                                    Notre équipe sera ravie de vous accueillir!  <br>
+                                    Adresse: 377, Chemin de la Lechere, Brié et Angonnes <br>
+                                    Mail: info@cyclone.fr
+                                </p>
+                                <p class="number">
+                                    Tél: 01 23 45 67 89 <br>
+                                </p>
+                            </div>
+                        </div>						
+                        <div class="col-lg-5  col-md-6 col-sm-6">
+                            <div class="single-footer-widget">
+                                <h4>Newsletter</h4>
+                                <p>Suivez nos actualités en nous renseignant votre adresse mail.</p>
+                                <div class="d-flex flex-row" id="mc_embed_signup">
+
+
+                                    <form class="navbar-form" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get">
+                                        <div class="input-group add-on align-items-center d-flex">
+                                            <input class="form-control" name="EMAIL" placeholder="Adresse e-mail" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adresse e-mail'" required="" type="email">
+                                            <div style="position: absolute; left: -5000px;">
+                                                <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
+                                            </div>
+                                            <div class="input-group-btn">
+                                                <button class="genric-btn"><span class="lnr lnr-arrow-right"></span></button>
+                                            </div>
+                                        </div>
+                                        <div class="info mt-20"></div>									    
+                                    </form>
+                                </div>
+                            </div>
+                        </div>						
+                    </div>
+                    <div class="footer-bottom row">
+                        <p class="footer-text m-0 col-lg-6 col-md-12">
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </p>
+
+                    </div>
+                </div>
+            </footer>	
+            <!-- End footer Area -->
+
+            <script src="js/vendor/jquery-2.2.4.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+            <script src="js/vendor/bootstrap.min.js"></script>			
+            <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
+            <script src="js/easing.min.js"></script>			
+            <script src="js/hoverIntent.js"></script>
+            <script src="js/superfish.min.js"></script>	
+            <script src="js/jquery.ajaxchimp.min.js"></script>
+            <script src="js/jquery.magnific-popup.min.js"></script>	
+            <script src="js/owl.carousel.min.js"></script>			
+            <script src="js/jquery.sticky.js"></script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>				
+            <script src="js/jquery.nice-select.min.js"></script>			
+            <script src="js/parallax.min.js"></script>	
+            <script src="js/waypoints.min.js"></script>
+            <script src="js/jquery.counterup.min.js"></script>			
+            <script src="js/mail-script.js"></script>	
+            <script src="js/main.js"></script>	
+    </body>
+</html>
 
 
 

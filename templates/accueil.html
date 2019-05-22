@@ -20,7 +20,7 @@
         <!--
      CSS
      ============================================= -->
-       <link rel="stylesheet" href="{{ url_for('static', filename='css/linearicons.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/linearicons.css')}}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css')}}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css')}}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
@@ -62,15 +62,15 @@
                             <li><a href="/activites">Nos prestations</a></li>
                             <li><a href="achat">Acheter/louer un cheval</a></li>
                             <li><a href="contact">Contact</a></li>
-                           <li><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
-                            <ul class="nav-menu">
-                                <li> <a href='espaceclient'> Espace client </a> </li>
-                                <li> <a href='panier'> Mon panier </a> </li>
-                                <li> <a href='rapport'> Rapport Web </a></li>
-                                <li> <a href='logout'> Se déconnecter </a> </li>
-                            </ul>
+                            <li><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
+                                <ul class="nav-menu">
+                                    <li> <a href='espaceclient'> Espace client </a> </li>
+                                    <li> <a href='panier'> Mon panier </a> </li>
+                                    <li> <a href='rapport'> Rapport Web </a></li>
+                                    <li> <a href='logout'> Se déconnecter </a> </li>
+                                </ul>
 
-                                </li>
+                            </li>
                         </ul>
                     </nav><!-- #nav-menu-container -->
                 </div>
@@ -89,13 +89,13 @@
                             <li><a href="achat">Acheter/louer un cheval</a></li>
                             <li><a href="contact">Contact</a></li>
                             <li><a href="espaceclient"> Bonjour {{session['nom']}}! </a>
-                            <ul class="nav-menu">
-                                <li> <a href='espaceclient'> Espace client </a> </li>
-                                <li> <a href='panier'> Mon panier </a> </li>
-                                <li> <a href='logout'> Se déconnecter </a> </li>
-                            </ul>
+                                <ul class="nav-menu">
+                                    <li> <a href='espaceclient'> Espace client </a> </li>
+                                    <li> <a href='panier'> Mon panier </a> </li>
+                                    <li> <a href='logout'> Se déconnecter </a> </li>
+                                </ul>
 
-                                </li>
+                            </li>
                         </ul>
                     </nav><!-- #nav-menu-container -->
                 </div>
@@ -121,12 +121,14 @@
             {%endif%}
         </header><!-- #header -->
         <!-- start banner Area -->
-        <section class="banner-area relative" id="home">
-              <section class="feature-area relative pt-100 pb-20">
-            <div class="overlay overlay-bg">  </div>
+        <section class="banner-area relative" id="home">	
+            <div class="overlay overlay-bg"></div>
             <div class="container">
+
+
                 <div class="row fullscreen d-flex align-items-center justify-content-start">
                     <div class="banner-content col-lg-12">
+
                         <span class="bar"></span>
                         <h1 class="text-white">
                             Bienvenue  <br>
@@ -161,9 +163,11 @@
                         <a class="primary-btn" href="activites">Découvrez nos services</a>
                     </div>
                 </div>
-            </div>
+            </div>	
         </section>
         <!-- End home-about Area -->
+
+
 
 
 
@@ -220,11 +224,11 @@
                         <div class="title text-center">
                             <h1 class="mb-10">Dernières actualités</h1>
                             {%if mail=="admin@admin.com"%}
-                                <input type="button" name="lien1" value="ajouter une actualité" onclick="self.location.href='ajouterActualite'" style="background-color:##FEFEFE" style="color:white; font-weight:white"onclick>
-                                <input type="button" name="lien1" value="supprimer une actualité" onclick="self.location.href='supprimerActualite'" style="background-color:##FEFEFE" style="color:white; font-weight:white"onclick>
-                                <input type="button" name="lien1" value="modifier une actualité" onclick="self.location.href='modifierActualite'" style="background-color:##FEFEFE" style="color:white; font-weight:white"onclick>
-                                                                      {%else%}
-                                                                      {%endif%}
+                            <input type="button" name="lien1" value="ajouter une actualité" onclick="self.location.href = 'ajouterActualite'" style="background-color:##FEFEFE" style="color:white; font-weight:white"onclick>
+                            <input type="button" name="lien1" value="supprimer une actualité" onclick="self.location.href = 'supprimerActualite'" style="background-color:##FEFEFE" style="color:white; font-weight:white"onclick>
+                            <input type="button" name="lien1" value="modifier une actualité" onclick="self.location.href = 'modifierActualite'" style="background-color:##FEFEFE" style="color:white; font-weight:white"onclick>
+                            {%else%}
+                            {%endif%}
                             <p></p>
                         </div>
                     </div>
@@ -239,7 +243,7 @@
                         </ul>
                         <h4>{{ i[0]}} : {{ i[1]}}</h4>
                         <p>
-                          {{ i[2]}}
+                            {{ i[2]}}
                         </p>
                     </div>
                     {% endfor %}
@@ -463,9 +467,9 @@
                         <div class="single-footer-widget">
                             <h4>Contactez-nous</h4>
                             <p>
-                            Notre équipe sera ravie de vous accueillir!  <br>
-                            Adresse: 377, Chemin de la Lechere, Brié et Angonnes <br>
-                            Mail: info@cyclone.fr
+                                Notre équipe sera ravie de vous accueillir!  <br>
+                                Adresse: 377, Chemin de la Lechere, Brié et Angonnes <br>
+                                Mail: info@cyclone.fr
                             </p>
 
                             <p class="number">
@@ -477,21 +481,22 @@
                         <div class="single-footer-widget">
                             <h4>Newsletter</h4>
                             <p>Suivez nos actualités en nous renseignant votre adresse mail.</p>
-                            <div class="d-flex flex-row">
-                                <form class="navbar-form" action="newsletter" method="POST">
+                            <div class="d-flex flex-row" id="mc_embed_signup">
+                                <form class="navbar-form" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get">
                                     <div class="input-group add-on align-items-center d-flex">
-                                        <input class="form-control" name="email" placeholder="Adresse mail" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adresse mail'" required="" type="email">
+                                        <input class="form-control" name="EMAIL" placeholder="Adresse mail" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adresse mail'" required="" type="email">
                                         <div style="position: absolute; left: -5000px;">
+                                            <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
                                         </div>
                                         <div class="input-group-btn">
                                             <button class="genric-btn"><span class="lnr lnr-arrow-right"></span></button>
                                         </div>
                                     </div>
-                                    <div class="info mt-20"></div>
+                                    <div class="info mt-20"></div>									    
                                 </form>
                             </div>
                         </div>
-                    </div>
+                    </div>						
                 </div>
                 <div class="footer-bottom row">
                     <p class="footer-text m-0 col-lg-6 col-md-12">
@@ -499,7 +504,7 @@
                         Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made by <a href="https://colorlib.com" target="_blank">Colorlib</a>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </p>
-                    
+
                 </div>
             </div>
         </footer>
