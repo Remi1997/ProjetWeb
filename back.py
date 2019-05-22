@@ -490,6 +490,7 @@ def index():
                     session['nom']= resultat[0]+ " " +resultat[1]
                     session['mail']= resultat[2]
                     session['tel'] = resultat[3]
+                    session['tel'] = resultat[3]
                     session['loc'] = resultat[4]
             if session['change'] == '0':
                 s2= text ('SELECT commandes.idcommande, cheval.nomCheval, commandes.datecommande, commandes.montant FROM utilisateur inner join commandes on utilisateur.idUtilisateur = commandes.idUtilisateur inner join cheval on cheval.idCheval = commandes.idCheval WHERE utilisateur.mail==:x')
