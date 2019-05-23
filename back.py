@@ -528,7 +528,6 @@ def login():
                 session["nom"] = result
         else: # si mauvais id:
             session["logged"] = False
-
         return redirect("/espaceclient")
 
 # FIN LOGGING DE l'UTILISATEUR-----------------------------------------------------------------------------------------
