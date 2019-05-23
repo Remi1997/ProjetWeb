@@ -753,6 +753,7 @@ paypalrestsdk.configure({
 
 @app.route('/payment', methods=['POST'])
 def paiement():
+    conn = engine.connect()
     #générer le payment.id
     payment = paypalrestsdk.Payment({
         "intent": "sale",
@@ -800,15 +801,18 @@ def execute():
     if payment.execute({"payer_id": request.form['payerID']}):
         print("Payment executed successfully")
         success= True
-        #enlever du panier et remplir la table commandes
-        for row in conn.execute(select([dates.c.idCheval]).where(dates.c.idUtilisateur == iduser)): #selectionner toutes les lignes du panier
-            conn.execute(commandes.insert(), [
-                {"idCheval": row, "datecommande": datetime.datetime.now(), "idUtilisateur": iduser, "montant": total}]) #les insérer dans cmd
+        # mettre paye a 1 toutes les reservations payées pour ne pas les afficher dans panier
         conn.execute(dates.update(). \
-            where(dates.c.idUtilisateur == iduser). \
-            values(paye=1))
-        return redirect("/espaceclient")
-        #met paye à 1 pour le retirer de panier
+                     where(dates.c.idUtilisateur == iduser). \
+                     values(paye=1))
+        # si paye==1 --> ajouter ds commandes, suppr ds panier
+        for cheval in conn.execute(select([dates.c.nomCheval]).where(
+                dates.c.idUtilisateur == iduser and dates.c.paye == 1)):  # chercher nom de chaque cheval de l'user
+            idcheval = conn.execute(select([cheval.c.idCheval]).where(cheval.c.nomCheval == cheval))  # chercher id
+            print(idcheval)
+            conn.execute(commandes.insert(), [
+                {"idCheval": idcheval, "datecommande": datetime.datetime.now(), "idUtilisateur": iduser,
+                 "montant": total}])  # les insérer dans cmd
     else:
         print(payment.error)  # Error Hash
     response= jsonify({'success': success})
