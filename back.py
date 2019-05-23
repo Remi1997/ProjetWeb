@@ -797,7 +797,6 @@ def execute():
     success= False
     #Créer le payment id
     payment = paypalrestsdk.Payment.find(request.form['paymentID'])
-
     if payment.execute({"payer_id": request.form['payerID']}):
         print("Payment executed successfully")
         success= True
@@ -805,9 +804,11 @@ def execute():
         for row in conn.execute(select([dates.c.idCheval]).where(dates.c.idUtilisateur == iduser)): #selectionner toutes les lignes du panier
             conn.execute(commandes.insert(), [
                 {"idCheval": row, "datecommande": datetime.datetime.now(), "idUtilisateur": iduser, "montant": total}]) #les insérer dans cmd
-        connection.execute(dates.update(). \
+        conn.execute(dates.update(). \
             where(dates.c.idUtilisateur == iduser). \
-            values(paye=1))                         #met paye à 1 pour le retirer de panier
+            values(paye=1))
+        return redirect("/espaceclient")
+        #met paye à 1 pour le retirer de panier
     else:
         print(payment.error)  # Error Hash
     response= jsonify({'success': success})
