@@ -132,11 +132,15 @@
                         </h1>	
                         <p class="text-white link-nav"><a href="accueil.html"> Accueil </a>  <span class="lnr lnr-arrow-right"></span>  <a href="achat.html"> Acheter/ Louer un cheval</a></p>
                         {%if mail=="admin@admin.com"%}
-                        <input type="button" name="lien1" value="ajouter un cheval" onclick="self.location.href = 'ajouterCheval'" style="background-color:##FEFEFE" style="color:white; font-weight:white"onclick> 
-                        <input type="button" name="lien1" value="supprimer un cheval" onclick="self.location.href = 'supprimerCheval'" style="background-color:##FEFEFE" style="color:white; font-weight:white"onclick> 
-                        <input type="button" name="lien1" value="modifier un cheval" onclick="self.location.href = 'modifierCheval'" style="background-color:##FEFEFE" style="color:white; font-weight:white"onclick>
-                        {%else%}
-                        {%endif%}
+                        <div class="row d-flex justify-content-center">
+                            <div class="menu-content pb-60 col-lg-8">
+                                <input  style="background-color:#f44a40;" class="form-control text-white" type="button" name="lien1" value="ajouter un cheval" onclick="self.location.href = 'ajouterCheval'" onclick> 
+                                <input  style="background-color:#f44a40;" class="form-control text-white" type="button" name="lien1" value="supprimer un cheval" onclick="self.location.href = 'supprimerCheval'" onclick> 
+                                <input  style="background-color:#f44a40;" class="form-control text-white" type="button" name="lien1" value="modifier un cheval" onclick="self.location.href = 'modifierCheval'"onclick>
+                                {%else%}
+                                {%endif%}
+                            </div>
+                        </div>
                     </div>	
                 </div>
             </div>
@@ -180,15 +184,15 @@
                         </div>
                     </div>
                     {% endfor %}
-                    <div class="row d-flex justify-content-center">
+                    <div class="row d-flex justify-content-center" class="home-about-area section-gap" style="position:relative; left:390px">
+
                         <div class="col-md-9 pb-40 header-text text-center">
-                            <h1 class="pb-10">Réservation</h1>
-                            <p>
-                            <form class="titre2" action = "http://localhost:5000/resa2" method = "POST">
-                                <p>Nom cheval <input type = "text" name = "nom"/></p>
-                                <p><input type = "submit" value = "Louer" /></p>
+                            <h1 class="pb-10" style="text-align:center">Réservation</h1>
+
+                            <form class="form-control titre2" action = "http://localhost:5000/resa2" method = "POST">
+                                <p> Nom cheval <input type = "text" name = "nom"/> </p>
+                                <button class="btn btn-default text-center">Louer</button>
                             </form>
-                            </p>
                         </div>																	
                     </div>
                 </div>	

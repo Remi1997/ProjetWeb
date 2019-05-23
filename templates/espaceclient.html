@@ -142,18 +142,18 @@
 
             {%if texte != ""%}
             <div>
-                <p style="color:red"> {{texte}} </p>
-            </div>
-            {%endif%}
+    <p style="color:red"> {{texte}} </p>
+</div>
+{%endif%}
 
-            <article class="col-lg-4 col-md-6 booking-right" >
-                <div>
-                    <div id="informations" class="row d-flex justify-content-left" style="margin-bottom: 50px">
+<article class="col-lg-4 col-md-6 booking-right" >
+    <div>
+        <div id="informations" class="row d-flex justify-content-left" style="margin-bottom: 50px">
 
-                        {%if change==1%}
-                        <div class="col-lg-6 single-blog">
-                            <h2 style="margin-bottom:35px" > Changer mes informations </h2> 
-                            <form method="post" action="updateinfos">
+            {%if change==1%}
+            <div class="col-lg-6 single-blog">
+                <h2 style="margin-bottom:35px" > Changer mes informations </h2> 
+                <form method="post" action="updateinfos">
 
                                 <input class="form-control" type="text" name="nom" placeholder="Nom et prénom" value="{{message[0]}}" required>
                                 <input class="form-control" type="text" name="mail"  value="{{message[1]}}" required>
